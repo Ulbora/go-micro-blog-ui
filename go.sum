@@ -1,0 +1,4 @@
+github.com/GolangToolKits/go-http-proxy v1.0.1 h1:Gns+Consvq+qkDC1N1cm1/MG6RCtAlJLj7IiI3yAPaA=
+github.com/GolangToolKits/go-http-proxy v1.0.1/go.mod h1:bPqVzZ4DWGBFQiCIUt+0KQzrN/ndz7/bMuJLarVn2d8=
+github.com/GolangToolKits/go-level-logger v1.0.0 h1:hETqhulsNdwk1y2lvFYBJAWC+CEwmyE92R22foKco6Y=
+github.com/GolangToolKits/go-level-logger v1.0.0/go.mod h1:eIatPs21DKpquiClwXh6N86nLLL63lu3ucEds4dsWeo=
