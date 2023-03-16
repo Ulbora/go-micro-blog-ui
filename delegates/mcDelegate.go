@@ -68,11 +68,9 @@ func (d *MCDelegate) buildRequest(method string, url string, aJSON []byte, keyTy
 		req, err = http.NewRequest(method, surl, nil)
 	}
 	if keyType == adminKey {
-		req.Header.Set("adminKey", d.APIAdminKey)
+		req.Header.Set("apiAdminKey", d.APIAdminKey)
 	} else {
 		req.Header.Set("apiKey", d.APIKey)
 	}
-	d.Log.Debug("err in build req: ", err)
-
 	return req, err
 }

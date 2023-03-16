@@ -1,5 +1,10 @@
 package delegates
 
+import (
+	"encoding/json"
+	"net/http"
+)
+
 /*
  Copyright (C) 2023 Ulbora Labs LLC. (www.ulboralabs.com)
  All rights reserved.
@@ -16,3 +21,49 @@ package delegates
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+// AddUser AddUser
+func (d *MCDelegate) AddUser(u *User) *ResponseID {
+	var rtn ResponseID
+	aJSON, err := json.Marshal(u)
+	if err == nil {
+		rq, err := d.buildRequest(http.MethodPost, "/rs/user/add", aJSON, apiKey)
+		if err == nil {
+			suc, stat := d.proxy.Do(rq, &rtn)
+			rtn.Code = int64(stat)
+			d.Log.Debug("suc: ", suc)
+			d.Log.Debug("stat: ", stat)
+		}
+	}
+	d.Log.Debug("rtn: ", rtn)
+	return &rtn
+}
+
+// UpdateUser UpdateUser
+func (d *MCDelegate) UpdateUser(u *User) *Response {
+	var rtn Response
+	aJSON, err := json.Marshal(u)
+	if err == nil {
+		rq, err := d.buildRequest(http.MethodPut, "/rs/user/update", aJSON, apiKey)
+		if err == nil {
+			usuc, stat := d.proxy.Do(rq, &rtn)
+			rtn.Code = int64(stat)
+			d.Log.Debug("suc: ", usuc)
+			d.Log.Debug("stat: ", stat)
+		}
+	}
+	d.Log.Debug("rtn: ", rtn)
+	return &rtn
+}
+
+// GetUser GetUser
+func (d *MCDelegate) GetUser(email string) *User {
+	var rtn User
+	rq, err := d.buildRequest(http.MethodGet, "/rs/user/get/"+email, nil, apiKey)
+	if err == nil {
+		usuc, stat := d.proxy.Do(rq, &rtn)
+		d.Log.Debug("suc: ", usuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &rtn
+}

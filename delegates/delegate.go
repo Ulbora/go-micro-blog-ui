@@ -24,10 +24,9 @@ const (
 
 // Delegate Delegate
 type Delegate interface {
-
-	// AddUser()
-	// UpdateUser()
-	// GetUser()
+	AddUser(u *User) *ResponseID
+	UpdateUser(u *User) *Response
+	GetUser(email string) *User
 	// GetUserList()
 	// EnableUser()
 	// DisableUser()

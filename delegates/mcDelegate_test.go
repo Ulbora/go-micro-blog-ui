@@ -41,13 +41,13 @@ func TestMCDelegate_buildRequest(t *testing.T) {
 		keyType string
 	}
 	tests := []struct {
-		name        string
-		fields      fields
-		args        args
-		want        *http.Request
-		wantErr     bool
-		contentType string
-		apiKeyValue string
+		name             string
+		fields           fields
+		args             args
+		want             *http.Request
+		wantErr          bool
+		contentType      string
+		apiKeyValue      string
 		apiAdminKeyValue string
 	}{
 		// TODO: Add test cases.
@@ -66,11 +66,29 @@ func TestMCDelegate_buildRequest(t *testing.T) {
 				aJSON:   aJSON,
 				keyType: apiKey,
 			},
-			contentType: "application/json",
-			apiKeyValue: "557444414141",
+			contentType:      "application/json",
+			apiKeyValue:      "557444414141",
 			apiAdminKeyValue: "",
 		},
-		
+		{
+			name: "test 2",
+			fields: fields{
+				proxy:       proxy.New(),
+				Log:         log,
+				RestURL:     "http://localhost:3000",
+				APIAdminKey: "54211789991515",
+				APIKey:      "557444414141",
+			},
+			args: args{
+				method: http.MethodGet,
+				url:    "/blog/get",
+				//aJSON:   aJSON,
+				keyType: adminKey,
+			},
+			//contentType:      "application/json",
+			//apiKeyValue:      "557444414141",
+			apiAdminKeyValue: "54211789991515",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -88,8 +106,50 @@ func TestMCDelegate_buildRequest(t *testing.T) {
 			}
 			if got == nil || got.Header.Get("Content-Type") != tt.contentType ||
 				got.Header.Get("apiKey") != tt.apiKeyValue ||
-				got.Header.Get("apiAdminKey") != tt.apiAdminKeyValue{
+				got.Header.Get("apiAdminKey") != tt.apiAdminKeyValue {
 				t.Errorf("MCDelegate.buildRequest() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMCDelegate_New(t *testing.T) {
+
+	var l lg.Logger
+	log := l.New()
+	log.SetLogLevel(lg.AllLevel)
+
+	type fields struct {
+		proxy       px.Proxy
+		Log         lg.Log
+		RestURL     string
+		APIKey      string
+		APIAdminKey string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   Delegate
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				Log: log,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MCDelegate{
+				proxy:       tt.fields.proxy,
+				Log:         tt.fields.Log,
+				RestURL:     tt.fields.RestURL,
+				APIKey:      tt.fields.APIKey,
+				APIAdminKey: tt.fields.APIAdminKey,
+			}
+			if got := d.New(); got == nil {
+				t.Errorf("MCDelegate.New() = %v, want %v", got, tt.want)
 			}
 		})
 	}
