@@ -61,9 +61,55 @@ func (d *MCDelegate) GetUser(email string) *User {
 	var rtn User
 	rq, err := d.buildRequest(http.MethodGet, "/rs/user/get/"+email, nil, apiKey)
 	if err == nil {
-		usuc, stat := d.proxy.Do(rq, &rtn)
-		d.Log.Debug("suc: ", usuc)
+		gsuc, stat := d.proxy.Do(rq, &rtn)
+		d.Log.Debug("suc: ", gsuc)
 		d.Log.Debug("stat: ", stat)
 	}
+	return &rtn
+}
+
+// GetUserList GetUserList
+func (d *MCDelegate) GetUserList() *[]User {
+	var rtn []User
+	rq, err := d.buildRequest(http.MethodGet, "/rs/user/list", nil, adminKey)
+	if err == nil {
+		lsuc, stat := d.proxy.Do(rq, &rtn)
+		d.Log.Debug("suc: ", lsuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &rtn
+}
+
+// EnableUser EnableUser
+func (d *MCDelegate) EnableUser(u *User) *Response {
+	var rtn Response
+	aJSON, err := json.Marshal(u)
+	if err == nil {
+		erq, err := d.buildRequest(http.MethodPut, "/rs/user/enable", aJSON, adminKey)
+		if err == nil {
+			usuc, stat := d.proxy.Do(erq, &rtn)
+			rtn.Code = int64(stat)
+			d.Log.Debug("suc: ", usuc)
+			d.Log.Debug("stat: ", stat)
+		}
+	}
+	d.Log.Debug("rtn: ", rtn)
+	return &rtn
+}
+
+// DisableUser DisableUser
+func (d *MCDelegate) DisableUser(u *User) *Response {
+	var rtn Response
+	aJSON, err := json.Marshal(u)
+	if err == nil {
+		drq, err := d.buildRequest(http.MethodPut, "/rs/user/disable", aJSON, adminKey)
+		if err == nil {
+			dsuc, stat := d.proxy.Do(drq, &rtn)
+			rtn.Code = int64(stat)
+			d.Log.Debug("suc: ", dsuc)
+			d.Log.Debug("stat: ", stat)
+		}
+	}
+	d.Log.Debug("rtn: ", rtn)
 	return &rtn
 }

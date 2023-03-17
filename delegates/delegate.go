@@ -27,23 +27,23 @@ type Delegate interface {
 	AddUser(u *User) *ResponseID
 	UpdateUser(u *User) *Response
 	GetUser(email string) *User
-	// GetUserList()
-	// EnableUser()
-	// DisableUser()
+	GetUserList() *[]User
+	EnableUser(u *User) *Response
+	DisableUser(u *User) *Response
 
-	// AddRole()
-	// GetRole()
-	// GetRoleList()
-	// DeleteRole()
+	AddRole(r *Role) *ResponseID
+	GetRole(name string) *Role
+	GetRoleList() *[]Role
+	DeleteRole(rid int64) *Response
 
-	// AddBlog()
-	// UpdateBlog()
-	// GetBlog()
-	// GetBlogByName()
-	// GetBlogList()
-	// GetAdminBlogList()
-	// ActivateBlog()
-	// DectivateBlog()
+	AddBlog(b *Blog) *ResponseID
+	UpdateBlog(b *Blog) *Response
+	GetBlog(bid int64) *Blog
+	GetBlogByName(name string, start int64, end int64) *[]Blog
+	GetBlogList(start int64, end int64) *[]Blog
+	GetAdminBlogList(start int64, end int64) *[]Blog
+	ActivateBlog(b *Blog) *Response
+	DeActivateBlog(b *Blog) *Response
 
 	// AddLike()
 	// RemoveLike()
