@@ -45,15 +45,15 @@ type Delegate interface {
 	ActivateBlog(b *Blog) *Response
 	DeActivateBlog(b *Blog) *Response
 
-	// AddLike()
-	// RemoveLike()
-	// ViewLikes()
+	AddLike(l *Like) *ResponseID  // AddLike()
+	RemoveLike(l *Like) *Response // RemoveLike()
+	ViewLikes(bid int64) *[]Like  // ViewLikes()
 
-	// AddComment()
-	// UpdateComment()
-	// GetCommentList()
-	// GetCommentAdminList()
-	// ActivateComment()
+	AddComment(c *Comment) *ResponseID                                   // AddComment()
+	UpdateComment(c *Comment) *Response                                  // UpdateComment()
+	GetCommentList(blogID int64, start int64, end int64) *[]Comment      // GetCommentList()
+	GetAdminCommentList(blogID int64, start int64, end int64) *[]Comment // GetCommentAdminList()
+	ActivateComment(c *Comment) *Response// ActivateComment()
 	// DectivateComment()
 
 	// AddUserAuth()
