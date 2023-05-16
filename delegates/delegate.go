@@ -53,11 +53,11 @@ type Delegate interface {
 	UpdateComment(c *Comment) *Response                                  // UpdateComment()
 	GetCommentList(blogID int64, start int64, end int64) *[]Comment      // GetCommentList()
 	GetAdminCommentList(blogID int64, start int64, end int64) *[]Comment // GetCommentAdminList()
-	ActivateComment(c *Comment) *Response// ActivateComment()
-	// DectivateComment()
+	ActivateComment(c *Comment) *Response                                // ActivateComment()
+	DeActivateComment(c *Comment) *Response                              // DectivateComment()
 
-	// AddUserAuth()
-	// GetUserAuthList()
+	AddUserAuth(a *UserAuth) *ResponseID                              // AddUserAuth()
+	GetUserAuthList(userID int64, start int64, end int64) *[]UserAuth // GetUserAuthList()
 
 	// UpdateConfig()
 	// GetConfig()
