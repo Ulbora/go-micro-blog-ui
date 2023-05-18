@@ -28,8 +28,12 @@ type Delegate interface {
 	UpdateUser(u *User) *Response
 	GetUser(email string) *User
 	GetUserList() *[]User
+	GetUnActivatedUserList() *[]User
+	GetBannedUserList() *[]User
 	EnableUser(u *User) *Response
 	DisableUser(u *User) *Response
+	DisableUserForCause(u *User) *Response
+	ReactivateUser(u *User) *Response
 
 	AddRole(r *Role) *ResponseID
 	GetRole(name string) *Role
@@ -59,7 +63,7 @@ type Delegate interface {
 	AddUserAuth(a *UserAuth) *ResponseID                              // AddUserAuth()
 	GetUserAuthList(userID int64, start int64, end int64) *[]UserAuth // GetUserAuthList()
 
-	// UpdateConfig()
-	// GetConfig()
+	UpdateConfig(c *Config) *Response // UpdateConfig()
+	GetConfig() *Config               // GetConfig()
 
 }

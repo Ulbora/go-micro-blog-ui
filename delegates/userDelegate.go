@@ -80,6 +80,30 @@ func (d *MCDelegate) GetUserList() *[]User {
 	return &rtn
 }
 
+// GetUnActivatedUserList GetUnActivatedUserList
+func (d *MCDelegate) GetUnActivatedUserList() *[]User {
+	var rtn []User
+	rq, err := d.buildRequest(http.MethodGet, "/rs/user/unactivivated/list", nil, adminKey)
+	if err == nil {
+		lsuc, stat := d.proxy.Do(rq, &rtn)
+		d.Log.Debug("suc: ", lsuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &rtn
+}
+
+// GetBannedUserList GetBannedUserList
+func (d *MCDelegate) GetBannedUserList() *[]User {
+	var rtn []User
+	rq, err := d.buildRequest(http.MethodGet, "/rs/user/banned/list", nil, adminKey)
+	if err == nil {
+		lsuc, stat := d.proxy.Do(rq, &rtn)
+		d.Log.Debug("suc: ", lsuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &rtn
+}
+
 // EnableUser EnableUser
 func (d *MCDelegate) EnableUser(u *User) *Response {
 	var rtn Response
@@ -107,6 +131,40 @@ func (d *MCDelegate) DisableUser(u *User) *Response {
 			dsuc, stat := d.proxy.Do(drq, &rtn)
 			rtn.Code = int64(stat)
 			d.Log.Debug("suc: ", dsuc)
+			d.Log.Debug("stat: ", stat)
+		}
+	}
+	d.Log.Debug("rtn: ", rtn)
+	return &rtn
+}
+
+// DisableUserForCause DisableUserForCause
+func (d *MCDelegate) DisableUserForCause(u *User) *Response {
+	var rtn Response
+	aJSON, err := json.Marshal(u)
+	if err == nil {
+		drq, err := d.buildRequest(http.MethodPut, "/rs/user/disableForCause", aJSON, adminKey)
+		if err == nil {
+			dsuc, stat := d.proxy.Do(drq, &rtn)
+			rtn.Code = int64(stat)
+			d.Log.Debug("suc: ", dsuc)
+			d.Log.Debug("stat: ", stat)
+		}
+	}
+	d.Log.Debug("rtn: ", rtn)
+	return &rtn
+}
+
+// ReactivateUser ReactivateUser
+func (d *MCDelegate) ReactivateUser(u *User) *Response {
+	var rtn Response
+	aJSON, err := json.Marshal(u)
+	if err == nil {
+		erq, err := d.buildRequest(http.MethodPut, "/rs/user/reinstate", aJSON, adminKey)
+		if err == nil {
+			usuc, stat := d.proxy.Do(erq, &rtn)
+			rtn.Code = int64(stat)
+			d.Log.Debug("suc: ", usuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
