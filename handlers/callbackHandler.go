@@ -17,17 +17,21 @@ package handlers
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import "net/http"
+import (
+	"net/http"
+)
 
-// LoginUserPage LoginUserPage
-func (h *MCHandler) LoginUserPage(w http.ResponseWriter, r *http.Request) {
+// LinkedInCallback LinkedInCallback
+func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
+	h.setContentType(w)
+	h.Log.Info("in linkedIn callback")
 
-}
+	state := r.URL.Query().Get("state")
+	code := r.URL.Query().Get("code")
+	//var state = vars["state"]
+	//var code = vars["code"]
+	h.Log.Info("state: ", state)
+	h.Log.Info("code: ", code)
+	w.WriteHeader(http.StatusOK)
 
-// LoginUser LoginUser
-func (h *MCHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
-	signingSystem := r.FormValue("signingSystem")
-	if signingSystem == linkedInSystem {
-
-	}
 }

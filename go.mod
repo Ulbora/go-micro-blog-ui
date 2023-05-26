@@ -5,4 +5,5 @@ go 1.20
 require (
 	github.com/GolangToolKits/go-http-proxy v1.0.2
 	github.com/GolangToolKits/go-level-logger v1.0.0
+	github.com/GolangToolKits/grrt v1.0.4
 )
