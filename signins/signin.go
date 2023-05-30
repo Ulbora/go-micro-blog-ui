@@ -3,6 +3,10 @@ package signins
 import (
 	"bytes"
 	"net/http"
+	"net/url"
+	"strings"
+
+	px "github.com/GolangToolKits/go-http-proxy"
 )
 
 /*
@@ -24,8 +28,9 @@ import (
 
 // Signin Signin
 type Signin interface {
-	Authorization(redirectURI string)
-	AccessToken(redirectURI string, code string) *TokenResponse
+	Authorization() *Response
+	AccessToken(code string) *TokenResponse
+	SetProxy(p px.Proxy)
 	//Callback() *TokenParams
 }
 
@@ -49,16 +54,16 @@ type TokenParams struct {
 
 // TokenResponse TokenResponse
 type TokenResponse struct {
-	AccessToken           string
-	ExpiresIn             int
+	AccessToken           string `json:"access_token"`
+	ExpiresIn             int    `json:"expires_in"`
 	RefreshToken          string
 	RefreshTokenExpiresIn int
-	Scope                 string
+	Scope                 string `json:"scope"`
 }
 
 // Response Response
 type Response struct {
-	Code int64 `json:"code"`
+	Code int `json:"code"`
 }
 
 // buildRequest buildRequest
@@ -71,5 +76,18 @@ func buildRequest(method string, url string, aJSON []byte) (*http.Request, error
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}
+	return req, err
+}
+
+func buildFormRequest(method string, url string, data url.Values) (*http.Request, error) {
+	var req *http.Request
+	var err error
+	if method == http.MethodPost || method == http.MethodPut {
+		req, err = http.NewRequest(method, url, strings.NewReader(data.Encode()))
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	}
+	// else {
+	// 	req, err = http.NewRequest(method, url, nil)
+	// }
 	return req, err
 }

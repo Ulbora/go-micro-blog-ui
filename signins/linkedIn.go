@@ -2,6 +2,7 @@ package signins
 
 import (
 	"net/http"
+	"net/url"
 
 	px "github.com/GolangToolKits/go-http-proxy"
 	lg "github.com/GolangToolKits/go-level-logger"
@@ -25,10 +26,11 @@ import (
 */
 
 const (
-	linkedInDefaultAuthURL  = "https://www.linkedin.com/oauth/v2/authorization"
-	linkedInDefaultTokenURL = "https://www.linkedin.com/oauth/v2/accessToken"
-	scope                   = "r_liteprofile%20r_emailaddress%20w_member_social"
-	state                   = "ieridf7fsf6dfs6"
+	linkedInDefaultAuthURL     = "https://www.linkedin.com/oauth/v2/authorization"
+	linkedInDefaultTokenURL    = "https://www.linkedin.com/oauth/v2/accessToken"
+	linkedInDefaultRedirectURL = "http://localhost:8080/auth/linkedin/callback"
+	scope                      = "profile%20email%20w_member_social"
+	state                      = "ieridf7fsf6dfs6"
 )
 
 // LinkedInSignin LinkedInSignin
@@ -37,6 +39,7 @@ type LinkedInSignin struct {
 	ClientSecret string
 	AuthURL      string
 	TokenURL     string
+	RedirectURI  string
 	proxy        px.Proxy
 	Log          lg.Log
 }
@@ -49,39 +52,54 @@ func (s *LinkedInSignin) New() Signin {
 	if s.TokenURL == "" {
 		s.TokenURL = linkedInDefaultTokenURL
 	}
+	if s.RedirectURI == "" {
+		s.RedirectURI = linkedInDefaultRedirectURL
+	}
 	var p px.GoProxy
 	s.proxy = &p
 	return s
 }
 
+// SetProxy SetProxy
+func (s *LinkedInSignin) SetProxy(p px.Proxy) {
+	s.proxy = p
+}
+
 // Authorization LinkedIn Authorization
-func (s *LinkedInSignin) Authorization(redirectURI string) {
+func (s *LinkedInSignin) Authorization() *Response {
 	var rtn Response
-	var authURL = linkedInDefaultAuthURL + "?response_type=code&client_id=" +
-		s.ClientID + "&redirect_uri=" + redirectURI + "&state=" + state +
+	var aURL = s.AuthURL + "?response_type=code&client_id=" +
+		s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + state +
 		"&scope=" + scope
-	s.Log.Info("url: ", authURL)
-	brq, err := buildRequest(http.MethodGet, authURL, nil)
+	s.Log.Debug("url: ", aURL)
+	brq, err := buildRequest(http.MethodGet, aURL, nil)
 	if err == nil {
 		gsuc, stat := s.proxy.Do(brq, &rtn)
 		s.Log.Debug("suc: ", gsuc)
 		s.Log.Debug("stat: ", stat)
+		rtn.Code = stat
 	}
-}
-
-// AccessToken LinkedIn AccessToken
-func (s *LinkedInSignin) AccessToken(redirectURI string, code string) *TokenResponse {
-	var rtn TokenResponse
-
 	return &rtn
 }
 
-// // Callback CallbackCallback
-// func (s *LinkedInSignin) Callback(w http.ResponseWriter) *TokenParams {
-// 	var rtn TokenParams
+// AccessToken LinkedIn AccessToken
+func (s *LinkedInSignin) AccessToken(code string) *TokenResponse {
+	var rtn TokenResponse
+	var tURL = s.TokenURL
+	s.Log.Debug("url: ", tURL)
+	data := url.Values{}
+	data.Set("grant_type", "authorization_code")
+	data.Set("code", code)
+	data.Set("client_id", s.ClientID)
+	data.Set("client_secret", s.ClientSecret)
+	data.Set("redirect_uri", s.RedirectURI)
+	brq, err := buildFormRequest(http.MethodPost, tURL, data)
+	if err == nil {
+		suc, stat := s.proxy.Do(brq, &rtn)
+		//rtn.Code = int64(stat)
+		s.Log.Debug("suc: ", suc)
+		s.Log.Debug("stat: ", stat)
+	}
 
-// 	//check scope in callback and if good, set:
-// 	//LinkedInTokanParams.AuthCode = code from callback
-
-// 	return &rtn
-// }
+	return &rtn
+}
