@@ -2,24 +2,43 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 	"os"
 	"strconv"
 
 	lg "github.com/GolangToolKits/go-level-logger"
+	gss "github.com/GolangToolKits/go-secure-sessions"
 	mux "github.com/GolangToolKits/grrt"
 	hd "github.com/Ulbora/go-micro-blog-ui/handlers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
 func main() {
+	var secretSessionKey string
+
+	if os.Getenv("SECRET_SESSION_KEY") != "" {
+		secretSessionKey = os.Getenv("SECRET_SESSION_KEY")
+	} else {
+		secretSessionKey = "dsdfsadfs61dsscfsdfdsdsfsdsdllsdfgggg"
+	}
 	var l lg.Logger
 	log := l.New()
 	log.SetLogLevel(lg.AllLevel)
 
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager(secretSessionKey, cf)
+	if err != nil {
+		log.Info(err)
+		log.Info("Session err: ", err)
+	}
+
 	var signinMap = make(map[string]s.Signin)
 	var sh hd.MCHandler
 	sh.Log = log
+	sh.SessionManager = sessionManager
 	// sh.Signins = signinMap
 
 	//var linkedInClientID string
@@ -33,14 +52,17 @@ func main() {
 		lsgn.Log = log
 		lsgn.ClientID = linkedInClientID
 		lsgn.ClientSecret = linkedInClientSecret
-		signinMap["linkedin"] = lsgn.New()
+		signinMap["linkedIn"] = lsgn.New()
 		sh.Log.Info("clientId: ", linkedInClientID)
 	}
 
 	sh.Signins = signinMap
 
-	// sh.Templates = template.Must(template.ParseFiles("./static/index.html",
-	// 	"./static/product.html", "./static/addProduct.html"))
+	sh.Templates = template.Must(template.ParseFiles("./static/login.html",
+		"./static/index.html", "./static/header.html"))
+
+	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
+		"./static/header.html"))
 
 	router := mux.NewRouter()
 
@@ -50,7 +72,7 @@ func main() {
 	//router.HandleFunc("/product/{id}/{sku}", h.ViewProduct).Methods("GET")
 	//router.HandleFunc("/addProduct", h.AddProduct).Methods("POST")
 
-	router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
+	// router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
 
 	port := "8080"
 	envPort := os.Getenv("PORT")
@@ -60,6 +82,10 @@ func main() {
 			port = envPort
 		}
 	}
+
+	router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
+	router.HandleFunc("/login", h.LoginUserPage).Methods("GET")
+	//router.HandleFunc("/index", h.LoginUserPage).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

@@ -21,6 +21,10 @@ import "net/http"
 
 const (
 	linkedInSystem = "linkedIn"
+
+	//pages
+	loginPage = "login.html"
+	indexPage = "index.html"
 )
 
 // Handler Handler

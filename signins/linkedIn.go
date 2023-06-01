@@ -30,7 +30,8 @@ const (
 	linkedInDefaultTokenURL    = "https://www.linkedin.com/oauth/v2/accessToken"
 	linkedInDefaultRedirectURL = "http://localhost:8080/auth/linkedin/callback"
 	scope                      = "profile%20email%20w_member_social"
-	state                      = "ieridf7fsf6dfs6"
+	//State for linkedIn calls
+	State = "ieridf7fsf6dfs6"
 )
 
 // LinkedInSignin LinkedInSignin
@@ -69,7 +70,7 @@ func (s *LinkedInSignin) SetProxy(p px.Proxy) {
 func (s *LinkedInSignin) Authorization() *Response {
 	var rtn Response
 	var aURL = s.AuthURL + "?response_type=code&client_id=" +
-		s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + state +
+		s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + State +
 		"&scope=" + scope
 	s.Log.Debug("url: ", aURL)
 	brq, err := buildRequest(http.MethodGet, aURL, nil)
@@ -96,7 +97,6 @@ func (s *LinkedInSignin) AccessToken(code string) *TokenResponse {
 	brq, err := buildFormRequest(http.MethodPost, tURL, data)
 	if err == nil {
 		suc, stat := s.proxy.Do(brq, &rtn)
-		//rtn.Code = int64(stat)
 		s.Log.Debug("suc: ", suc)
 		s.Log.Debug("stat: ", stat)
 	}

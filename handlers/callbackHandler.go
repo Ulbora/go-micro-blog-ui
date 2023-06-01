@@ -19,6 +19,8 @@ package handlers
 
 import (
 	"net/http"
+
+	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
 // LinkedInCallback LinkedInCallback
@@ -28,10 +30,22 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 
 	state := r.URL.Query().Get("state")
 	code := r.URL.Query().Get("code")
-	//var state = vars["state"]
-	//var code = vars["code"]
+	si := h.Signins["linkedIn"]
 	h.Log.Info("state: ", state)
 	h.Log.Info("code: ", code)
-	w.WriteHeader(http.StatusOK)
+	if s.State == state {
+		tk := si.AccessToken(code)
+		h.Log.Info("token: ", tk.AccessToken)
+		sec, suc := h.getSession(r)
+		if suc {
+			sec.Set("linkedInToken", &tk)
+			serr := sec.Save(w)
+			h.Log.Debug("serr", serr)
+		}
+		h.Log.Debug("session suc", suc)
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusForbidden)
+	}
 
 }

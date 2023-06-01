@@ -1,6 +1,5 @@
 package handlers
 
-
 /*
  Copyright (C) 2023 Ulbora Labs LLC. (www.ulboralabs.com)
  All rights reserved.
@@ -19,22 +18,28 @@ package handlers
 */
 
 import (
+	"encoding/gob"
 	"encoding/json"
 	"errors"
+	"html/template"
 	"net/http"
 
 	lg "github.com/GolangToolKits/go-level-logger"
+	gss "github.com/GolangToolKits/go-secure-sessions"
 	m "github.com/Ulbora/go-micro-blog-ui/managers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
 // MCHandler MCHandler
 type MCHandler struct {
-	Log         lg.Log
-	Manager     m.Manager
-	APIKey      string
-	APIAdminKey string
-	Signins     map[string]s.Signin
+	Log            lg.Log
+	Manager        m.Manager
+	APIKey         string
+	APIAdminKey    string
+	Signins        map[string]s.Signin
+	SessionManager gss.SessionManager
+	AdminTemplates *template.Template
+	Templates      *template.Template
 }
 
 // New New
@@ -100,4 +105,23 @@ func (h *MCHandler) processBody(r *http.Request, obj any) (bool, error) {
 		err = errors.New("Bad Body")
 	}
 	return suc, err
+}
+
+func (h *MCHandler) getSession(r *http.Request) (gss.Session, bool) {
+	//fmt.Println("getSession--------------------------------------------------")
+	var suc bool
+	var srtn gss.Session
+	gob.Register(&s.TokenResponse{})
+
+	if r != nil {
+		sec := h.SessionManager.NewSession(r, "go-micro-blog-ui")
+		if sec != nil {
+			suc = true
+			loggedInAuth := sec.Get("loggedIn")
+			h.Log.Debug("loggedIn: ", loggedInAuth)
+		}
+		srtn = sec
+	}
+	//fmt.Println("exit getSession--------------------------------------------------")
+	return srtn, suc
 }
