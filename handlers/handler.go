@@ -23,8 +23,12 @@ const (
 	linkedInSystem = "linkedIn"
 
 	//pages
-	loginPage = "login.html"
-	indexPage = "index.html"
+	loginPage    = "login.html"
+	blogListPage = "blogList.html"
+
+	//routes
+	indexRt = "/"
+	loginRt = "/login"
 )
 
 // Handler Handler
@@ -82,7 +86,7 @@ type Handler interface {
 	// UpdateBlog(w http.ResponseWriter, r *http.Request)
 	// GetBlog(w http.ResponseWriter, r *http.Request)
 	// GetBlogByName(w http.ResponseWriter, r *http.Request)
-	// GetBlogList(w http.ResponseWriter, r *http.Request)
+	GetBlogList(w http.ResponseWriter, r *http.Request)
 
 	// AddLike(w http.ResponseWriter, r *http.Request)
 	// RemoveLike(w http.ResponseWriter, r *http.Request)

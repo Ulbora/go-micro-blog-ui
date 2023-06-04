@@ -26,26 +26,27 @@ import (
 // LinkedInCallback LinkedInCallback
 func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 	h.setContentType(w)
-	h.Log.Info("in linkedIn callback")
+	h.Log.Debug("in linkedIn callback")
 
 	state := r.URL.Query().Get("state")
 	code := r.URL.Query().Get("code")
 	si := h.Signins["linkedIn"]
-	h.Log.Info("state: ", state)
-	h.Log.Info("code: ", code)
+	h.Log.Debug("state: ", state)
+	h.Log.Debug("code: ", code)
 	if s.State == state {
 		tk := si.AccessToken(code)
-		h.Log.Info("token: ", tk.AccessToken)
+		h.Log.Debug("token: ", tk.AccessToken)
 		sec, suc := h.getSession(r)
 		if suc {
 			sec.Set("linkedInToken", &tk)
+			sec.Set("loggedIn", true)
 			serr := sec.Save(w)
 			h.Log.Debug("serr", serr)
 		}
-		h.Log.Debug("session suc", suc)
-		w.WriteHeader(http.StatusOK)
+		h.Log.Debug("session suc in linkedIn callback", suc)
+		http.Redirect(w, r, indexRt, http.StatusFound)
 	} else {
-		w.WriteHeader(http.StatusForbidden)
+		http.Redirect(w, r, loginRt, http.StatusFound)
 	}
 
 }

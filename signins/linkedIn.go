@@ -66,21 +66,39 @@ func (s *LinkedInSignin) SetProxy(p px.Proxy) {
 	s.proxy = p
 }
 
+// // Authorization LinkedIn Authorization
+// func (s *LinkedInSignin) Authorization() *Response {
+// 	var rtn Response
+// 	var aURL = s.AuthURL + "?response_type=code&client_id=" +
+// 		s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + State +
+// 		"&scope=" + scope
+// 	s.Log.Debug("url: ", aURL)
+// 	brq, err := buildRequest(http.MethodGet, aURL, nil)
+// 	if err == nil {
+// 		gsuc, stat := s.proxy.Do(brq, &rtn)
+// 		s.Log.Debug("suc: ", gsuc)
+// 		s.Log.Debug("stat: ", stat)
+// 		rtn.Code = stat
+// 	}
+// 	return &rtn
+// }
+
 // Authorization LinkedIn Authorization
-func (s *LinkedInSignin) Authorization() *Response {
-	var rtn Response
+func (s *LinkedInSignin) Authorization(w http.ResponseWriter, r *http.Request) {
+	//var rtn Response
 	var aURL = s.AuthURL + "?response_type=code&client_id=" +
 		s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + State +
 		"&scope=" + scope
 	s.Log.Debug("url: ", aURL)
-	brq, err := buildRequest(http.MethodGet, aURL, nil)
-	if err == nil {
-		gsuc, stat := s.proxy.Do(brq, &rtn)
-		s.Log.Debug("suc: ", gsuc)
-		s.Log.Debug("stat: ", stat)
-		rtn.Code = stat
-	}
-	return &rtn
+	http.Redirect(w, r, aURL, http.StatusFound)
+	// brq, err := buildRequest(http.MethodGet, aURL, nil)
+	// if err == nil {
+	// 	gsuc, stat := s.proxy.Do(brq, &rtn)
+	// 	s.Log.Debug("suc: ", gsuc)
+	// 	s.Log.Debug("stat: ", stat)
+	// 	rtn.Code = stat
+	// }
+	//return &rtn
 }
 
 // AccessToken LinkedIn AccessToken

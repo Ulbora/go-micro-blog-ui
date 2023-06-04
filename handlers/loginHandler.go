@@ -20,7 +20,16 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+
+	mux "github.com/GolangToolKits/grrt"
 )
+
+// LoginPageData LoginPageData
+type LoginPageData struct {
+	Title    string
+	Desc     string
+	KeyWords string
+}
 
 // LoginUserPage LoginUserPage
 func (h *MCHandler) LoginUserPage(w http.ResponseWriter, r *http.Request) {
@@ -32,22 +41,36 @@ func (h *MCHandler) LoginUserPage(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("loggedIn in login: ", loggedInAuth)
 		if loggedInAuth == nil || loggedInAuth == false {
 			h.Log.Debug("template: ", h.AdminTemplates)
+			var pd LoginPageData
+			pd.Title = h.Title
+			pd.Desc = h.Desc
+			pd.KeyWords = h.KeyWords
 			//res := h.Service.GetContentList(false)
 			// sort.Slice(*res, func(p, q int) bool {
 			// 	return (*res)[p].Title < (*res)[q].Title
 			// })
 			// h.Log.Debug("content in admin index sorted: ", *res)
-			h.Templates.ExecuteTemplate(w, loginPage, nil)
+			h.Templates.ExecuteTemplate(w, loginPage, &pd)
 		} else {
-			http.Redirect(w, r, indexPage, http.StatusFound)
+			http.Redirect(w, r, indexRt, http.StatusFound)
 		}
 	}
 }
 
 // LoginUser LoginUser
 func (h *MCHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
-	signingSystem := r.FormValue("signingSystem")
+	vars := mux.Vars(r)
+	signingSystem := vars["signingSystem"]
+	//signingSystem := r.FormValue("signingSystem")
 	if signingSystem == linkedInSystem {
-
+		h.Log.Debug("signingSystem: ", signingSystem)
+		si := h.Signins["linkedIn"]
+		si.Authorization(w, r)
+		// h.Log.Debug("res.Code in loginUser: ", res.Code)
+		// if res.Code == http.StatusOK {
+		// 	w.WriteHeader(http.StatusOK)
+		// } else {
+		// 	w.WriteHeader(http.StatusBadRequest)
+		// }
 	}
 }

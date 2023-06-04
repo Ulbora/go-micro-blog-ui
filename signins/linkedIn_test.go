@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"testing"
 
@@ -25,6 +26,9 @@ func TestLinkedInSignin_Authorization(t *testing.T) {
 	log := l.New()
 	log.SetLogLevel(lg.AllLevel)
 
+	r, _ := http.NewRequest("GET", "/loginUser/linkedIn", nil)
+	w := httptest.NewRecorder()
+
 	type fields struct {
 		ClientID     string
 		ClientSecret string
@@ -35,8 +39,10 @@ func TestLinkedInSignin_Authorization(t *testing.T) {
 		Log          lg.Log
 	}
 	tests := []struct {
-		name   string
-		fields fields
+		name    string
+		fields  fields
+		resCode int
+		w       *httptest.ResponseRecorder
 	}{
 		// TODO: Add test cases.
 		{
@@ -47,6 +53,8 @@ func TestLinkedInSignin_Authorization(t *testing.T) {
 				//proxy:        &p,
 				Log: log,
 			},
+			resCode: 302,
+			w:       w,
 		},
 	}
 	for _, tt := range tests {
@@ -62,10 +70,13 @@ func TestLinkedInSignin_Authorization(t *testing.T) {
 			}
 			ss := s.New()
 			ss.SetProxy(&p)
-			res := ss.Authorization()
-			if res.Code != 0 {
+			ss.Authorization(w, r)
+			if tt.resCode != tt.w.Code{
 				t.Fail()
 			}
+			// if res.Code != 0 {
+			// 	t.Fail()
+			// }
 		})
 	}
 }
@@ -77,7 +88,7 @@ func TestLinkedInSignin_AccessToken(t *testing.T) {
 	p.MockResp = &http.Response{
 		Status:     "200",
 		StatusCode: 200,
-		Body:       ioutil.NopCloser(bytes.NewBufferString(`{
+		Body: ioutil.NopCloser(bytes.NewBufferString(`{
 			"access_token": "AQXjDdPrhpD-kyXXOO5T_i2eyANn8NQIaFLlqc1fyCCOFiTGK36I_jBrvzClHeReNBPPTHJ_bGfC31nZGkzpd93_TfjEurhLeO3hpFQq-klXqr0RbPsDWIBQ77HlwaKx_62Bj1aBvsEciS493bd3DTUMSrgOPmWHaGKHRYecH4Lf-lpgWo35LS6ssFmvtljG1NwWuTaXYH1kSr6SxqUZKbp5eQkS3E0WpWkxc9ofEHyHrwIb0vHPbSOUrNr0huIkCoON3hrMPUhoWcO3bO_uP0mXRnzGHWwGG38Dh6ploXTBYIeDrq_6SKqExcS6ua_ITuRHKNtAYLunZlqKZefqXEYDyopE6Q",
 			"expires_in": 5183999,
 			"scope": "email,profile,w_member_social"
@@ -113,7 +124,7 @@ func TestLinkedInSignin_AccessToken(t *testing.T) {
 				ClientID:     "12345",
 				ClientSecret: "12345",
 				//proxy:        &p,
-				Log:          log,
+				Log: log,
 			},
 			args: args{
 				code: "AQQ6uLeyJLnPqHHctWoDicrjyRcVW8qMzjfuczZyh-vfm7i_luzBLthyQSuruP68yL8r7EaGVHARmxIKGvuLMAplSAL9_J3zb8_Y7abyqdjvrjEoNSXaA6s_gg47_I5UK2DKmwsZjLx_4nsnIeKNi0ENP2OnQQRpBZJgS_IAka_Rv7IxX21LxxjvuS-77kxDh_aynCHzBfWAAOSZdzc",

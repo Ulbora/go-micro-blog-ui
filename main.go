@@ -17,11 +17,34 @@ import (
 func main() {
 	var secretSessionKey string
 
+	var siteTitle string
+	var siteDesc string
+	var siteKeyWords string
+
 	if os.Getenv("SECRET_SESSION_KEY") != "" {
 		secretSessionKey = os.Getenv("SECRET_SESSION_KEY")
 	} else {
 		secretSessionKey = "dsdfsadfs61dsscfsdfdsdsfsdsdllsdfgggg"
 	}
+
+	if os.Getenv("SITE_TITLE") != "" {
+		siteTitle = os.Getenv("SITE_TITLE")
+	} else {
+		siteTitle = "Go Micro Blog"
+	}
+
+	if os.Getenv("SITE_DESC") != "" {
+		siteDesc = os.Getenv("SITE_DESC")
+	} else {
+		siteDesc = "A Micro Blog written in Golang by Ulbora Labs LLC"
+	}
+
+	if os.Getenv("SITE_KEY_WORDS") != "" {
+		siteKeyWords = os.Getenv("SITE_KEY_WORDS")
+	} else {
+		siteKeyWords = "Golang, Micro, Blog, Ulbora, Labs"
+	}
+
 	var l lg.Logger
 	log := l.New()
 	log.SetLogLevel(lg.AllLevel)
@@ -37,6 +60,9 @@ func main() {
 
 	var signinMap = make(map[string]s.Signin)
 	var sh hd.MCHandler
+	sh.Title = siteTitle
+	sh.Desc = siteDesc
+	sh.KeyWords = siteKeyWords
 	sh.Log = log
 	sh.SessionManager = sessionManager
 	// sh.Signins = signinMap
@@ -59,7 +85,7 @@ func main() {
 	sh.Signins = signinMap
 
 	sh.Templates = template.Must(template.ParseFiles("./static/login.html",
-		"./static/index.html", "./static/header.html"))
+		"./static/blogList.html", "./static/header.html"))
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html"))
@@ -85,7 +111,8 @@ func main() {
 
 	router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
 	router.HandleFunc("/login", h.LoginUserPage).Methods("GET")
-	//router.HandleFunc("/index", h.LoginUserPage).Methods("GET")
+	router.HandleFunc("/loginUser/{signingSystem}", h.LoginUser).Methods("GET")
+	router.HandleFunc("/", h.GetBlogList).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

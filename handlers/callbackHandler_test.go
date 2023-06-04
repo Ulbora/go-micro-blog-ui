@@ -91,7 +91,7 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 				r: r,
 			},
 			w:       w,
-			resCode: 200,
+			resCode: 302,
 		},
 		{
 			name: "test 2",
@@ -105,17 +105,17 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 				r: r2,
 			},
 			w:       w2,
-			resCode: 403,
+			resCode: 302,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &MCHandler{
-				Log:         tt.fields.Log,
-				Manager:     tt.fields.Manager,
-				APIKey:      tt.fields.APIKey,
-				APIAdminKey: tt.fields.APIAdminKey,
-				Signins:     tt.fields.Signins,
+				Log:            tt.fields.Log,
+				Manager:        tt.fields.Manager,
+				APIKey:         tt.fields.APIKey,
+				APIAdminKey:    tt.fields.APIAdminKey,
+				Signins:        tt.fields.Signins,
 				SessionManager: tt.fields.SessionManager,
 			}
 			hh := h.New()

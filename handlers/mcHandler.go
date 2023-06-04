@@ -40,6 +40,11 @@ type MCHandler struct {
 	SessionManager gss.SessionManager
 	AdminTemplates *template.Template
 	Templates      *template.Template
+
+	//page attributes
+	Title    string
+	Desc     string
+	KeyWords string
 }
 
 // New New

@@ -28,7 +28,9 @@ import (
 
 // Signin Signin
 type Signin interface {
-	Authorization() *Response
+	//Authorization() *Response
+	//Authorization2(w http.ResponseWriter, r *http.Request) *Response
+	Authorization(w http.ResponseWriter, r *http.Request)
 	AccessToken(code string) *TokenResponse
 	SetProxy(p px.Proxy)
 	//Callback() *TokenParams
