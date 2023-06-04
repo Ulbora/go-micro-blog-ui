@@ -11,10 +11,10 @@ github.com/Ulbora/go-micro-blog-ui/signins/linkedIn.go:87.80,102.2 3 1
 github.com/Ulbora/go-micro-blog-ui/signins/linkedIn.go:105.66,116.16 11 1
 github.com/Ulbora/go-micro-blog-ui/signins/linkedIn.go:116.16,120.3 3 1
 github.com/Ulbora/go-micro-blog-ui/signins/linkedIn.go:122.2,122.13 1 1
-github.com/Ulbora/go-micro-blog-ui/signins/signin.go:72.83,75.59 3 0
-github.com/Ulbora/go-micro-blog-ui/signins/signin.go:75.59,78.3 2 0
-github.com/Ulbora/go-micro-blog-ui/signins/signin.go:78.8,80.3 1 0
-github.com/Ulbora/go-micro-blog-ui/signins/signin.go:81.2,81.17 1 0
+github.com/Ulbora/go-micro-blog-ui/signins/signin.go:72.83,75.59 3 1
+github.com/Ulbora/go-micro-blog-ui/signins/signin.go:75.59,78.3 2 1
+github.com/Ulbora/go-micro-blog-ui/signins/signin.go:78.8,80.3 1 1
+github.com/Ulbora/go-micro-blog-ui/signins/signin.go:81.2,81.17 1 1
 github.com/Ulbora/go-micro-blog-ui/signins/signin.go:84.90,87.59 3 1
 github.com/Ulbora/go-micro-blog-ui/signins/signin.go:87.59,90.3 2 1
 github.com/Ulbora/go-micro-blog-ui/signins/signin.go:94.2,94.17 1 1
