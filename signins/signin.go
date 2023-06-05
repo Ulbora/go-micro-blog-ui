@@ -32,6 +32,7 @@ type Signin interface {
 	//Authorization2(w http.ResponseWriter, r *http.Request) *Response
 	Authorization(w http.ResponseWriter, r *http.Request)
 	AccessToken(code string) *TokenResponse
+	GetUserInfo(tk string) any
 	SetProxy(p px.Proxy)
 	//Callback() *TokenParams
 }

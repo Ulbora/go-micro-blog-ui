@@ -26,6 +26,7 @@ import (
 
 	lg "github.com/GolangToolKits/go-level-logger"
 	gss "github.com/GolangToolKits/go-secure-sessions"
+	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
 	m "github.com/Ulbora/go-micro-blog-ui/managers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
@@ -36,6 +37,7 @@ type MCHandler struct {
 	Manager        m.Manager
 	APIKey         string
 	APIAdminKey    string
+	Delegate       mcd.Delegate
 	Signins        map[string]s.Signin
 	SessionManager gss.SessionManager
 	AdminTemplates *template.Template

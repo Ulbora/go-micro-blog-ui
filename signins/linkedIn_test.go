@@ -71,7 +71,7 @@ func TestLinkedInSignin_Authorization(t *testing.T) {
 			ss := s.New()
 			ss.SetProxy(&p)
 			ss.Authorization(w, r)
-			if tt.resCode != tt.w.Code{
+			if tt.resCode != tt.w.Code {
 				t.Fail()
 			}
 			// if res.Code != 0 {
@@ -151,6 +151,95 @@ func TestLinkedInSignin_AccessToken(t *testing.T) {
 			ss.SetProxy(&p)
 			if got := ss.AccessToken(tt.args.code); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LinkedInSignin.AccessToken() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestLinkedInSignin_GetUserInfo(t *testing.T) {
+
+	// var p px.GoProxy
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	p.MockRespCode = 200
+	p.MockResp = &http.Response{
+		Status:     "200",
+		StatusCode: 200,
+		Body: ioutil.NopCloser(bytes.NewBufferString(`{
+			"sub": "q4k_55555",
+    		"email_verified": true,
+    		"name": "Robert",
+    		"locale": {
+        		"country": "US",
+        		"language": "en"
+    		},
+    		"given_name": "Robert",
+    		"family_name": "Roberts",
+    		"email": "rroberts@gmail.com",
+    		"picture": "https://media.licdn.com/dms/image/C5603AQGRApW88KjOCA/profile-displayphoto-shrink_100_100/0/1516940037267?e=1691625600&v=beta&t=Ibi46xLe0v7RvwvFcBmhhWWWdr19bQtOJR3ebyrIt-k"
+		}`)),
+	}
+
+	var l lg.Logger
+	log := l.New()
+	log.SetLogLevel(lg.AllLevel)
+
+	type fields struct {
+		ClientID     string
+		ClientSecret string
+		AuthURL      string
+		TokenURL     string
+		UserInfoURL  string
+		RedirectURI  string
+		proxy        px.Proxy
+		Log          lg.Log
+	}
+	type args struct {
+		tk string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   any
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test1 ",
+			fields: fields{
+				ClientID:     "12345",
+				ClientSecret: "12345",
+				proxy:        &p,
+				Log:          log,
+				UserInfoURL:  "/user",
+			},
+			args: args{
+				tk: "122455555",
+			},
+			want: &UserInfoResponse{
+				Sub:           "q4k_55555",
+				EmailVerified: true,
+				FirstName:     "Robert",
+				LastName:      "Roberts",
+				Email:         "rroberts@gmail.com",
+				PictureURL:    "https://media.licdn.com/dms/image/C5603AQGRApW88KjOCA/profile-displayphoto-shrink_100_100/0/1516940037267?e=1691625600&v=beta&t=Ibi46xLe0v7RvwvFcBmhhWWWdr19bQtOJR3ebyrIt-k",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &LinkedInSignin{
+				ClientID:     tt.fields.ClientID,
+				ClientSecret: tt.fields.ClientSecret,
+				AuthURL:      tt.fields.AuthURL,
+				TokenURL:     tt.fields.TokenURL,
+				UserInfoURL:  tt.fields.UserInfoURL,
+				RedirectURI:  tt.fields.RedirectURI,
+				proxy:        tt.fields.proxy,
+				Log:          tt.fields.Log,
+			}
+			if got := s.GetUserInfo(tt.args.tk); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("LinkedInSignin.GetUserInfo() = %v, want %v", got, tt.want)
 			}
 		})
 	}

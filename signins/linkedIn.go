@@ -29,10 +29,21 @@ const (
 	linkedInDefaultAuthURL     = "https://www.linkedin.com/oauth/v2/authorization"
 	linkedInDefaultTokenURL    = "https://www.linkedin.com/oauth/v2/accessToken"
 	linkedInDefaultRedirectURL = "http://localhost:8080/auth/linkedin/callback"
-	scope                      = "profile%20email%20w_member_social"
+	linkedInUserInfoURL        = "https://api.linkedin.com/v2/userinfo"
+	scope                      = "profile%20email%20w_member_social%20r_liteprofile%20r_emailaddress%20openid"
 	//State for linkedIn calls
 	State = "ieridf7fsf6dfs6"
 )
+
+// UserInfoResponse UserInfoResponse
+type UserInfoResponse struct {
+	Sub           string `json:"sub"`
+	EmailVerified bool   `json:"email_verified"`
+	FirstName     string `json:"given_name"`
+	LastName      string `json:"family_name"`
+	Email         string `json:"email"`
+	PictureURL    string `json:"picture"`
+}
 
 // LinkedInSignin LinkedInSignin
 type LinkedInSignin struct {
@@ -40,6 +51,7 @@ type LinkedInSignin struct {
 	ClientSecret string
 	AuthURL      string
 	TokenURL     string
+	UserInfoURL  string
 	RedirectURI  string
 	proxy        px.Proxy
 	Log          lg.Log
@@ -55,6 +67,9 @@ func (s *LinkedInSignin) New() Signin {
 	}
 	if s.RedirectURI == "" {
 		s.RedirectURI = linkedInDefaultRedirectURL
+	}
+	if s.UserInfoURL == "" {
+		s.UserInfoURL = linkedInUserInfoURL
 	}
 	var p px.GoProxy
 	s.proxy = &p
@@ -119,5 +134,21 @@ func (s *LinkedInSignin) AccessToken(code string) *TokenResponse {
 		s.Log.Debug("stat: ", stat)
 	}
 
+	return &rtn
+}
+
+// GetUserInfo GetUserInfo
+func (s *LinkedInSignin) GetUserInfo(tk string) any {
+	var rtn UserInfoResponse
+	var uiURL = s.UserInfoURL
+	s.Log.Debug("uiURL: ", uiURL)
+
+	urq, err := buildRequest(http.MethodGet, uiURL, nil)
+	if err == nil {
+		urq.Header.Set("Authorization", "Bearer "+tk)
+		suc, stat := s.proxy.Do(urq, &rtn)
+		s.Log.Debug("suc: ", suc)
+		s.Log.Debug("stat: ", stat)
+	}
 	return &rtn
 }

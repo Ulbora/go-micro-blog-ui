@@ -36,9 +36,12 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 	if s.State == state {
 		tk := si.AccessToken(code)
 		h.Log.Debug("token: ", tk.AccessToken)
+		//get userinfo from linkedin
+		//save to db in service
+
 		sec, suc := h.getSession(r)
 		if suc {
-			sec.Set("linkedInToken", &tk)
+			//sec.Set("linkedInToken", &tk)
 			sec.Set("loggedIn", true)
 			serr := sec.Save(w)
 			h.Log.Debug("serr", serr)

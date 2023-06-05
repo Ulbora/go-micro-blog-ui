@@ -10,6 +10,7 @@ import (
 	lg "github.com/GolangToolKits/go-level-logger"
 	gss "github.com/GolangToolKits/go-secure-sessions"
 	mux "github.com/GolangToolKits/grrt"
+	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
 	hd "github.com/Ulbora/go-micro-blog-ui/handlers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
@@ -20,6 +21,9 @@ func main() {
 	var siteTitle string
 	var siteDesc string
 	var siteKeyWords string
+	var restURL string
+	var apiKey string
+	var apiAdminKey string
 
 	if os.Getenv("SECRET_SESSION_KEY") != "" {
 		secretSessionKey = os.Getenv("SECRET_SESSION_KEY")
@@ -45,6 +49,24 @@ func main() {
 		siteKeyWords = "Golang, Micro, Blog, Ulbora, Labs"
 	}
 
+	if os.Getenv("REST_URL") != "" {
+		restURL = os.Getenv("REST_URL")
+	} else {
+		restURL = "http://localhost:3000"
+	}
+
+	if os.Getenv("API_KEY") != "" {
+		apiKey = os.Getenv("API_KEY")
+	} else {
+		apiKey = "557444414141"
+	}
+
+	if os.Getenv("API_ADMIN_KEY") != "" {
+		apiAdminKey = os.Getenv("API_ADMIN_KEY")
+	} else {
+		apiAdminKey = "54211789991515"
+	}
+
 	var l lg.Logger
 	log := l.New()
 	log.SetLogLevel(lg.AllLevel)
@@ -59,12 +81,22 @@ func main() {
 	}
 
 	var signinMap = make(map[string]s.Signin)
+
+	var del mcd.MCDelegate
+	del.Log = log
+	del.RestURL = restURL
+	del.APIAdminKey = apiAdminKey
+	del.APIKey = apiKey
+
+	dd := del.New()
+
 	var sh hd.MCHandler
 	sh.Title = siteTitle
 	sh.Desc = siteDesc
 	sh.KeyWords = siteKeyWords
 	sh.Log = log
 	sh.SessionManager = sessionManager
+	sh.Delegate = dd
 	// sh.Signins = signinMap
 
 	//var linkedInClientID string
