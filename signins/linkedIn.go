@@ -152,3 +152,16 @@ func (s *LinkedInSignin) GetUserInfo(tk string) any {
 	}
 	return &rtn
 }
+
+// GetUserPicture GetUserPicture
+func (s *LinkedInSignin) GetUserPicture(url string) []byte {
+	var rtn []byte
+	uprq, err := buildRequest(http.MethodGet, url, nil)
+	if err == nil {
+		suc, stat, b := s.proxy.DoNonJSON(uprq)
+		rtn = b
+		s.Log.Debug("suc: ", suc)
+		s.Log.Debug("stat: ", stat)
+	}
+	return rtn
+}

@@ -20,6 +20,10 @@ package delegates
 const (
 	adminKey = "admin"
 	apiKey   = "api"
+	//UserRole name
+	UserRole = "user"
+	//AdminRole name
+	AdminRole = "admin"
 )
 
 // Delegate Delegate

@@ -12,6 +12,7 @@ import (
 	px "github.com/GolangToolKits/go-http-proxy"
 	lg "github.com/GolangToolKits/go-level-logger"
 	gss "github.com/GolangToolKits/go-secure-sessions"
+	del "github.com/Ulbora/go-micro-blog-ui/delegates"
 	m "github.com/Ulbora/go-micro-blog-ui/managers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
@@ -48,13 +49,34 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 		}`)),
 	}
 
-	var si s.LinkedInSignin
-	si.ClientID = "12354"
-	si.ClientSecret = "12345"
-	si.Log = log
+	var mcdel del.MockDelegate
+	mcdel.AddUserID = 4
+	mcdel.AddUserSuccess = true
 
+	mcdel.GetRoleID = 3
+
+	// mcdel.GetUserActive = true
+	// mcdel.GetUserEmail = "test@test.com"
+
+	// var si s.LinkedInSignin
+	// si.ClientID = "12354"
+	// si.ClientSecret = "12345"
+	// si.Log = log
+
+	// sii := si.New()
+	// sii.SetProxy(&p)
+
+	// var signinMap = make(map[string]s.Signin)
+	// signinMap["linkedIn"] = sii
+
+	var si s.MockLinkedInSignin
+	si.MockToken = "4567890"
+	si.MockUserEmail = "test@test.com"
+	si.MockUserEmailVerified = true
+	si.MockUserFirstName = "test"
+	si.MockUserLastName = "tester"
+	si.MockUserPictureURL = "http://image"
 	sii := si.New()
-	sii.SetProxy(&p)
 
 	var signinMap = make(map[string]s.Signin)
 	signinMap["linkedIn"] = sii
@@ -66,6 +88,7 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 		APIAdminKey    string
 		Signins        map[string]s.Signin
 		SessionManager gss.SessionManager
+		Delegate       del.Delegate
 	}
 	type args struct {
 		w http.ResponseWriter
@@ -85,6 +108,7 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 				Log:            log,
 				Signins:        signinMap,
 				SessionManager: sessionManager,
+				Delegate:       &mcdel,
 			},
 			args: args{
 				w: w,
@@ -99,6 +123,7 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 				Log:            log,
 				Signins:        signinMap,
 				SessionManager: sessionManager,
+				Delegate:       &mcdel,
 			},
 			args: args{
 				w: w2,
@@ -117,6 +142,7 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 				APIAdminKey:    tt.fields.APIAdminKey,
 				Signins:        tt.fields.Signins,
 				SessionManager: tt.fields.SessionManager,
+				Delegate: tt.fields.Delegate,
 			}
 			hh := h.New()
 			hh.LinkedInCallback(tt.args.w, tt.args.r)

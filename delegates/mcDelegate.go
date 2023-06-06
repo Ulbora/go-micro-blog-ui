@@ -41,6 +41,11 @@ func (d *MCDelegate) New() Delegate {
 	return d
 }
 
+// SetProxy SetProxy
+func (d *MCDelegate) SetProxy(proxy px.Proxy) {
+	d.proxy = proxy
+}
+
 // ResponseID ResponseID
 type ResponseID struct {
 	ID      int64  `json:"id"`

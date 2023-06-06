@@ -154,3 +154,46 @@ func TestMCDelegate_New(t *testing.T) {
 		})
 	}
 }
+
+func TestMCDelegate_SetProxy(t *testing.T) {
+	var proxy px.GoProxy
+
+	type fields struct {
+		proxy       px.Proxy
+		Log         lg.Log
+		RestURL     string
+		APIKey      string
+		APIAdminKey string
+	}
+	type args struct {
+		proxy px.Proxy
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+
+			},
+			args: args{
+				proxy: &proxy,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MCDelegate{
+				proxy:       tt.fields.proxy,
+				Log:         tt.fields.Log,
+				RestURL:     tt.fields.RestURL,
+				APIKey:      tt.fields.APIKey,
+				APIAdminKey: tt.fields.APIAdminKey,
+			}
+			d.SetProxy(tt.args.proxy)
+		})
+	}
+}

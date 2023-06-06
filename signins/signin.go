@@ -33,6 +33,7 @@ type Signin interface {
 	Authorization(w http.ResponseWriter, r *http.Request)
 	AccessToken(code string) *TokenResponse
 	GetUserInfo(tk string) any
+	GetUserPicture(url string) []byte
 	SetProxy(p px.Proxy)
 	//Callback() *TokenParams
 }
