@@ -24,7 +24,6 @@ func (s *MockLinkedInSignin) New() Signin {
 
 // Authorization Authorization
 func (s *MockLinkedInSignin) Authorization(w http.ResponseWriter, r *http.Request) {
-
 }
 
 // AccessToken AccessToken
@@ -53,5 +52,4 @@ func (s *MockLinkedInSignin) GetUserPicture(url string) []byte {
 
 // SetProxy SetProxy
 func (s *MockLinkedInSignin) SetProxy(p px.Proxy) {
-
 }

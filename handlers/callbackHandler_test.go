@@ -32,6 +32,13 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 
 	r2, _ := http.NewRequest("GET", "/auth/linkedin/callback?code=AQTe-q0dCREmAyHM1SH3DRlwJqcBdnuBieH7OoM5NbnAgGC04apOpPGmzO4rGfLybxxRadelqSR7mDe1hrPEw6Zkr-mZphb93o5hVz8dEtrjLFfnNX8ohyV-mrRTehgwDSvmoC_rulnTcCfkTVkMAHuzuCcJP2DCTnfUaeO0WpHf1_QBm3RmgCHN8BFyihvmSGJ5u4dHMCrfhT9iTvw&state=ieridf7fsf6dfs6_", nil)
 	w2 := httptest.NewRecorder()
+
+
+	r3, _ := http.NewRequest("GET", "/auth/linkedin/callback?code=AQTe-q0dCREmAyHM1SH3DRlwJqcBdnuBieH7OoM5NbnAgGC04apOpPGmzO4rGfLybxxRadelqSR7mDe1hrPEw6Zkr-mZphb93o5hVz8dEtrjLFfnNX8ohyV-mrRTehgwDSvmoC_rulnTcCfkTVkMAHuzuCcJP2DCTnfUaeO0WpHf1_QBm3RmgCHN8BFyihvmSGJ5u4dHMCrfhT9iTvw&state=ieridf7fsf6dfs6", nil)
+	w3 := httptest.NewRecorder()
+
+
+
 	var l lg.Logger
 	log := l.New()
 	log.SetLogLevel(lg.AllLevel)
@@ -57,6 +64,18 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 
 	// mcdel.GetUserActive = true
 	// mcdel.GetUserEmail = "test@test.com"
+
+
+
+	var mcdel2 del.MockDelegate
+	mcdel2.AddUserID = 4
+	mcdel2.AddUserSuccess = true
+
+	mcdel2.GetRoleID = 3
+
+	mcdel2.GetUserActive = true
+	mcdel2.GetUserEmail = "test@test.com"
+
 
 	// var si s.LinkedInSignin
 	// si.ClientID = "12354"
@@ -123,13 +142,28 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 				Log:            log,
 				Signins:        signinMap,
 				SessionManager: sessionManager,
-				Delegate:       &mcdel,
+				Delegate:       &mcdel2,
 			},
 			args: args{
 				w: w2,
 				r: r2,
 			},
 			w:       w2,
+			resCode: 302,
+		},
+		{
+			name: "test 3",
+			fields: fields{
+				Log:            log,
+				Signins:        signinMap,
+				SessionManager: sessionManager,
+				Delegate:       &mcdel2,
+			},
+			args: args{
+				w: w3,
+				r: r3,
+			},
+			w:       w3,
 			resCode: 302,
 		},
 	}
