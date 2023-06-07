@@ -35,23 +35,23 @@ type Signin interface {
 	SetProxy(p px.Proxy)
 }
 
-// AuthParams AuthParams
-type AuthParams struct {
-	ResponseType string
-	ClientID     string
-	RedirectURI  string
-	State        string
-	Scope        string
-}
+// // AuthParams AuthParams
+// type AuthParams struct {
+// 	ResponseType string
+// 	ClientID     string
+// 	RedirectURI  string
+// 	State        string
+// 	Scope        string
+// }
 
-// TokenParams TokenParams
-type TokenParams struct {
-	GrantType    string
-	AuthCode     string
-	ClientID     string
-	ClientSecret string
-	RedirectURI  string
-}
+// // TokenParams TokenParams
+// type TokenParams struct {
+// 	GrantType    string
+// 	AuthCode     string
+// 	ClientID     string
+// 	ClientSecret string
+// 	RedirectURI  string
+// }
 
 // TokenResponse TokenResponse
 type TokenResponse struct {

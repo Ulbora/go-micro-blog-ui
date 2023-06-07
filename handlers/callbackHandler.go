@@ -40,7 +40,7 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("token: ", tk.AccessToken)
 		//get userinfo from linkedin
 		uiRes := si.GetUserInfo(tk.AccessToken)
-		if uiRes.(*s.UserInfoResponse).EmailVerified {
+		if uiRes.(*s.UserInfoResponse).EmailVerified && uiRes.(*s.UserInfoResponse).Email != "" {
 			uemail := uiRes.(*s.UserInfoResponse).Email
 			fname := uiRes.(*s.UserInfoResponse).FirstName
 			lname := uiRes.(*s.UserInfoResponse).LastName
