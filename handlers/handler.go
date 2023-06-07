@@ -69,6 +69,7 @@ type Handler interface {
 
 	// //callbacks
 	LinkedInCallback(w http.ResponseWriter, r *http.Request)
+	GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 
 	// //===== CreateNewUserPage(w http.ResponseWriter, r *http.Request)
 	// //===== CreateNewUser(w http.ResponseWriter, r *http.Request)

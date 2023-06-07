@@ -113,6 +113,16 @@ func main() {
 		signinMap["linkedIn"] = lsgn.New()
 		sh.Log.Info("clientId: ", linkedInClientID)
 	}
+	if os.Getenv("GOOGLE_CLIENT_ID") != "" {
+		googleOAuth2ClientID := os.Getenv("GOOGLE_CLIENT_ID")
+		googleOAuth2ClientSecret := os.Getenv("GOOGLE_CLIENT_SECRET")
+		var glsgn s.GoogleSignin
+		glsgn.Log = log
+		glsgn.ClientID = googleOAuth2ClientID
+		glsgn.ClientSecret = googleOAuth2ClientSecret
+		signinMap["googleOAuth2"] = glsgn.New()
+		sh.Log.Info("clientId: ", googleOAuth2ClientID)
+	}
 
 	sh.Signins = signinMap
 
@@ -142,6 +152,7 @@ func main() {
 	}
 
 	router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
+	router.HandleFunc("/signin-google/callback", h.LinkedInCallback).Methods("GET")
 	router.HandleFunc("/login", h.LoginUserPage).Methods("GET")
 	router.HandleFunc("/loginUser/{signingSystem}", h.LoginUser).Methods("GET")
 	router.HandleFunc("/", h.GetBlogList).Methods("GET")

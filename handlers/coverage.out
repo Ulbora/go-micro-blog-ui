@@ -1,11 +1,11 @@
 mode: set
-github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:9.73,13.9 4 0
-github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:13.9,16.27 3 0
-github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:16.27,24.4 1 0
-github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:24.9,26.4 1 0
+github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:26.73,30.9 4 0
+github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:30.9,33.27 3 0
+github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:33.27,41.4 1 0
+github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:41.9,43.4 1 0
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:29.78,38.22 8 1
-github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:38.22,43.48 4 1
-github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:43.48,58.40 12 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:38.22,43.91 4 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:43.91,58.40 12 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:58.40,71.22 12 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:71.22,78.6 6 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:79.10,79.26 1 1
@@ -16,6 +16,19 @@ github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:90.12,95.6 3 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:96.5,96.57 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:100.3,100.49 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:101.8,103.3 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:108.82,117.28 8 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:117.28,122.103 4 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:122.103,137.40 12 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:137.40,150.22 12 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:150.22,157.6 6 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:158.10,158.26 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:158.26,165.5 6 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:167.4,167.12 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:167.12,169.12 2 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:169.12,174.6 3 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:175.5,175.57 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:179.3,179.49 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:180.8,182.3 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:35.75,39.9 4 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:39.9,42.51 3 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:42.51,54.4 6 1

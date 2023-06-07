@@ -31,14 +31,14 @@ const (
 	googleOAuth2DefaultRedirectURL = "https://localhost:8080/signin-google/callback"
 	googleOAuth2UserInfoURL        = "https://www.googleapis.com/oauth2/v2/userinfo?alt=json"
 	googleScope                    = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid"
-	//State for linkedIn calls
-	googleState = "ieridf7fsf6dfs65775"
+	//GoogleState for google calls
+	GoogleState = "ieridf7fsf6dfs65775"
 )
 
 // GoogleUserInfoResponse GoogleUserInfoResponse
 type GoogleUserInfoResponse struct {
-	Sub           string `json:"sub"`
-	EmailVerified bool   `json:"email_verified"`
+	Sub           string `json:"id"`
+	EmailVerified bool   `json:"verified_email"`
 	FirstName     string `json:"given_name"`
 	LastName      string `json:"family_name"`
 	Email         string `json:"email"`
@@ -84,9 +84,11 @@ func (s *GoogleSignin) SetProxy(p px.Proxy) {
 // Authorization LinkedIn Authorization
 func (s *GoogleSignin) Authorization(w http.ResponseWriter, r *http.Request) {
 	//var rtn Response
-	var aURL = s.AuthURL + "?response_type=code&client_id=" +
-		s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + State +
-		"&scope=" + scope
+	var aURL = s.AuthURL + "?scope=" + googleScope + "&" + "response_type=code" +
+		"&state=" + GoogleState + "&redirect_uri=" + s.RedirectURI + "&client_id=" + s.ClientID
+	// var aURL = s.AuthURL + "?response_type=code&client_id=" +
+	// 	s.ClientID + "&redirect_uri=" + s.RedirectURI + "&state=" + State +
+	// 	"&scope=" + scope
 	s.Log.Debug("url: ", aURL)
 	http.Redirect(w, r, aURL, http.StatusFound)
 }
@@ -94,11 +96,13 @@ func (s *GoogleSignin) Authorization(w http.ResponseWriter, r *http.Request) {
 // AccessToken LinkedIn AccessToken
 func (s *GoogleSignin) AccessToken(code string) *TokenResponse {
 	var rtn TokenResponse
+	ucode, _ := url.PathUnescape(code)
+	s.Log.Debug(ucode)
 	var tURL = s.TokenURL
 	s.Log.Debug("url: ", tURL)
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
-	data.Set("code", code)
+	data.Set("code", ucode)
 	data.Set("client_id", s.ClientID)
 	data.Set("client_secret", s.ClientSecret)
 	data.Set("redirect_uri", s.RedirectURI)
@@ -114,7 +118,7 @@ func (s *GoogleSignin) AccessToken(code string) *TokenResponse {
 
 // GetUserInfo GetUserInfo
 func (s *GoogleSignin) GetUserInfo(tk string) any {
-	var rtn UserInfoResponse
+	var rtn GoogleUserInfoResponse
 	var uiURL = s.UserInfoURL
 	s.Log.Debug("uiURL: ", uiURL)
 

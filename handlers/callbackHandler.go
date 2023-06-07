@@ -103,3 +103,82 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+// GoogleSigninCallback GoogleSigninCallback
+func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request) {
+	h.setContentType(w)
+	h.Log.Debug("in GoogleSigninCallback callback")
+
+	state := r.URL.Query().Get("state")
+	code := r.URL.Query().Get("code")
+	si := h.Signins["googleOAuth2"]
+	h.Log.Debug("state: ", state)
+	h.Log.Debug("code: ", code)
+	if s.GoogleState == state {
+		tk := si.AccessToken(code)
+		h.Log.Debug("token: ", tk.AccessToken)
+		//get userinfo from linkedin
+		uiRes := si.GetUserInfo(tk.AccessToken)
+		if uiRes.(*s.GoogleUserInfoResponse).EmailVerified && uiRes.(*s.GoogleUserInfoResponse).Email != "" {
+			uemail := uiRes.(*s.GoogleUserInfoResponse).Email
+			fname := uiRes.(*s.GoogleUserInfoResponse).FirstName
+			lname := uiRes.(*s.GoogleUserInfoResponse).LastName
+			picture := uiRes.(*s.GoogleUserInfoResponse).PictureURL
+
+			h.Log.Debug("uemail: ", uemail)
+			h.Log.Debug("fname: ", fname)
+			h.Log.Debug("lname: ", lname)
+			h.Log.Debug("picture: ", picture)
+			h.Log.Debug("token: ", tk.AccessToken)
+
+			var usuc bool
+			//save to db in service
+			user := h.Delegate.GetUser(uemail)
+			if !user.Active && user.Email == "" {
+				// usuc = true
+				h.Log.Debug("create new user: ", uemail)
+				role := h.Delegate.GetRole(del.UserRole)
+				var nusr del.User
+				nusr.Active = true
+				nusr.Email = uemail
+				nusr.FirstName = fname
+				nusr.LastName = lname
+				nusr.RoleID = role.ID
+				image := si.GetUserPicture(picture)
+				nusr.Image = image
+				adusr := h.Delegate.AddUser(&nusr)
+				if adusr.Success {
+					usuc = true
+					var usauth del.UserAuth
+					usauth.AuthType = "GoogleOAuth2"
+					usauth.Entered = time.Now()
+					usauth.UserID = adusr.ID
+					h.Delegate.AddUserAuth(&usauth)
+				}
+			} else if user.Active {
+				usuc = true
+				var usauth del.UserAuth
+				usauth.AuthType = "GoogleOAuth2"
+				usauth.Entered = time.Now()
+				usauth.UserID = user.ID
+				h.Delegate.AddUserAuth(&usauth)
+			}
+
+			if usuc {
+				sec, suc := h.getSession(r)
+				if suc {
+					sec.Set("loggedIn", true)
+					serr := sec.Save(w)
+					h.Log.Debug("serr", serr)
+
+				}
+				h.Log.Debug("session suc in linkedIn callback", suc)
+			}
+
+		}
+		http.Redirect(w, r, indexRt, http.StatusFound)
+	} else {
+		http.Redirect(w, r, loginRt, http.StatusFound)
+	}
+
+}
