@@ -26,7 +26,7 @@ github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:158.26,165.5 6 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:167.4,167.12 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:167.12,169.12 2 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:169.12,174.6 3 1
-github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:175.5,175.57 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:175.5,175.55 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:179.3,179.49 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/callbackHandler.go:180.8,182.3 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:35.75,39.9 4 1
@@ -35,6 +35,8 @@ github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:42.51,54.4 6 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:54.9,56.4 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:61.71,65.37 3 1
 github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:65.37,75.3 3 1
+github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:75.8,75.42 1 0
+github.com/Ulbora/go-micro-blog-ui/handlers/loginHandler.go:75.42,85.3 3 0
 github.com/Ulbora/go-micro-blog-ui/handlers/mcHandler.go:53.35,55.2 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/mcHandler.go:57.57,62.24 5 1
 github.com/Ulbora/go-micro-blog-ui/handlers/mcHandler.go:62.24,64.3 1 1

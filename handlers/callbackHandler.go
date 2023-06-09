@@ -172,7 +172,7 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 					h.Log.Debug("serr", serr)
 
 				}
-				h.Log.Debug("session suc in linkedIn callback", suc)
+				h.Log.Debug("session suc in google callback", suc)
 			}
 
 		}

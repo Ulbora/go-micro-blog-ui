@@ -28,7 +28,7 @@ import (
 const (
 	googleOAuth2DefaultAuthURL     = "https://accounts.google.com/o/oauth2/v2/auth"
 	googleOAuth2DefaultTokenURL    = "https://oauth2.googleapis.com/token"
-	googleOAuth2DefaultRedirectURL = "https://localhost:8080/signin-google/callback"
+	googleOAuth2DefaultRedirectURL = "http://localhost:8080/signin-google/callback"
 	googleOAuth2UserInfoURL        = "https://www.googleapis.com/oauth2/v2/userinfo?alt=json"
 	googleScope                    = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid"
 	//GoogleState for google calls

@@ -21,6 +21,7 @@ import "net/http"
 
 const (
 	linkedInSystem = "linkedIn"
+	googleOAuth2   = "googleOAuth2"
 
 	//pages
 	loginPage    = "login.html"

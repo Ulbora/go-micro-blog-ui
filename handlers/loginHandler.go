@@ -72,5 +72,15 @@ func (h *MCHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		// } else {
 		// 	w.WriteHeader(http.StatusBadRequest)
 		// }
+	} else if signingSystem == googleOAuth2 {
+		h.Log.Debug("signingSystem: ", signingSystem)
+		si := h.Signins["googleOAuth2"]
+		si.Authorization(w, r)
+		// h.Log.Debug("res.Code in loginUser: ", res.Code)
+		// if res.Code == http.StatusOK {
+		// 	w.WriteHeader(http.StatusOK)
+		// } else {
+		// 	w.WriteHeader(http.StatusBadRequest)
+		// }
 	}
 }

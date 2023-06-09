@@ -24,6 +24,8 @@ func main() {
 	var restURL string
 	var apiKey string
 	var apiAdminKey string
+	// var linkedInSigninRedirectURL string
+	// var googleSigninRedirectURL string
 
 	if os.Getenv("SECRET_SESSION_KEY") != "" {
 		secretSessionKey = os.Getenv("SECRET_SESSION_KEY")
@@ -106,20 +108,28 @@ func main() {
 	if os.Getenv("LINKED_IN_CLIENT_ID") != "" {
 		linkedInClientID := os.Getenv("LINKED_IN_CLIENT_ID")
 		linkedInClientSecret := os.Getenv("LINKED_IN_CLIENT_SECRET")
+		linkedInRedirectURL := os.Getenv("LINKED_IN_SIGNIN_REDIRECT_URL")
 		var lsgn s.LinkedInSignin
 		lsgn.Log = log
 		lsgn.ClientID = linkedInClientID
 		lsgn.ClientSecret = linkedInClientSecret
+		if linkedInRedirectURL != "" {
+			lsgn.RedirectURI = linkedInRedirectURL
+		}
 		signinMap["linkedIn"] = lsgn.New()
 		sh.Log.Info("clientId: ", linkedInClientID)
 	}
 	if os.Getenv("GOOGLE_CLIENT_ID") != "" {
 		googleOAuth2ClientID := os.Getenv("GOOGLE_CLIENT_ID")
 		googleOAuth2ClientSecret := os.Getenv("GOOGLE_CLIENT_SECRET")
+		googleRedirectURL := os.Getenv("GOOGLE_SIGNIN_REDIRECT_URL")
 		var glsgn s.GoogleSignin
 		glsgn.Log = log
 		glsgn.ClientID = googleOAuth2ClientID
 		glsgn.ClientSecret = googleOAuth2ClientSecret
+		if googleRedirectURL != "" {
+			glsgn.RedirectURI = googleRedirectURL
+		}
 		signinMap["googleOAuth2"] = glsgn.New()
 		sh.Log.Info("clientId: ", googleOAuth2ClientID)
 	}
@@ -152,7 +162,7 @@ func main() {
 	}
 
 	router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
-	router.HandleFunc("/signin-google/callback", h.LinkedInCallback).Methods("GET")
+	router.HandleFunc("/signin-google/callback", h.GoogleSigninCallback).Methods("GET")
 	router.HandleFunc("/login", h.LoginUserPage).Methods("GET")
 	router.HandleFunc("/loginUser/{signingSystem}", h.LoginUser).Methods("GET")
 	router.HandleFunc("/", h.GetBlogList).Methods("GET")
