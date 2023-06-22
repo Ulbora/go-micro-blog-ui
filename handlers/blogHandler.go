@@ -20,7 +20,22 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"sync"
+
+	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
 )
+
+// Blog Blog
+type Blog struct {
+	Blog       *mcd.Blog
+	CommentCnt int
+	LikeCnt    int
+}
+
+// BlogPage BlogPage
+type BlogPage struct {
+	BlogList *[]Blog
+}
 
 // GetBlogList GetBlogList
 func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
@@ -31,13 +46,55 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
 		if loggedInAuth == true {
+			blogList := h.Delegate.GetBlogList(0, 100)
+			h.Log.Debug("blogCnt: ", len(*blogList))
+			var bp BlogPage
+			var blst []Blog
+			for i := range *blogList {
+				var wg sync.WaitGroup
+				var bb Blog
+				bb.Blog = &(*blogList)[i]
+				//var ccnt int
+				//var lcnt int
+				wg.Add(1)
+				go func(bbb *Blog) {
+					// wg.Add(1)
+					defer wg.Done()
+					cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, 1000)
+					h.Log.Debug("commentCnt: ", len(*cl))
+					// bb.CommentCnt = len(*cl)
+					//ccnt = len(*cl)
+					bbb.CommentCnt = len(*cl)
+
+				}(&bb)
+				wg.Add(1)
+				go func(bbb *Blog) {
+					// wg.Add(1)
+					defer wg.Done()
+					ll := h.Delegate.ViewLikes(bbb.Blog.ID)
+					h.Log.Debug("likeCnt: ", len(*ll))
+					// bb.LikeCnt = len(*ll)
+					bbb.LikeCnt = len(*ll)
+				}(&bb)
+
+				wg.Wait()
+				h.Log.Debug("after wait: for ", i)
+				// h.Log.Debug("comments : ", ccnt)
+				// h.Log.Debug("likes : ", lcnt)
+				// bb.CommentCnt = ccnt
+				// bb.LikeCnt = lcnt
+
+				blst = append(blst, bb)
+				h.Log.Debug("blog: ", bb)
+			}
+			bp.BlogList = &blst
 			//h.Log.Debug("template: ", h.AdminTemplates)
 			//res := h.Service.GetContentList(false)
 			// sort.Slice(*res, func(p, q int) bool {
 			// 	return (*res)[p].Title < (*res)[q].Title
 			// })
 			// h.Log.Debug("content in admin index sorted: ", *res)
-			h.Templates.ExecuteTemplate(w, blogListPage, nil)
+			h.Templates.ExecuteTemplate(w, blogListPage, &bp)
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}

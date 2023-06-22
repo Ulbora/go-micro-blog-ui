@@ -89,6 +89,7 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 				sec, suc := h.getSession(r)
 				if suc {
 					sec.Set("loggedIn", true)
+					sec.Set("userEmail", uemail)
 					serr := sec.Save(w)
 					h.Log.Debug("serr", serr)
 
@@ -168,6 +169,7 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 				sec, suc := h.getSession(r)
 				if suc {
 					sec.Set("loggedIn", true)
+					sec.Set("userEmail", uemail)
 					serr := sec.Save(w)
 					h.Log.Debug("serr", serr)
 
