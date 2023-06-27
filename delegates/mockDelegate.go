@@ -13,6 +13,12 @@ type MockDelegate struct {
 
 	AddUserAuthID      int64
 	AddUserAuthSuccess bool
+
+	MockBlogList *[]Blog
+
+	MockCommentList *[]Comment
+
+	MockLikeList *[]Like
 }
 
 // New New
@@ -130,7 +136,7 @@ func (d *MockDelegate) GetBlogByName(name string, start int64, end int64) *[]Blo
 
 // GetBlogList GetBlogList
 func (d *MockDelegate) GetBlogList(start int64, end int64) *[]Blog {
-	return nil
+	return d.MockBlogList
 }
 
 // GetAdminBlogList GetAdminBlogList
@@ -160,7 +166,7 @@ func (d *MockDelegate) RemoveLike(l *Like) *Response {
 
 // ViewLikes ViewLikes
 func (d *MockDelegate) ViewLikes(bid int64) *[]Like {
-	return nil
+	return d.MockLikeList
 }
 
 // AddComment AddComment
@@ -175,7 +181,7 @@ func (d *MockDelegate) UpdateComment(c *Comment) *Response {
 
 // GetCommentList GetCommentList
 func (d *MockDelegate) GetCommentList(blogID int64, start int64, end int64) *[]Comment {
-	return nil
+	return d.MockCommentList
 }
 
 // GetAdminCommentList GetAdminCommentList

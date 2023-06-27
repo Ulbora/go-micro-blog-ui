@@ -202,7 +202,7 @@ func TestMCHandler_LoginUser(t *testing.T) {
 		}`)),
 	}
 
-	var si2 s.LinkedInSignin
+	var si2 s.GoogleSignin
 	si2.ClientID = "12354"
 	si2.ClientSecret = "12345"
 	si2.Log = log
@@ -211,14 +211,14 @@ func TestMCHandler_LoginUser(t *testing.T) {
 	sii2.SetProxy(&p2)
 
 	var signinMap2 = make(map[string]s.Signin)
-	signinMap2["linkedIn"] = sii2
+	signinMap2["googleOAuth2"] = sii2
 
 	r2, _ := http.NewRequest("GET", "/loginUser/linkedIn", nil)
 	vars2 := map[string]string{
-		"signingSystem": "linkedIn",
+		"signingSystem": "googleOAuth2",
 	}
 	r2 = mux.SetURLVars(r2, vars2)
-	//w2 := httptest.NewRecorder()
+	w2 := httptest.NewRecorder()
 
 	type fields struct {
 		Log            lg.Log
@@ -260,21 +260,21 @@ func TestMCHandler_LoginUser(t *testing.T) {
 			resCode: 302,
 			w:       w,
 		},
-		// {
-		// 	name: "test 2",
-		// 	fields: fields{
-		// 		Log:     log,
-		// 		Signins: signinMap2,
-		// 		//SessionManager: sessionManager,
-		// 		Templates: template.Must(template.ParseFiles("testHtmls/test.html")),
-		// 	},
-		// 	args: args{
-		// 		r: r2,
-		// 		w: w2,
-		// 	},
-		// 	resCode: 400,
-		// 	w:       w2,
-		// },
+		{
+			name: "test 2",
+			fields: fields{
+				Log:     log,
+				Signins: signinMap2,
+				//SessionManager: sessionManager,
+				Templates: template.Must(template.ParseFiles("testHtmls/test.html")),
+			},
+			args: args{
+				r: r2,
+				w: w2,
+			},
+			resCode: 302,
+			w:       w2,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
