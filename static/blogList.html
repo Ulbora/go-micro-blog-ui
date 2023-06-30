@@ -4,19 +4,14 @@
     {{template "user-navbar" .}}
     <body style="background-color:rgb(244, 242, 242)">
         <div class="container">
-            <h1 class="" style="width: 100%; text-align: center; margin: 12% 0 0 0; ">{{.Title}}</h1>
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
             <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
             {{range .BlogList}}
             <div class="border mb-2" style="background-color: white;">
                 <div class="card" style="width: 18rem; border: none;">
                     <div class="row g-0">
                         <div class="col-md-2">
-                            <img
-                                src="data:image/jpeg;base64,{{.UserImage}}"
-                                class="card-img-top"
-                                alt="..."
-                                style="max-width: 40%;"
-                            >
+                            <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top profile-photo" alt="...">
                         </div>
                         <div class="col-md-10 pt-0 mt-0">
                             <div class="card-body pt-0 mt-0">
