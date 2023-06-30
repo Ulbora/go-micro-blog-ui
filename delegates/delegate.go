@@ -31,6 +31,7 @@ type Delegate interface {
 	AddUser(u *User) *ResponseID
 	UpdateUser(u *User) *Response
 	GetUser(email string) *User
+	GetUserByID(id int64) *User
 	GetUserList() *[]User
 	GetUnActivatedUserList() *[]User
 	GetBannedUserList() *[]User

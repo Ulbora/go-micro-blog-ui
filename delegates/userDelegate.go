@@ -3,6 +3,7 @@ package delegates
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
 /*
@@ -60,6 +61,19 @@ func (d *MCDelegate) UpdateUser(u *User) *Response {
 func (d *MCDelegate) GetUser(email string) *User {
 	var rtn User
 	rq, err := d.buildRequest(http.MethodGet, "/rs/user/get/"+email, nil, apiKey)
+	if err == nil {
+		gsuc, stat := d.proxy.Do(rq, &rtn)
+		d.Log.Debug("suc: ", gsuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &rtn
+}
+
+// GetUserByID GetUserByID
+func (d *MCDelegate) GetUserByID(id int64) *User {
+	var rtn User
+	uidStr := strconv.FormatInt(id, 10)
+	rq, err := d.buildRequest(http.MethodGet, "/rs/user/get/id/"+uidStr, nil, apiKey)
 	if err == nil {
 		gsuc, stat := d.proxy.Do(rq, &rtn)
 		d.Log.Debug("suc: ", gsuc)

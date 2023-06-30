@@ -234,6 +234,82 @@ func TestMCDelegate_GetUser(t *testing.T) {
 	}
 }
 
+
+func TestMCDelegate_GetUserByID(t *testing.T) {
+	// var proxy px.GoProxy
+
+	var proxy px.MockGoProxy
+	proxy.MockDoSuccess1 = true
+	proxy.MockResp = &http.Response{
+		Status:     "200",
+		StatusCode: 200,
+		Body:       ioutil.NopCloser(bytes.NewBufferString(`{"id":17, "email":"test1234@test.com"}`)),
+	}
+	proxy.MockRespCode = 200
+
+	var l lg.Logger
+	log := l.New()
+	log.SetLogLevel(lg.AllLevel)
+
+	type fields struct {
+		proxy       px.Proxy
+		Log         lg.Log
+		RestURL     string
+		APIKey      string
+		APIAdminKey string
+	}
+	type args struct {
+		id int64
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *User
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				proxy:       proxy.New(),
+				Log:         log,
+				RestURL:     "http://localhost:3000",
+				APIAdminKey: "54211789991515",
+				APIKey:      "557444414141",
+			},
+			args: args{
+				id: 17,
+			},
+			want: &User{
+				ID:        17,
+				Email:     "test1234@test.com",
+				FirstName: "test",
+				LastName:  "test1231231235",
+				RoleID:    1,
+				Active:    true,
+				Password:  "",
+				Image:     nil,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MCDelegate{
+				proxy:       tt.fields.proxy,
+				Log:         tt.fields.Log,
+				RestURL:     tt.fields.RestURL,
+				APIKey:      tt.fields.APIKey,
+				APIAdminKey: tt.fields.APIAdminKey,
+			}
+			if got := d.GetUserByID(tt.args.id); got.Email != tt.want.Email ||
+			got.ID != tt.want.ID {
+				t.Errorf("MCDelegate.GetUserByID() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+
 func TestMCDelegate_GetUserList(t *testing.T) {
 
 	// var proxy px.GoProxy
@@ -365,13 +441,12 @@ func TestMCDelegate_GetUnActivatedUserList(t *testing.T) {
 				APIKey:      tt.fields.APIKey,
 				APIAdminKey: tt.fields.APIAdminKey,
 			}
-			if got := d.GetUnActivatedUserList(); len(*got) != tt.wantLen{
+			if got := d.GetUnActivatedUserList(); len(*got) != tt.wantLen {
 				t.Errorf("MCDelegate.GetUnActivatedUserList() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
-
 
 func TestMCDelegate_GetBannedUserList(t *testing.T) {
 
@@ -435,7 +510,7 @@ func TestMCDelegate_GetBannedUserList(t *testing.T) {
 				APIKey:      tt.fields.APIKey,
 				APIAdminKey: tt.fields.APIAdminKey,
 			}
-			if got := d.GetBannedUserList(); len(*got) != tt.wantLen{
+			if got := d.GetBannedUserList(); len(*got) != tt.wantLen {
 				t.Errorf("MCDelegate.GetUnActivatedUserList() = %v, want %v", got, tt.want)
 			}
 		})
@@ -590,8 +665,6 @@ func TestMCDelegate_DisableUser(t *testing.T) {
 	}
 }
 
-
-
 func TestMCDelegate_DisableUserForCause(t *testing.T) {
 
 	// var proxy px.GoProxy
@@ -665,8 +738,6 @@ func TestMCDelegate_DisableUserForCause(t *testing.T) {
 		})
 	}
 }
-
-
 
 func TestMCDelegate_ReactivateUser(t *testing.T) {
 

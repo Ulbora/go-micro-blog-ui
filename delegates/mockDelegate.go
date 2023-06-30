@@ -49,6 +49,15 @@ func (d *MockDelegate) GetUser(email string) *User {
 
 }
 
+// GetUserByID GetUserByID
+func (d *MockDelegate) GetUserByID(id int64) *User {
+	var rtn User
+	rtn.Active = d.GetUserActive
+	rtn.Email = d.GetUserEmail
+	return &rtn
+
+}
+
 // GetUserList GetUserList
 func (d *MockDelegate) GetUserList() *[]User {
 	return nil

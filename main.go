@@ -137,7 +137,7 @@ func main() {
 	sh.Signins = signinMap
 
 	sh.Templates = template.Must(template.ParseFiles("./static/login.html",
-		"./static/blogList.html", "./static/header.html"))
+		"./static/blogList.html", "./static/header.html", "./static/user-nav.html"))
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html"))

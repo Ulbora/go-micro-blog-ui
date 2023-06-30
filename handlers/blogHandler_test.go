@@ -106,6 +106,9 @@ func TestMCHandler_GetBlogList(t *testing.T) {
 	lkl = append(lkl, l2)
 	mcdel.MockLikeList = &lkl
 
+	mcdel.GetUserActive = true
+	mcdel.GetUserEmail = "test@test.com"
+
 	type fields struct {
 		Log            lg.Log
 		Manager        m.Manager
