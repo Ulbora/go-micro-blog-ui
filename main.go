@@ -137,7 +137,8 @@ func main() {
 	sh.Signins = signinMap
 
 	sh.Templates = template.Must(template.ParseFiles("./static/login.html",
-		"./static/blogList.html", "./static/header.html", "./static/user-nav.html"))
+		"./static/blogList.html", "./static/header.html", "./static/user-nav.html",
+		"./static/addBlog.html"))
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html"))
@@ -166,6 +167,7 @@ func main() {
 	router.HandleFunc("/login", h.LoginUserPage).Methods("GET")
 	router.HandleFunc("/loginUser/{signingSystem}", h.LoginUser).Methods("GET")
 	router.HandleFunc("/", h.GetBlogList).Methods("GET")
+	router.HandleFunc("/newPost", h.AddBlogPage).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

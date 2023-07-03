@@ -26,6 +26,7 @@ const (
 	//pages
 	loginPage    = "login.html"
 	blogListPage = "blogList.html"
+	addBlogPage  = "addBlog.html"
 
 	//routes
 	indexRt = "/"
@@ -82,7 +83,7 @@ type Handler interface {
 	// //=====GetUser(w http.ResponseWriter, r *http.Request)
 
 	// //user blog
-	// AddBlogPage(w http.ResponseWriter, r *http.Request)
+	AddBlogPage(w http.ResponseWriter, r *http.Request)
 	// AddBlog(w http.ResponseWriter, r *http.Request)
 	// UpdateBlogPage(w http.ResponseWriter, r *http.Request)
 	// UpdateBlog(w http.ResponseWriter, r *http.Request)

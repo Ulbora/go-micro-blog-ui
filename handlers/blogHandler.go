@@ -44,6 +44,13 @@ type BlogPage struct {
 	BlogList *[]Blog
 }
 
+// AddBlogPageData AddBlogPageData
+type AddBlogPageData struct {
+	Title    string
+	Desc     string
+	KeyWords string
+}
+
 // GetBlogList GetBlogList
 func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in GetBlogList")
@@ -120,6 +127,32 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 			h.Templates.ExecuteTemplate(w, blogListPage, &bp)
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
+}
+
+// AddBlogPage AddBlogPage
+func (h *MCHandler) AddBlogPage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in AddBlogPage")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		h.Log.Debug("loggedIn in AddBlog: ", loggedInAuth)
+		if loggedInAuth == true {
+			h.Log.Debug("template: ", h.Templates)
+			var pd AddBlogPageData
+			pd.Title = h.Title
+			pd.Desc = h.Desc
+			pd.KeyWords = h.KeyWords
+			//res := h.Service.GetContentList(false)
+			// sort.Slice(*res, func(p, q int) bool {
+			// 	return (*res)[p].Title < (*res)[q].Title
+			// })
+			// h.Log.Debug("content in admin index sorted: ", *res)
+			h.Templates.ExecuteTemplate(w, addBlogPage, &pd)
+		} else {
+			http.Redirect(w, r, indexRt, http.StatusFound)
 		}
 	}
 }
