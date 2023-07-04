@@ -84,7 +84,7 @@ type Handler interface {
 
 	// //user blog
 	AddBlogPage(w http.ResponseWriter, r *http.Request)
-	// AddBlog(w http.ResponseWriter, r *http.Request)
+	AddBlog(w http.ResponseWriter, r *http.Request)
 	// UpdateBlogPage(w http.ResponseWriter, r *http.Request)
 	// UpdateBlog(w http.ResponseWriter, r *http.Request)
 	// GetBlog(w http.ResponseWriter, r *http.Request)

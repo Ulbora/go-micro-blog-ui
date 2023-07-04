@@ -168,6 +168,7 @@ func main() {
 	router.HandleFunc("/loginUser/{signingSystem}", h.LoginUser).Methods("GET")
 	router.HandleFunc("/", h.GetBlogList).Methods("GET")
 	router.HandleFunc("/newPost", h.AddBlogPage).Methods("GET")
+	router.HandleFunc("/addPost", h.AddBlog).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

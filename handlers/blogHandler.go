@@ -19,8 +19,10 @@ package handlers
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 	"sync"
+	"time"
 
 	b64 "encoding/base64"
 
@@ -30,6 +32,7 @@ import (
 // Blog Blog
 type Blog struct {
 	Blog       *mcd.Blog
+	TextHTML   template.HTML
 	User       *mcd.User
 	UserImage  string
 	CommentCnt int
@@ -46,9 +49,10 @@ type BlogPage struct {
 
 // AddBlogPageData AddBlogPageData
 type AddBlogPageData struct {
-	Title    string
-	Desc     string
-	KeyWords string
+	Title     string
+	Desc      string
+	KeyWords  string
+	UserEmail string
 }
 
 // GetBlogList GetBlogList
@@ -71,6 +75,12 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				var wg sync.WaitGroup
 				var bb Blog
 				bb.Blog = &(*blogList)[i]
+				txt, err := b64.StdEncoding.DecodeString(bb.Blog.Content)
+				if err == nil {
+					bb.Blog.Content = string(txt)
+					bb.TextHTML = template.HTML(bb.Blog.Content)
+					h.Log.Debug("TextHTML: ", bb.TextHTML)
+				}
 				//var ccnt int
 				//var lcnt int
 				wg.Add(1)
@@ -115,7 +125,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				// bb.LikeCnt = lcnt
 
 				blst = append(blst, bb)
-				h.Log.Debug("blog: ", bb)
+				// h.Log.Debug("blog: ", bb)
 			}
 			bp.BlogList = &blst
 			//h.Log.Debug("template: ", h.AdminTemplates)
@@ -145,6 +155,11 @@ func (h *MCHandler) AddBlogPage(w http.ResponseWriter, r *http.Request) {
 			pd.Title = h.Title
 			pd.Desc = h.Desc
 			pd.KeyWords = h.KeyWords
+			uemail := s.Get("userEmail")
+			if uemail != nil {
+				pd.UserEmail = uemail.(string)
+			}
+
 			//res := h.Service.GetContentList(false)
 			// sort.Slice(*res, func(p, q int) bool {
 			// 	return (*res)[p].Title < (*res)[q].Title
@@ -155,4 +170,46 @@ func (h *MCHandler) AddBlogPage(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, indexRt, http.StatusFound)
 		}
 	}
+}
+
+// AddBlog AddBlog
+func (h *MCHandler) AddBlog(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in AddBlog")
+	name := r.FormValue("name")
+	h.Log.Debug("name in addBlog: ", name)
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		h.Log.Debug("loggedIn in addBlog: ", loggedInAuth)
+		if loggedInAuth == true {
+			email, blog := h.processBlog(r)
+			h.Log.Debug("email in addBlog: ", email)
+			h.Log.Debug("name in addBlog name: ", blog.Name)
+			h.Log.Debug("blog in addBlog content: ", blog.Content)
+			u := h.Delegate.GetUser(email)
+			blog.UserID = u.ID
+			res := h.Delegate.AddBlog(blog)
+			h.Log.Debug("addBlog success: ", res.Success)
+			h.Log.Debug("addBlog code: ", res.Code)
+			http.Redirect(w, r, indexRt, http.StatusFound)
+
+		} else {
+			http.Redirect(w, r, indexRt, http.StatusFound)
+		}
+	}
+}
+
+func (h *MCHandler) processBlog(r *http.Request) (string, *mcd.Blog) {
+	var rtn mcd.Blog
+	name := r.FormValue("name")
+	email := r.FormValue("userEmail")
+	content := r.FormValue("content")
+	h.Log.Debug("name in processBlog: ", r.FormValue("name"))
+
+	rtn.Content = b64.StdEncoding.EncodeToString([]byte(content))
+	rtn.Name = name
+	rtn.Entered = time.Now()
+
+	return email, &rtn
 }
