@@ -91,7 +91,7 @@ type Handler interface {
 	// GetBlogByName(w http.ResponseWriter, r *http.Request)
 	GetBlogList(w http.ResponseWriter, r *http.Request)
 
-	// AddLike(w http.ResponseWriter, r *http.Request)
+	AddLike(w http.ResponseWriter, r *http.Request)
 	// RemoveLike(w http.ResponseWriter, r *http.Request)
 	// ViewLikes(w http.ResponseWriter, r *http.Request)
 

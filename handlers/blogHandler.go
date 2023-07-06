@@ -21,12 +21,18 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
 	b64 "encoding/base64"
 
 	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
+)
+
+const (
+	stripOut  = "<input type=\"text\" data-formula=\"e=mc^2\" data-link=\"https://quilljs.com\" data-video=\"Embed URL\" placeholder=\"Embed URL\">"
+	stripOut2 = "<input type=\"text\" data-formula=\"e=mc^2\" data-link=\"https://quilljs.com\" data-video=\"Embed URL\">"
 )
 
 // Blog Blog
@@ -78,7 +84,10 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				txt, err := b64.StdEncoding.DecodeString(bb.Blog.Content)
 				if err == nil {
 					bb.Blog.Content = string(txt)
+					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut, "", -1)
+					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut2, "", -1)
 					bb.TextHTML = template.HTML(bb.Blog.Content)
+					//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
 					h.Log.Debug("TextHTML: ", bb.TextHTML)
 				}
 				//var ccnt int
@@ -109,7 +118,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 					// wg.Add(1)
 					defer wg.Done()
 					u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
-					//h.Log.Debug("commentCnt: ", )
+					h.Log.Debug("get user: ")
 					// bb.CommentCnt = len(*cl)
 					//ccnt = len(*cl)
 					bbb.User = u1
@@ -118,7 +127,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				}(&bb)
 
 				wg.Wait()
-				h.Log.Debug("after wait: for ", i)
+				// h.Log.Debug("after wait: for ", i)
 				// h.Log.Debug("comments : ", ccnt)
 				// h.Log.Debug("likes : ", lcnt)
 				// bb.CommentCnt = ccnt
@@ -128,6 +137,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				// h.Log.Debug("blog: ", bb)
 			}
 			bp.BlogList = &blst
+			h.Log.Debug("after all waits")
 			//h.Log.Debug("template: ", h.AdminTemplates)
 			//res := h.Service.GetContentList(false)
 			// sort.Slice(*res, func(p, q int) bool {

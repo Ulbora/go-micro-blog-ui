@@ -42,3 +42,71 @@
         max-width: 10%;
     }
 }
+
+.icons-desp{
+    max-width: 5%;
+}
+
+.like-comment-link{
+    color: black;
+}
+.like-comment-link a{
+    color: black;
+}
+
+.like-comment-link a:link {
+    color: black;
+    text-decoration: none;
+}
+  
+  /* visited link */
+.like-comment-link a:visited {
+    color: black;
+    text-decoration: none;
+}
+  
+  /* mouse over link */
+.like-comment-link a:hover {
+    color: red;
+    text-decoration: none;
+}
+  
+  /* selected link */
+.like-comment-link a:active {
+    color: black;
+    text-decoration: none;
+}
+
+
+
+.post-link{
+    color: black;
+}
+.post-link a{
+    color: black;
+    text-decoration: none;
+}
+
+
+.post-link a:link {
+    color: black;
+    text-decoration: none;
+}
+  
+  /* visited link */
+.post-link a:visited {
+    color: red;
+    text-decoration: none;
+}
+  
+  /* mouse over link */
+.post-link a:hover {
+    color: black;
+    text-decoration: none;
+}
+  
+  /* selected link */
+.post-link a:active {
+    color: black;
+    text-decoration: none;
+}

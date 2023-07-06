@@ -169,6 +169,7 @@ func main() {
 	router.HandleFunc("/", h.GetBlogList).Methods("GET")
 	router.HandleFunc("/newPost", h.AddBlogPage).Methods("GET")
 	router.HandleFunc("/addPost", h.AddBlog).Methods("POST")
+	router.HandleFunc("/addLike/{bid}", h.AddLike).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

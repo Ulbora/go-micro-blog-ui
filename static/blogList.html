@@ -25,13 +25,32 @@
                         <h4>{{.Blog.Name}}</h4>
                     </div>
                 </div>
-                <div class="row mt-1 mb-5">
-                    <div class="col-12 text-center">
-                        {{.TextHTML}}
+                <a href="/viewPost/{{.Blog.ID}}">
+                    <div class="row mt-1 mb-5 post-link">
+                        <div class="col-12 text-center">
+                            {{.TextHTML}}
+                        </div>
+                    </div>
+                </a>
+                <div class="container text-center mb-3">
+                    <div class="row align-items-start">
+                        <div class="col like-comment-link">
+                            <a href="/addLike/{{.Blog.ID}}">
+                                <img src="../images/like.png" class="card-img-top icons-desp" alt="...">
+                                Like
+                            </a>
+                            {{.LikeCnt}}
+                        </div>
+                        <div class="col like-comment-link">
+                            <a href="/viewPost/{{.Blog.ID}}">
+                                <img src="../images/comment.png" class="card-img-top icons-desp" alt="...">
+                                Comment
+                            </a>
+                            {{.CommentCnt}}
+                        </div>
                     </div>
                 </div>
             </div>
             {{end}}
-        </div>
-    </body>
-</html>
+        </body>
+    </html>
