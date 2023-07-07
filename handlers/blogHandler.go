@@ -33,6 +33,8 @@ import (
 const (
 	stripOut  = "<input type=\"text\" data-formula=\"e=mc^2\" data-link=\"https://quilljs.com\" data-video=\"Embed URL\" placeholder=\"Embed URL\">"
 	stripOut2 = "<input type=\"text\" data-formula=\"e=mc^2\" data-link=\"https://quilljs.com\" data-video=\"Embed URL\">"
+	stripOut3 = "contenteditable=\"true\""
+	stripOut4 = "<input type=\"text\" data-formula=\"e=mc^2\" data-link=\"https://quilljs.com\" data-video=\"Embed URL\" placeholder=\"https://quilljs.com\">"
 )
 
 // Blog Blog
@@ -43,6 +45,7 @@ type Blog struct {
 	UserImage  string
 	CommentCnt int
 	LikeCnt    int
+	Liked      bool
 }
 
 // BlogPage BlogPage
@@ -86,6 +89,9 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 					bb.Blog.Content = string(txt)
 					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut, "", -1)
 					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut2, "", -1)
+					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut3, "", -1)
+					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut4, "", -1)
+
 					bb.TextHTML = template.HTML(bb.Blog.Content)
 					//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
 					h.Log.Debug("TextHTML: ", bb.TextHTML)
@@ -101,16 +107,22 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 					// bb.CommentCnt = len(*cl)
 					//ccnt = len(*cl)
 					bbb.CommentCnt = len(*cl)
-
+					h.Log.Debug("Comments Done: ")
 				}(&bb)
 				wg.Add(1)
 				go func(bbb *Blog) {
 					// wg.Add(1)
 					defer wg.Done()
 					ll := h.Delegate.ViewLikes(bbb.Blog.ID)
+					for _, l := range *ll {
+						if l.UserID == bbb.Blog.UserID {
+							bbb.Liked = true
+						}
+					}
 					h.Log.Debug("likeCnt: ", len(*ll))
 					// bb.LikeCnt = len(*ll)
 					bbb.LikeCnt = len(*ll)
+					h.Log.Debug("Views Done: ")
 				}(&bb)
 
 				wg.Add(1)
@@ -123,7 +135,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 					//ccnt = len(*cl)
 					bbb.User = u1
 					bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
-
+					h.Log.Debug("User Done: ")
 				}(&bb)
 
 				wg.Wait()
