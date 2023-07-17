@@ -21,12 +21,14 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
 
 	b64 "encoding/base64"
 
+	mux "github.com/GolangToolKits/grrt"
 	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
 )
 
@@ -39,13 +41,20 @@ const (
 
 // Blog Blog
 type Blog struct {
-	Blog       *mcd.Blog
-	TextHTML   template.HTML
-	User       *mcd.User
-	UserImage  string
-	CommentCnt int
-	LikeCnt    int
-	Liked      bool
+	Blog        *mcd.Blog
+	TextHTML    template.HTML
+	User        *mcd.User
+	UserImage   string
+	CommentCnt  int
+	CommentList *[]Comment
+	LikeCnt     int
+	Liked       bool
+}
+
+// Comment Comment
+type Comment struct {
+	Comment *mcd.Comment
+	User    *mcd.User
 }
 
 // BlogPage BlogPage
@@ -54,6 +63,8 @@ type BlogPage struct {
 	Desc     string
 	KeyWords string
 	BlogList *[]Blog
+	Blog     *Blog
+	MyEmail  string
 }
 
 // AddBlogPageData AddBlogPageData
@@ -79,6 +90,10 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 			bp.Title = h.Title
 			bp.Desc = h.Desc
 			bp.KeyWords = h.KeyWords
+			uemail := s.Get("userEmail")
+			if uemail != nil {
+				bp.MyEmail = uemail.(string)
+			}
 			var blst []Blog
 			for i := range *blogList {
 				var wg sync.WaitGroup
@@ -161,6 +176,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
 	}
+	//<object data="data:application/pdf;base64,YOURBASE64DATA" type="application/pdf"></object>
 }
 
 // AddBlogPage AddBlogPage
@@ -218,6 +234,104 @@ func (h *MCHandler) AddBlog(w http.ResponseWriter, r *http.Request) {
 
 		} else {
 			http.Redirect(w, r, indexRt, http.StatusFound)
+		}
+	}
+}
+
+// GetBlog GetBlog
+func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in GetBlogList")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in GetBlog", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
+		if loggedInAuth == true {
+			bvars := mux.Vars(r)
+			bidstr := bvars["bid"]
+			bid, _ := strconv.ParseInt(bidstr, 10, 64)
+			h.Log.Debug("shipment id in edit", bid)
+			var wg sync.WaitGroup
+			bg := h.Delegate.GetBlog(bid)
+
+			var bp BlogPage
+			bp.Title = h.Title
+			bp.Desc = h.Desc
+			bp.KeyWords = h.KeyWords
+			uemail := s.Get("userEmail")
+			if uemail != nil {
+				bp.MyEmail = uemail.(string)
+			}
+			var bb Blog
+			bb.Blog = bg
+			txt, err := b64.StdEncoding.DecodeString(bg.Content)
+			if err == nil {
+				bg.Content = string(txt)
+				bg.Content = strings.Replace(bg.Content, stripOut, "", -1)
+				bg.Content = strings.Replace(bg.Content, stripOut2, "", -1)
+				bg.Content = strings.Replace(bg.Content, stripOut3, "", -1)
+				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
+
+				bb.TextHTML = template.HTML(bg.Content)
+				//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
+				h.Log.Debug("TextHTML: ", bb.TextHTML)
+			}
+
+			bp.Blog = &bb
+			wg.Add(1)
+			go func(bbb *Blog) {
+				// wg.Add(1)
+				defer wg.Done()
+				cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, 1000)
+				h.Log.Debug("commentCnt: ", len(*cl))
+				// bb.CommentCnt = len(*cl)
+				//ccnt = len(*cl)
+				var cmtLst []Comment
+				for i := range *cl {
+					cmt := (*cl)[i]
+					var c Comment
+					c.Comment = &cmt
+					u1 := h.Delegate.GetUserByID(cmt.UserID)
+					c.User = u1
+					cmtLst = append(cmtLst, c)
+				}
+				bbb.CommentList = &cmtLst
+				bbb.CommentCnt = len(*cl)
+				h.Log.Debug("Comments Done: ")
+			}(&bb)
+
+			wg.Add(1)
+			go func(bbb *Blog) {
+				// wg.Add(1)
+				defer wg.Done()
+				u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
+				h.Log.Debug("get user: ")
+				// bb.CommentCnt = len(*cl)
+				//ccnt = len(*cl)
+				bbb.User = u1
+				bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
+				h.Log.Debug("User Done: ")
+			}(&bb)
+
+			// wg.Add(1)
+			// go func(bbb *Blog) {
+			// 	// wg.Add(1)
+			// 	defer wg.Done()
+			// 	u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
+			// 	h.Log.Debug("get user: ")
+			// 	// bb.CommentCnt = len(*cl)
+			// 	//ccnt = len(*cl)
+			// 	bbb.User = u1
+			// 	bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
+			// 	h.Log.Debug("User Done: ")
+			// }(&bb)
+
+			wg.Wait()
+
+			h.Templates.ExecuteTemplate(w, blogPage, &bp)
+
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
 	}
 }

@@ -26,11 +26,13 @@ const (
 	//pages
 	loginPage    = "login.html"
 	blogListPage = "blogList.html"
+	blogPage     = "blog.html"
 	addBlogPage  = "addBlog.html"
 
 	//routes
-	indexRt = "/"
-	loginRt = "/login"
+	indexRt  = "/"
+	loginRt  = "/login"
+	viewPost = "/viewPost/"
 )
 
 // Handler Handler
@@ -87,7 +89,7 @@ type Handler interface {
 	AddBlog(w http.ResponseWriter, r *http.Request)
 	// UpdateBlogPage(w http.ResponseWriter, r *http.Request)
 	// UpdateBlog(w http.ResponseWriter, r *http.Request)
-	// GetBlog(w http.ResponseWriter, r *http.Request)
+	GetBlog(w http.ResponseWriter, r *http.Request)
 	// GetBlogByName(w http.ResponseWriter, r *http.Request)
 	GetBlogList(w http.ResponseWriter, r *http.Request)
 
@@ -95,7 +97,8 @@ type Handler interface {
 	// RemoveLike(w http.ResponseWriter, r *http.Request)
 	// ViewLikes(w http.ResponseWriter, r *http.Request)
 
-	// AddComment(w http.ResponseWriter, r *http.Request)
+	// AddCommentPage(w http.ResponseWriter, r *http.Request)
+	AddComment(w http.ResponseWriter, r *http.Request)
 	// //maybe getcomment for update?
 	// GetComment(w http.ResponseWriter, r *http.Request)
 	// UpdateComment(w http.ResponseWriter, r *http.Request)

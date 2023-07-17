@@ -234,7 +234,6 @@ func TestMCDelegate_GetUser(t *testing.T) {
 	}
 }
 
-
 func TestMCDelegate_GetUserByID(t *testing.T) {
 	// var proxy px.GoProxy
 
@@ -302,13 +301,12 @@ func TestMCDelegate_GetUserByID(t *testing.T) {
 				APIAdminKey: tt.fields.APIAdminKey,
 			}
 			if got := d.GetUserByID(tt.args.id); got.Email != tt.want.Email ||
-			got.ID != tt.want.ID {
+				got.ID != tt.want.ID {
 				t.Errorf("MCDelegate.GetUserByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
-
 
 func TestMCDelegate_GetUserList(t *testing.T) {
 

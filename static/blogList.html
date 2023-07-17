@@ -52,6 +52,14 @@
                             </a>
                             {{.CommentCnt}}
                         </div>
+                        {{if eq .User.Email $.MyEmail}}
+                        <div class="col like-comment-link">
+                            <a href="/editPost/{{.Blog.ID}}">
+                                <img src="../images/edit.png" class="card-img-top icons-desp" alt="...">
+                                Edit
+                            </a>
+                        </div>
+                        {{end}}
                     </div>
                 </div>
             </div>

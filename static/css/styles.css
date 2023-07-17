@@ -110,3 +110,9 @@
     color: black;
     text-decoration: none;
 }
+
+.comment-form{
+    width: 80%;
+    margin: 0 10% 0 10%;
+    /* background: red; */
+}
