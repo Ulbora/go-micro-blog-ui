@@ -116,3 +116,26 @@
     margin: 0 10% 0 10%;
     /* background: red; */
 }
+
+
+.comment-photo{
+    max-width: 40%;
+}
+
+
+@media screen and (max-width: 1000px){
+    .comment-photo{
+        max-width: 30%;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .comment-photo{
+        max-width: 5%;
+    }
+}
+@media screen and (max-width: 600px){
+    .comment-photo{        
+        max-width: 5%;
+    }
+}

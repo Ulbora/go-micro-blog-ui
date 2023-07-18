@@ -26,6 +26,8 @@ type MockDelegate struct {
 	MockAddBlogRes *ResponseID
 
 	MockAddCommentRes *ResponseID
+
+	MockAddLikeRes *ResponseID
 }
 
 // New New
@@ -169,7 +171,7 @@ func (d *MockDelegate) DeActivateBlog(b *Blog) *Response {
 
 // AddLike AddLike
 func (d *MockDelegate) AddLike(l *Like) *ResponseID {
-	return nil
+	return d.MockAddLikeRes
 }
 
 // RemoveLike RemoveLike

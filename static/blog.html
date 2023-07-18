@@ -55,13 +55,27 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Post</button>
                 </form>
-                {{range .Blog.CommentList}}
-                <div class="row mt-1 mb-5 post-link">
-                    <div class="col-12 text-center">
-                        {{.Comment.Text}}
+                <div class="mb-2" style="width: 70%; margin: 0 0 0 15%;">
+                    {{range .Blog.CommentList}}
+                    <div class="card mt-1 mb-1" style="width: 100%; border: 1px solid;">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                                <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top comment-photo" alt="...">
+                            </div>
+                            <div class="col-md-10 pt-0 mt-0">
+                                <div class="card-body pt-0 mt-0">
+                                    <p class="card-text">{{.User.FirstName}} {{.User.LastName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-1 mb-5 post-link">
+                            <div class="col-12 text-center">
+                                {{.Comment.Text}}
+                            </div>
+                        </div>
                     </div>
+                    {{end}}
                 </div>
-                {{end}}
             </div>
         </body>
     </html>

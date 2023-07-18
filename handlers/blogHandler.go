@@ -53,8 +53,9 @@ type Blog struct {
 
 // Comment Comment
 type Comment struct {
-	Comment *mcd.Comment
-	User    *mcd.User
+	Comment   *mcd.Comment
+	User      *mcd.User
+	UserImage string
 }
 
 // BlogPage BlogPage
@@ -240,7 +241,7 @@ func (h *MCHandler) AddBlog(w http.ResponseWriter, r *http.Request) {
 
 // GetBlog GetBlog
 func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("in GetBlogList")
+	fmt.Println("in GetBlog")
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc in GetBlog", suc)
 	if suc {
@@ -250,7 +251,7 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 			bvars := mux.Vars(r)
 			bidstr := bvars["bid"]
 			bid, _ := strconv.ParseInt(bidstr, 10, 64)
-			h.Log.Debug("shipment id in edit", bid)
+			h.Log.Debug("blog id in edit", bid)
 			var wg sync.WaitGroup
 			bg := h.Delegate.GetBlog(bid)
 
@@ -293,6 +294,7 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 					c.Comment = &cmt
 					u1 := h.Delegate.GetUserByID(cmt.UserID)
 					c.User = u1
+					c.UserImage = b64.StdEncoding.EncodeToString(u1.Image)
 					cmtLst = append(cmtLst, c)
 				}
 				bbb.CommentList = &cmtLst
@@ -330,6 +332,65 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 
 			h.Templates.ExecuteTemplate(w, blogPage, &bp)
 
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
+}
+
+// UpdateBlogPage UpdateBlogPage
+func (h *MCHandler) UpdateBlogPage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in UpdateBlogPage")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in UpdateBlogPage", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
+		if loggedInAuth == true {
+			bvars := mux.Vars(r)
+			bidstr := bvars["bid"]
+			bid, _ := strconv.ParseInt(bidstr, 10, 64)
+			h.Log.Debug("blog id in edit", bid)
+			//var wg sync.WaitGroup
+			bg := h.Delegate.GetBlog(bid)
+
+			var bp BlogPage
+			bp.Title = h.Title
+			bp.Desc = h.Desc
+			bp.KeyWords = h.KeyWords
+			uemail := s.Get("userEmail")
+			if uemail != nil {
+				bp.MyEmail = uemail.(string)
+			}
+			var bb Blog
+			bb.Blog = bg
+			txt, err := b64.StdEncoding.DecodeString(bg.Content)
+			if err == nil {
+				bg.Content = string(txt)
+				bg.Content = strings.Replace(bg.Content, stripOut, "", -1)
+				bg.Content = strings.Replace(bg.Content, stripOut2, "", -1)
+				bg.Content = strings.Replace(bg.Content, stripOut3, "", -1)
+				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
+
+				bb.TextHTML = template.HTML(bg.Content)
+				//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
+				h.Log.Debug("TextHTML: ", bb.TextHTML)
+			}
+
+			bp.Blog = &bb
+
+			u1 := h.Delegate.GetUserByID(bb.Blog.UserID)
+			h.Log.Debug("get user: ")
+
+			bb.User = u1
+			bb.UserImage = b64.StdEncoding.EncodeToString(bb.User.Image)
+			h.Log.Debug("User Done: ")
+
+			if bp.Blog.User.Email == bp.MyEmail {
+				h.Templates.ExecuteTemplate(w, editBlogPage, &bp)
+			} else {
+				http.Redirect(w, r, indexRt, http.StatusFound)
+			}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}

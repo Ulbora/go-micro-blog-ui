@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-navbar" .}}
+    <body style="background-color:rgb(244, 242, 242)" onload="initQuill();">
+        <div class="container">
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
+            <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
+            <div class="border ">
+                <div class="card" style="width: 18rem; border: none; background-color:rgb(244, 242, 242);">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            <img src="data:image/jpeg;base64,{{.Blog.UserImage}}" class="card-img-top profile-photo" alt="...">
+                        </div>
+                        <div class="col-md-10 pt-0 mt-0">
+                            <div class="card-body pt-0 mt-0">
+                                <p class="card-text">{{.Blog.User.FirstName}} {{.Blog.User.LastName}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-0 mb-1">
+                    <h3 class="blog-top1" style="width: 100%; text-align: center;">Edit Post</h3>
+                    <form onsubmit="addPost();" action="/updatePost" method="POST">
+                        <input type="hidden" name="userEmail" value="{{.MyEmail}}">
+                        <input
+                            type="hidden"
+                            id="content"
+                            name="content"
+                            value=""
+                        >
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="name"
+                                required
+                                value="{{.Blog.Blog.Name}}"
+                            >
+                        </div>
+                        <!-- made this tinyMCE -->
+                        <div class="mb-3">
+                            <label for="post" class="form-label">Post</label>
+                            <!-- <textarea
+                                class="form-control"
+                                id="post"
+                                required
+                                rows="15"
+                                placeholder="What do you want to talk about?"
+                            ></textarea> -->
+                            <div id="editor">
+                                {{.Blog.TextHTML}}
+                            </div>
+                        </div>
+                        <!-- add links here -->
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </body>
+    </html>
