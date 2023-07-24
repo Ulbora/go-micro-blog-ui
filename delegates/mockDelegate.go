@@ -5,11 +5,11 @@ type MockDelegate struct {
 	AddUserID      int64
 	AddUserSuccess bool
 
-	GetUserActive bool
-	GetUserEmail  string
+	// GetUserActive bool
+	// GetUserEmail  string
+	// MockUser *User
 
-	GetRoleID   int64
-	GetRoleName string
+	MockRole *Role
 
 	AddUserAuthID      int64
 	AddUserAuthSuccess bool
@@ -24,6 +24,8 @@ type MockDelegate struct {
 	MockLikeList *[]Like
 
 	MockAddBlogRes *ResponseID
+
+	MockUpdateBlogRes *Response
 
 	MockAddCommentRes *ResponseID
 
@@ -51,10 +53,10 @@ func (d *MockDelegate) UpdateUser(u *User) *Response {
 
 // GetUser GetUser
 func (d *MockDelegate) GetUser(email string) *User {
-	var rtn User
-	rtn.Active = d.GetUserActive
-	rtn.Email = d.GetUserEmail
-	return &rtn
+	// var rtn User
+	// rtn.Active = d.GetUserActive
+	// rtn.Email = d.GetUserEmail
+	return d.MockUser
 
 }
 
@@ -113,10 +115,10 @@ func (d *MockDelegate) AddRole(r *Role) *ResponseID {
 
 // GetRole GetRole
 func (d *MockDelegate) GetRole(name string) *Role {
-	var rtn Role
-	rtn.ID = d.GetRoleID
-	rtn.Name = d.GetRoleName
-	return &rtn
+	// var rtn Role
+	// rtn.ID = d.GetRoleID
+	// rtn.Name = d.GetRoleName
+	return d.MockRole
 }
 
 // GetRoleList GetRoleList
@@ -136,7 +138,7 @@ func (d *MockDelegate) AddBlog(b *Blog) *ResponseID {
 
 // UpdateBlog UpdateBlog
 func (d *MockDelegate) UpdateBlog(b *Blog) *Response {
-	return nil
+	return d.MockUpdateBlogRes
 }
 
 // GetBlog GetBlog

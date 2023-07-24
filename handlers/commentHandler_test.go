@@ -65,6 +65,13 @@ func TestMCHandler_AddComment(t *testing.T) {
 		Success: true,
 	}
 
+	var mu mcd.User
+	mu.Active = true
+	mu.Email = "test@test.com"
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel.MockUser = &mu
+
 	type fields struct {
 		Log            lg.Log
 		Manager        m.Manager

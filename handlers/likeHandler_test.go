@@ -44,8 +44,6 @@ func TestMCHandler_AddLike(t *testing.T) {
 		r.AddCookie(cook[0])
 	}
 
-
-
 	r2, _ := http.NewRequest("GET", "/", nil)
 	vars2 := map[string]string{
 		"bid": "5",
@@ -62,8 +60,6 @@ func TestMCHandler_AddLike(t *testing.T) {
 	if len(cook2) > 0 {
 		r2.AddCookie(cook2[0])
 	}
-
-
 
 	r3, _ := http.NewRequest("GET", "/", nil)
 	vars3 := map[string]string{
@@ -92,6 +88,12 @@ func TestMCHandler_AddLike(t *testing.T) {
 		Success: true,
 	}
 
+	var mu mcd.User
+	mu.Active = true
+	mu.Email = "test@test.com"
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel.MockUser = &mu
 
 	var mcdel3 mcd.MockDelegate
 	mcdel3.MockAddLikeRes = &mcd.ResponseID{
@@ -99,6 +101,12 @@ func TestMCHandler_AddLike(t *testing.T) {
 		Success: false,
 	}
 
+	var mu3 mcd.User
+	mu3.Active = true
+	mu3.Email = "test@test.com"
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel3.MockUser = &mu
 
 	type fields struct {
 		Log            lg.Log

@@ -66,6 +66,7 @@ type BlogPage struct {
 	BlogList *[]Blog
 	Blog     *Blog
 	MyEmail  string
+	IsAdmin  bool
 }
 
 // AddBlogPageData AddBlogPageData
@@ -94,6 +95,11 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 			uemail := s.Get("userEmail")
 			if uemail != nil {
 				bp.MyEmail = uemail.(string)
+			}
+			var isAdmin = s.Get("isAdmin")
+			h.Log.Debug("isAdmin: ", isAdmin)
+			if isAdmin == true {
+				bp.IsAdmin = true
 			}
 			var blst []Blog
 			for i := range *blogList {
@@ -397,13 +403,53 @@ func (h *MCHandler) UpdateBlogPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// UpdateBlog UpdateBlog
+func (h *MCHandler) UpdateBlog(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in UpdateBlog")
+	idStr := r.FormValue("id")
+	h.Log.Debug("id in updateBlog: ", idStr)
+	name := r.FormValue("name")
+	h.Log.Debug("name in addBlog: ", name)
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		h.Log.Debug("loggedIn in addBlog: ", loggedInAuth)
+		if loggedInAuth == true {
+			_, blog := h.processBlog(r)
+			h.Log.Debug("UserID in updateBlog: ", blog.UserID)
+			h.Log.Debug("id in updateBlog: ", blog.ID)
+			h.Log.Debug("name in addBlog name: ", blog.Name)
+			h.Log.Debug("blog in addBlog content: ", blog.Content)
+			//u := h.Delegate.GetUser(email)
+			//blog.UserID = u.ID
+			res := h.Delegate.UpdateBlog(blog)
+			h.Log.Debug("addBlog success: ", res.Success)
+			h.Log.Debug("addBlog code: ", res.Code)
+			http.Redirect(w, r, indexRt, http.StatusFound)
+
+		} else {
+			http.Redirect(w, r, indexRt, http.StatusFound)
+		}
+	}
+}
+
 func (h *MCHandler) processBlog(r *http.Request) (string, *mcd.Blog) {
 	var rtn mcd.Blog
+	idStr := r.FormValue("id")
+	uidStr := r.FormValue("userId")
 	name := r.FormValue("name")
 	email := r.FormValue("userEmail")
 	content := r.FormValue("content")
 	h.Log.Debug("name in processBlog: ", r.FormValue("name"))
-
+	if idStr != "" {
+		id, _ := strconv.ParseInt(idStr, 10, 64)
+		rtn.ID = id
+	}
+	if uidStr != "" {
+		uid, _ := strconv.ParseInt(uidStr, 10, 64)
+		rtn.UserID = uid
+	}
 	rtn.Content = b64.StdEncoding.EncodeToString([]byte(content))
 	rtn.Name = name
 	rtn.Entered = time.Now()

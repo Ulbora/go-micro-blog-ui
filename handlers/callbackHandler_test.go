@@ -58,7 +58,18 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 	mcdel.AddUserID = 4
 	mcdel.AddUserSuccess = true
 
-	mcdel.GetRoleID = 3
+	var mr del.Role
+	mr.ID = 5
+	mr.Name = "user"
+	mcdel.MockRole = &mr
+
+	var mu del.User
+	mu.Active = true
+	mu.Email = "test@test.com"
+	mu.RoleID = 5
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel.MockUser = &mu
 
 	// mcdel.GetUserActive = true
 	// mcdel.GetUserEmail = "test@test.com"
@@ -67,10 +78,18 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 	mcdel2.AddUserID = 4
 	mcdel2.AddUserSuccess = true
 
-	mcdel2.GetRoleID = 3
+	// var rtn Role
+	// rtn.ID = d.GetRoleID
+	// rtn.Name = d.GetRoleName
 
-	mcdel2.GetUserActive = true
-	mcdel2.GetUserEmail = "test@test.com"
+	mcdel2.MockRole = &mr
+
+	var mu2 del.User
+	mu2.Active = false
+	mu2.Email = ""
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel2.MockUser = &mu2
 
 	// var si s.LinkedInSignin
 	// si.ClientID = "12354"
@@ -225,7 +244,21 @@ func TestMCHandler_GoogleSigninCallback(t *testing.T) {
 	mcdel.AddUserID = 4
 	mcdel.AddUserSuccess = true
 
-	mcdel.GetRoleID = 3
+	var mr del.Role
+	mr.ID = 5
+	mr.Name = "user"
+	mcdel.MockRole = &mr
+
+
+	var mu del.User
+	mu.Active = true
+	mu.Email = "test@test.com"
+	mu.RoleID = 5
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel.MockUser = &mu
+
+	//mcdel.GetRoleID = 3
 
 	// mcdel.GetUserActive = true
 	// mcdel.GetUserEmail = "test@test.com"
@@ -234,10 +267,18 @@ func TestMCHandler_GoogleSigninCallback(t *testing.T) {
 	mcdel2.AddUserID = 4
 	mcdel2.AddUserSuccess = true
 
-	mcdel2.GetRoleID = 3
+	//mcdel2.GetRoleID = 3
+	mcdel2.MockRole = &mr
 
-	mcdel2.GetUserActive = true
-	mcdel2.GetUserEmail = "test@test.com"
+	// mcdel2.GetUserActive = true
+	// mcdel2.GetUserEmail = "test@test.com"
+
+	var mu2 del.User
+	mu2.Active = false
+	mu2.Email = ""
+	//mcdel2.GetUserActive = true
+	//mcdel2.GetUserEmail = "test@test.com"
+	mcdel2.MockUser = &mu2
 
 	// var si s.LinkedInSignin
 	// si.ClientID = "12354"

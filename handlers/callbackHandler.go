@@ -53,6 +53,7 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 			h.Log.Debug("token: ", tk.AccessToken)
 
 			var usuc bool
+			var urole int64
 			//save to db in service
 			user := h.Delegate.GetUser(uemail)
 			if !user.Active && user.Email == "" {
@@ -77,6 +78,7 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 					h.Delegate.AddUserAuth(&usauth)
 				}
 			} else if user.Active {
+				urole = user.RoleID
 				usuc = true
 				var usauth del.UserAuth
 				usauth.AuthType = "LinkedIn"
@@ -88,6 +90,10 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 			if usuc {
 				sec, suc := h.getSession(r)
 				if suc {
+					arole := h.Delegate.GetRole(del.AdminRole)
+					if urole == arole.ID {
+						sec.Set("isAdmin", true)
+					}
 					sec.Set("loggedIn", true)
 					sec.Set("userEmail", uemail)
 					serr := sec.Save(w)
@@ -133,6 +139,7 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 			h.Log.Debug("token: ", tk.AccessToken)
 
 			var usuc bool
+			var urole int64
 			//save to db in service
 			user := h.Delegate.GetUser(uemail)
 			if !user.Active && user.Email == "" {
@@ -157,6 +164,7 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 					h.Delegate.AddUserAuth(&usauth)
 				}
 			} else if user.Active {
+				urole = user.RoleID
 				usuc = true
 				var usauth del.UserAuth
 				usauth.AuthType = "GoogleOAuth2"
@@ -168,6 +176,10 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 			if usuc {
 				sec, suc := h.getSession(r)
 				if suc {
+					arole := h.Delegate.GetRole(del.AdminRole)
+					if urole == arole.ID {
+						sec.Set("isAdmin", true)
+					}
 					sec.Set("loggedIn", true)
 					sec.Set("userEmail", uemail)
 					serr := sec.Save(w)

@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
-    {{template "header" .}}
-    {{template "user-navbar" .}}
+    {{template "header" .}}    
+    {{if .IsAdmin}}
+        {{template "user-admin-navbar" .}}
+    {{else}}
+        {{template "user-navbar" .}}
+    {{end}}
     <body style="background-color:rgb(244, 242, 242)">
         <div class="container">
             <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>

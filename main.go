@@ -138,7 +138,8 @@ func main() {
 
 	sh.Templates = template.Must(template.ParseFiles("./static/login.html",
 		"./static/blogList.html", "./static/header.html", "./static/user-nav.html",
-		"./static/addBlog.html", "./static/blog.html", "./static/editBlog.html"))
+		"./static/addBlog.html", "./static/blog.html", "./static/editBlog.html",
+		"./static/user-admin-nav.html"))
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html"))
@@ -173,6 +174,7 @@ func main() {
 	router.HandleFunc("/viewPost/{bid}", h.GetBlog).Methods("GET")
 	router.HandleFunc("/addComment", h.AddComment).Methods("POST")
 	router.HandleFunc("/editPost/{bid}", h.UpdateBlogPage).Methods("GET")
+	router.HandleFunc("/updatePost", h.UpdateBlog).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

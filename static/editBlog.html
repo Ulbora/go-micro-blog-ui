@@ -22,7 +22,8 @@
                 <div class="row mt-0 mb-1">
                     <h3 class="blog-top1" style="width: 100%; text-align: center;">Edit Post</h3>
                     <form onsubmit="addPost();" action="/updatePost" method="POST">
-                        <input type="hidden" name="userEmail" value="{{.MyEmail}}">
+                        <input type="hidden" name="userId" value="{{.Blog.Blog.UserID}}">
+                        <input type="hidden" name="id" value="{{.Blog.Blog.ID}}">
                         <input
                             type="hidden"
                             id="content"
