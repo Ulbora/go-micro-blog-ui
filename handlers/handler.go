@@ -30,10 +30,16 @@ const (
 	addBlogPage  = "addBlog.html"
 	editBlogPage = "editBlog.html"
 
+	//Admin Pages
+	adminBlogListPage = "adminBlogList.html"
+
 	//routes
 	indexRt  = "/"
 	loginRt  = "/login"
 	viewPost = "/viewPost/"
+
+	maxPosts    = 200
+	maxComments = 1000
 )
 
 // Handler Handler
@@ -59,7 +65,7 @@ type Handler interface {
 
 	// GetUserAuthList(w http.ResponseWriter, r *http.Request)
 
-	// GetAdminBlogList(w http.ResponseWriter, r *http.Request)
+	GetAdminBlogList(w http.ResponseWriter, r *http.Request)
 	// ActivateBlog(w http.ResponseWriter, r *http.Request)
 	// DectivateBlog(w http.ResponseWriter, r *http.Request)
 

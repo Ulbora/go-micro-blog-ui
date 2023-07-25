@@ -86,7 +86,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
 		if loggedInAuth == true {
-			blogList := h.Delegate.GetBlogList(0, 100)
+			blogList := h.Delegate.GetBlogList(0, maxPosts)
 			h.Log.Debug("blogCnt: ", len(*blogList))
 			var bp BlogPage
 			bp.Title = h.Title
@@ -124,7 +124,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				go func(bbb *Blog) {
 					// wg.Add(1)
 					defer wg.Done()
-					cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, 1000)
+					cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, maxComments)
 					h.Log.Debug("commentCnt: ", len(*cl))
 					// bb.CommentCnt = len(*cl)
 					//ccnt = len(*cl)
@@ -289,7 +289,7 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 			go func(bbb *Blog) {
 				// wg.Add(1)
 				defer wg.Done()
-				cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, 1000)
+				cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, maxComments)
 				h.Log.Debug("commentCnt: ", len(*cl))
 				// bb.CommentCnt = len(*cl)
 				//ccnt = len(*cl)

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}    
+    {{if .IsAdmin}}
+        {{template "user-admin-navbar" .}}    
+    {{end}}
+    <body>
+        test
+    </body>
+</html>
