@@ -32,11 +32,15 @@ const (
 
 	//Admin Pages
 	adminBlogListPage = "adminBlogList.html"
+	adminBlogPage     = "adminBlog.html"
 
 	//routes
 	indexRt  = "/"
 	loginRt  = "/login"
 	viewPost = "/viewPost/"
+
+	//admin routes
+	adminBlogListRt = "/adminPostList"
 
 	maxPosts    = 200
 	maxComments = 1000
@@ -66,10 +70,10 @@ type Handler interface {
 	// GetUserAuthList(w http.ResponseWriter, r *http.Request)
 
 	GetAdminBlogList(w http.ResponseWriter, r *http.Request)
-	// ActivateBlog(w http.ResponseWriter, r *http.Request)
-	// DectivateBlog(w http.ResponseWriter, r *http.Request)
+	ActivateBlog(w http.ResponseWriter, r *http.Request)
+	DectivateBlog(w http.ResponseWriter, r *http.Request)
 
-	// GetCommentAdminList(w http.ResponseWriter, r *http.Request)
+	GetAdminCommentList(w http.ResponseWriter, r *http.Request)
 	// ActivateComment(w http.ResponseWriter, r *http.Request)
 	// DectivateComment(w http.ResponseWriter, r *http.Request)
 

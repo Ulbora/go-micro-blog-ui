@@ -143,7 +143,7 @@ func main() {
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html", "./static/admin/adminBlogList.html",
-		"./static/user-admin-nav.html"))
+		"./static/user-admin-nav.html", "./static/admin/adminBlog.html"))
 
 	router := mux.NewRouter()
 
@@ -178,6 +178,9 @@ func main() {
 	router.HandleFunc("/updatePost", h.UpdateBlog).Methods("POST")
 
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
+	router.HandleFunc("/activateBlog/{bid}", h.ActivateBlog).Methods("GET")
+	router.HandleFunc("/deactivateBlog/{bid}", h.DectivateBlog).Methods("GET")
+	router.HandleFunc("/adminViewPost/{bid}", h.GetAdminCommentList).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

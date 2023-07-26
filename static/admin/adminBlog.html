@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-admin-navbar" .}}
+    <body style="background-color:rgb(244, 242, 242)">
+        <div class="container">
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
+            <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
+            <div class="border mb-2" style="background-color: white;">
+                <div class="card" style="width: 18rem; border: none;">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            <img src="data:image/jpeg;base64,{{.Blog.UserImage}}" class="card-img-top profile-photo" alt="...">
+                        </div>
+                        <div class="col-md-10 pt-0 mt-0">
+                            <div class="card-body pt-0 mt-0">
+                                <p class="card-text">{{.Blog.User.FirstName}} {{.Blog.User.LastName}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1 mb-1">
+                    <div class="col-12 text-center">
+                        <h4>{{.Blog.Blog.Name}}</h4>
+                    </div>
+                </div>
+                <div class="row mt-1 mb-5 post-link">
+                    <div class="col-12 text-center">
+                        {{.Blog.TextHTML}}
+                    </div>
+                </div>
+                <div class="container text-center mb-3">
+                    <div class="row align-items-start">
+                        <div class="col like-comment-link">
+                            <img src="../images/comment.png" class="card-img-top icons-desp" alt="...">
+                            Comment
+                           
+                            {{.Blog.CommentCnt}}
+                        </div>
+                    </div>
+                </div>
+                <form class="comment-form mb-5" action="/addComment" method="POST">
+                    <input type="hidden" name="userEmail" value="{{.MyEmail}}">
+                    <input type="hidden" name="bid" value="{{.Blog.Blog.ID}}">
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Add Comment</label>
+                        <textarea
+                            class="form-control"
+                            id="comment"
+                            name="comment"
+                            required
+                            rows="3"
+                            placeholder="What do you want to say?"
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+                <div class="mb-2" style="width: 70%; margin: 0 0 0 15%;">
+                    {{range .Blog.CommentList}}
+                    <div class="card mt-1 mb-1" style="width: 100%; border: 1px solid;">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                                <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top comment-photo" alt="...">
+                            </div>
+                            <div class="col-md-10 pt-0 mt-0">
+                                <div class="card-body pt-0 mt-0">
+                                    <p class="card-text">{{.User.FirstName}} {{.User.LastName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-1 mb-5 post-link">
+                            <div class="col-12 text-center">
+                                {{.Comment.Text}}
+                            </div>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </body>
+    </html>

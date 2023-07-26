@@ -30,6 +30,10 @@ type MockDelegate struct {
 	MockAddCommentRes *ResponseID
 
 	MockAddLikeRes *ResponseID
+
+	MockActivateRes *Response
+
+	MockDeActivateRes *Response
 }
 
 // New New
@@ -158,17 +162,17 @@ func (d *MockDelegate) GetBlogList(start int64, end int64) *[]Blog {
 
 // GetAdminBlogList GetAdminBlogList
 func (d *MockDelegate) GetAdminBlogList(start int64, end int64) *[]Blog {
-	return nil
+	return d.MockBlogList
 }
 
 // ActivateBlog ActivateBlog
 func (d *MockDelegate) ActivateBlog(b *Blog) *Response {
-	return nil
+	return d.MockActivateRes
 }
 
 // DeActivateBlog DeActivateBlog
 func (d *MockDelegate) DeActivateBlog(b *Blog) *Response {
-	return nil
+	return d.MockDeActivateRes
 }
 
 // AddLike AddLike
@@ -203,7 +207,7 @@ func (d *MockDelegate) GetCommentList(blogID int64, start int64, end int64) *[]C
 
 // GetAdminCommentList GetAdminCommentList
 func (d *MockDelegate) GetAdminCommentList(blogID int64, start int64, end int64) *[]Comment {
-	return nil
+	return d.MockCommentList
 }
 
 // ActivateComment ActivateComment

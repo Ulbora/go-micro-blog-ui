@@ -5,8 +5,12 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
+
+	mux "github.com/GolangToolKits/grrt"
+	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
 )
 
 /*
@@ -33,8 +37,9 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 	h.Log.Debug("session suc in GetBlog", suc)
 	if suc {
 		loggedInAuth := s.Get("loggedIn")
+		var isAdmin = s.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
-		if loggedInAuth == true {
+		if loggedInAuth == true && isAdmin == true {
 			blogList := h.Delegate.GetAdminBlogList(0, maxPosts)
 			h.Log.Debug("blogCnt: ", len(*blogList))
 			var bp BlogPage
@@ -45,7 +50,7 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 			if uemail != nil {
 				bp.MyEmail = uemail.(string)
 			}
-			var isAdmin = s.Get("isAdmin")
+			// var isAdmin = s.Get("isAdmin")
 			h.Log.Debug("isAdmin: ", isAdmin)
 			if isAdmin == true {
 				bp.IsAdmin = true
@@ -65,7 +70,7 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 
 					bb.TextHTML = template.HTML(bb.Blog.Content)
 					//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
-					h.Log.Debug("TextHTML: ", bb.TextHTML)
+					// h.Log.Debug("TextHTML: ", bb.TextHTML)
 				}
 				//var ccnt int
 				//var lcnt int
@@ -133,4 +138,84 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	//<object data="data:application/pdf;base64,YOURBASE64DATA" type="application/pdf"></object>
+}
+
+// ActivateBlog ActivateBlog
+func (h *MCHandler) ActivateBlog(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in Activate Blog")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in Activate Blog", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		var isAdmin = s.Get("isAdmin")
+		h.Log.Debug("loggedIn in Activate Blog: ", loggedInAuth)
+		if loggedInAuth == true && isAdmin == true {
+			vars := mux.Vars(r)
+			bidStr := vars["bid"]
+			h.Log.Debug("bid in Activate Blog: ", bidStr)
+			bid, _ := strconv.ParseInt(bidStr, 10, 64)
+			//uemail := s.Get("userEmail")
+			//if uemail != nil {
+			//email := uemail.(string)
+			//h.Log.Debug("getting Blog: ")
+			//abb := h.Delegate.GetBlog(bid)
+			//h.Log.Debug("Blog: ")
+
+			//var lk mcd.Like
+			//lk.BlogID = bid
+			//lk.UserID = u.ID
+			var abb mcd.Blog
+			abb.ID = bid
+			//abb.Active = true
+			res := h.Delegate.ActivateBlog(&abb)
+			if !res.Success {
+				h.Log.Debug("add Activate Blog suc: ", res.Success)
+				h.Log.Debug("add Activate Blog code: ", res.Code)
+				//h.Delegate.RemoveLike(&lk)
+			}
+			http.Redirect(w, r, adminBlogListRt, http.StatusFound)
+			//}
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
+}
+
+// DectivateBlog DectivateBlog
+func (h *MCHandler) DectivateBlog(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in Dectivate Blog")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in Dectivate Blog", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		var isAdmin = s.Get("isAdmin")
+		h.Log.Debug("loggedIn in Dectivate Blog: ", loggedInAuth)
+		if loggedInAuth == true && isAdmin == true {
+			vars := mux.Vars(r)
+			bidStr := vars["bid"]
+			h.Log.Debug("bid: ", bidStr)
+			bid, _ := strconv.ParseInt(bidStr, 10, 64)
+			//uemail := s.Get("userEmail")
+			//if uemail != nil {
+			//email := uemail.(string)
+			//dbb := h.Delegate.GetBlog(bid)
+
+			var dbb mcd.Blog
+			dbb.ID = bid
+			//var lk mcd.Like
+			//lk.BlogID = bid
+			//lk.UserID = u.ID
+			//dbb.Active = false
+			res := h.Delegate.DeActivateBlog(&dbb)
+			if !res.Success {
+				h.Log.Debug("add Dectivate Blog suc: ", res.Success)
+				h.Log.Debug("add Dectivate Blog code: ", res.Code)
+				//h.Delegate.RemoveLike(&lk)
+			}
+			http.Redirect(w, r, adminBlogListRt, http.StatusFound)
+			//}
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
 }
