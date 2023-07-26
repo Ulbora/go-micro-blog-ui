@@ -10,6 +10,7 @@ import (
 	"sync"
 
 	mux "github.com/GolangToolKits/grrt"
+	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
 )
 
 /*
@@ -127,4 +128,52 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
 	}
+}
+
+// ActivateComment ActivateComment
+func (h *MCHandler) ActivateComment(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in Activate Comment")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in Activate Comment", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		var isAdmin = s.Get("isAdmin")
+		h.Log.Debug("loggedIn in Activate Comment: ", loggedInAuth)
+		if loggedInAuth == true && isAdmin == true {
+			vars := mux.Vars(r)
+			cidStr := vars["cid"]
+			bidStr := vars["bid"]
+			h.Log.Debug("cid in Activate Comment: ", cidStr)
+			cid, _ := strconv.ParseInt(cidStr, 10, 64)
+			//bid, _ := strconv.ParseInt(bidStr, 10, 64)
+			//uemail := s.Get("userEmail")
+			//if uemail != nil {
+			//email := uemail.(string)
+			//h.Log.Debug("getting Blog: ")
+			//abb := h.Delegate.GetBlog(bid)
+			//h.Log.Debug("Blog: ")
+
+			//var lk mcd.Like
+			//lk.BlogID = bid
+			//lk.UserID = u.ID
+			var acc mcd.Comment
+			acc.ID = cid
+			//abb.Active = true
+			res := h.Delegate.ActivateComment(&acc)
+			if !res.Success {
+				h.Log.Debug("add Activate Comment suc: ", res.Success)
+				h.Log.Debug("add Activate Comment code: ", res.Code)
+				//h.Delegate.RemoveLike(&lk)
+			}
+			http.Redirect(w, r, viesAdminPostRt+"/"+bidStr, http.StatusFound)
+			//}
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
+}
+
+// DectivateComment DectivateComment
+func (h *MCHandler) DectivateComment(w http.ResponseWriter, r *http.Request) {
+
 }

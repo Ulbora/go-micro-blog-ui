@@ -39,22 +39,6 @@
                         </div>
                     </div>
                 </div>
-                <form class="comment-form mb-5" action="/addComment" method="POST">
-                    <input type="hidden" name="userEmail" value="{{.MyEmail}}">
-                    <input type="hidden" name="bid" value="{{.Blog.Blog.ID}}">
-                    <div class="mb-3">
-                        <label for="comment" class="form-label">Add Comment</label>
-                        <textarea
-                            class="form-control"
-                            id="comment"
-                            name="comment"
-                            required
-                            rows="3"
-                            placeholder="What do you want to say?"
-                        ></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Post</button>
-                </form>
                 <div class="mb-2" style="width: 70%; margin: 0 0 0 15%;">
                     {{range .Blog.CommentList}}
                     <div class="card mt-1 mb-1" style="width: 100%; border: 1px solid;">
@@ -71,6 +55,23 @@
                         <div class="row mt-1 mb-5 post-link">
                             <div class="col-12 text-center">
                                 {{.Comment.Text}}
+                            </div>
+                        </div>
+                        <div class="container text-center">
+                            <div class="row">
+                                <div class="col like-comment-link">
+                                    {{if .Comment.Active}}
+                                    <a href="/deactivateComment/{{.Comment.ID}}/{{$.Blog.Blog.ID}}">
+                                        <img src="../images/dislike.png" class="card-img-top icons-desp" alt="...">
+                                        Deactivate
+                                    </a>
+                                    {{else}}
+                                    <a href="/activateComment/{{.Comment.ID}}/{{$.Blog.Blog.ID}}">
+                                        <img src="../images/like.png" class="card-img-top icons-desp" alt="...">
+                                        Activate
+                                    </a>
+                                    {{end}}
+                                </div>
                             </div>
                         </div>
                     </div>

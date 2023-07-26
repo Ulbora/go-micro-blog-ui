@@ -41,6 +41,7 @@ const (
 
 	//admin routes
 	adminBlogListRt = "/adminPostList"
+	viesAdminPostRt = "/adminViewPost"
 
 	maxPosts    = 200
 	maxComments = 1000
@@ -74,8 +75,8 @@ type Handler interface {
 	DectivateBlog(w http.ResponseWriter, r *http.Request)
 
 	GetAdminCommentList(w http.ResponseWriter, r *http.Request)
-	// ActivateComment(w http.ResponseWriter, r *http.Request)
-	// DectivateComment(w http.ResponseWriter, r *http.Request)
+	ActivateComment(w http.ResponseWriter, r *http.Request)
+	DectivateComment(w http.ResponseWriter, r *http.Request)
 
 	//----------------------------for users-------------------------
 	//user
