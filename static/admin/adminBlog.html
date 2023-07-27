@@ -41,42 +41,46 @@
                 </div>
                 <div class="mb-2" style="width: 70%; margin: 0 0 0 15%;">
                     {{range .Blog.CommentList}}
+                    {{if .Comment.Active}}
                     <div class="card mt-1 mb-1" style="width: 100%; border: 1px solid;">
-                        <div class="row g-0">
-                            <div class="col-md-2">
-                                <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top comment-photo" alt="...">
+                        {{else}}
+                        <div class="card mt-1 mb-1" style="width: 100%; border: 1px solid; background-color: rgb(200, 139, 139);">
+                            {{end}}
+                            <div class="row g-0">
+                                <div class="col-md-2">
+                                    <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top comment-photo" alt="...">
+                                </div>
+                                <div class="col-md-10 pt-0 mt-0">
+                                    <div class="card-body pt-0 mt-0">
+                                        <p class="card-text">{{.User.FirstName}} {{.User.LastName}}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-10 pt-0 mt-0">
-                                <div class="card-body pt-0 mt-0">
-                                    <p class="card-text">{{.User.FirstName}} {{.User.LastName}}</p>
+                            <div class="row mt-1 mb-5 post-link">
+                                <div class="col-12 text-center">
+                                    {{.Comment.Text}}
+                                </div>
+                            </div>
+                            <div class="container text-center">
+                                <div class="row">
+                                    <div class="col like-comment-link">
+                                        {{if .Comment.Active}}
+                                        <a href="/deactivateComment/{{.Comment.ID}}/{{$.Blog.Blog.ID}}">
+                                            <img src="../images/dislike.png" class="card-img-top icons-desp" alt="...">
+                                            Deactivate
+                                        </a>
+                                        {{else}}
+                                        <a href="/activateComment/{{.Comment.ID}}/{{$.Blog.Blog.ID}}">
+                                            <img src="../images/like.png" class="card-img-top icons-desp" alt="...">
+                                            Activate
+                                        </a>
+                                        {{end}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-1 mb-5 post-link">
-                            <div class="col-12 text-center">
-                                {{.Comment.Text}}
-                            </div>
-                        </div>
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col like-comment-link">
-                                    {{if .Comment.Active}}
-                                    <a href="/deactivateComment/{{.Comment.ID}}/{{$.Blog.Blog.ID}}">
-                                        <img src="../images/dislike.png" class="card-img-top icons-desp" alt="...">
-                                        Deactivate
-                                    </a>
-                                    {{else}}
-                                    <a href="/activateComment/{{.Comment.ID}}/{{$.Blog.Blog.ID}}">
-                                        <img src="../images/like.png" class="card-img-top icons-desp" alt="...">
-                                        Activate
-                                    </a>
-                                    {{end}}
-                                </div>
-                            </div>
-                        </div>
+                        {{end}}
                     </div>
-                    {{end}}
                 </div>
-            </div>
-        </body>
-    </html>
+            </body>
+        </html>

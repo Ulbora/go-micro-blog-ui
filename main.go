@@ -179,8 +179,10 @@ func main() {
 
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
 	router.HandleFunc("/activateBlog/{bid}", h.ActivateBlog).Methods("GET")
-	router.HandleFunc("/deactivateBlog/{bid}", h.DectivateBlog).Methods("GET")
+	router.HandleFunc("/deactivateBlog/{bid}", h.DeactivateBlog).Methods("GET")
 	router.HandleFunc("/adminViewPost/{bid}", h.GetAdminCommentList).Methods("GET")
+	router.HandleFunc("/activateComment/{cid}/{bid}", h.ActivateComment).Methods("GET")
+	router.HandleFunc("/deactivateComment/{cid}/{bid}", h.DeactivateComment).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

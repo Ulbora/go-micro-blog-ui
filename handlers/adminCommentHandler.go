@@ -173,7 +173,45 @@ func (h *MCHandler) ActivateComment(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DectivateComment DectivateComment
-func (h *MCHandler) DectivateComment(w http.ResponseWriter, r *http.Request) {
+// DeactivateComment DeactivateComment
+func (h *MCHandler) DeactivateComment(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in Deactivate Comment")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in Deactivate Comment", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		var isAdmin = s.Get("isAdmin")
+		h.Log.Debug("loggedIn in Deactivate Comment: ", loggedInAuth)
+		if loggedInAuth == true && isAdmin == true {
+			vars := mux.Vars(r)
+			cidStr := vars["cid"]
+			bidStr := vars["bid"]
+			h.Log.Debug("cid in Deactivate Comment: ", cidStr)
+			cid, _ := strconv.ParseInt(cidStr, 10, 64)
+			//bid, _ := strconv.ParseInt(bidStr, 10, 64)
+			//uemail := s.Get("userEmail")
+			//if uemail != nil {
+			//email := uemail.(string)
+			//h.Log.Debug("getting Blog: ")
+			//abb := h.Delegate.GetBlog(bid)
+			//h.Log.Debug("Blog: ")
 
+			//var lk mcd.Like
+			//lk.BlogID = bid
+			//lk.UserID = u.ID
+			var acc mcd.Comment
+			acc.ID = cid
+			//abb.Active = true
+			res := h.Delegate.DeActivateComment(&acc)
+			if !res.Success {
+				h.Log.Debug("add Activate Comment suc: ", res.Success)
+				h.Log.Debug("add Activate Comment code: ", res.Code)
+				//h.Delegate.RemoveLike(&lk)
+			}
+			http.Redirect(w, r, viesAdminPostRt+"/"+bidStr, http.StatusFound)
+			//}
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
 }

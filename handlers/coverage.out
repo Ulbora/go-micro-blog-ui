@@ -26,7 +26,7 @@ github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:152.46,171.20 8 
 github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:171.20,175.5 2 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:176.4,176.58 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:178.9,180.4 1 1
-github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:185.75,189.9 4 1
+github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:185.76,189.9 4 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:189.9,193.46 4 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:193.46,210.20 8 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminBlogHandler.go:210.20,214.5 2 1
@@ -52,7 +52,12 @@ github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:142.46,163.20
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:163.20,167.5 2 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:168.4,168.69 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:170.9,172.4 1 1
-github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:177.79,179.2 0 0
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:177.79,181.9 4 0
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:181.9,185.46 4 0
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:185.46,206.20 9 0
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:206.20,210.5 2 0
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:211.4,211.69 1 0
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:213.9,215.4 1 0
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:81.73,85.9 4 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:85.9,88.27 3 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:88.27,96.21 8 1

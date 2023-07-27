@@ -72,11 +72,11 @@ type Handler interface {
 
 	GetAdminBlogList(w http.ResponseWriter, r *http.Request)
 	ActivateBlog(w http.ResponseWriter, r *http.Request)
-	DectivateBlog(w http.ResponseWriter, r *http.Request)
+	DeactivateBlog(w http.ResponseWriter, r *http.Request)
 
 	GetAdminCommentList(w http.ResponseWriter, r *http.Request)
 	ActivateComment(w http.ResponseWriter, r *http.Request)
-	DectivateComment(w http.ResponseWriter, r *http.Request)
+	DeactivateComment(w http.ResponseWriter, r *http.Request)
 
 	//----------------------------for users-------------------------
 	//user

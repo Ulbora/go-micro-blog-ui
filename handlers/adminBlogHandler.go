@@ -181,8 +181,8 @@ func (h *MCHandler) ActivateBlog(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DectivateBlog DectivateBlog
-func (h *MCHandler) DectivateBlog(w http.ResponseWriter, r *http.Request) {
+// DeactivateBlog DeactivateBlog
+func (h *MCHandler) DeactivateBlog(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in Dectivate Blog")
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc in Dectivate Blog", suc)

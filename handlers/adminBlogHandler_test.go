@@ -575,7 +575,7 @@ func TestMCHandler_DectivateBlog(t *testing.T) {
 				Desc:           tt.fields.Desc,
 				KeyWords:       tt.fields.KeyWords,
 			}
-			h.DectivateBlog(tt.args.w, tt.args.r)
+			h.DeactivateBlog(tt.args.w, tt.args.r)
 			if tt.resCode != tt.w.Code {
 				t.Fail()
 			}
