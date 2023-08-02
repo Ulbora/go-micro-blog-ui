@@ -21,14 +21,15 @@ import "time"
 
 // User User
 type User struct {
-	ID        int64  `json:"id"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Image     []byte `json:"image"`
-	RoleID    int64  `json:"roleId"`
-	Active    bool   `json:"active"`
+	ID              int64  `json:"id"`
+	Email           string `json:"email"`
+	Password        string `json:"password"`
+	FirstName       string `json:"firstName"`
+	LastName        string `json:"lastName"`
+	Image           []byte `json:"image"`
+	RoleID          int64  `json:"roleId"`
+	Active          bool   `json:"active"`
+	DiabledForCause bool   `json:"disabledForCause"`
 }
 
 // Role Role

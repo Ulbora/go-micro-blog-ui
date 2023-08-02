@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-admin-navbar" .}}
+    <body style="background-color:rgb(244, 242, 242)">
+        <div class="container">
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
+            <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
+            <div class="border mb-2" style="background-color: white;">
+                <div class="card" style="width: 100%; border: none; background-color: transparent;">
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top main-profile-photo" alt="...">
+                        </div>
+                        <div class="col-10 pt-0 mt-0">
+                            <div class="card-body pt-0 mt-0 like-comment-link">
+                                <p class="card-text">Name: {{.User.FirstName}} {{.User.LastName}}</p>
+                                <p class="card-text">Email: {{.User.Email}}</p>
+                                {{if .User.Active}}
+                                <p class="card-text">Status: Active</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <a href="/disableUser/up/{{.User.ID}}">1. Disable User</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="/deactivateUser/up/{{.User.ID}}">2. Disable User For Cause</a>
+                                    </li>
+                                </ul>
+                                {{else}}
+                                    {{if .User.DiabledForCause}}
+                                <p class="card-text">Status: Disabled For Cause</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <a href="/reactivateUser/up/{{.User.ID}}">1. Reactivate this User</a>
+                                    </li>
+                                </ul>
+                                {{else}}
+                                <p class="card-text">Status: Disabled</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <a href="/activate/up/{{.User.ID}}">1. Activate this User</a>
+                                    </li>
+                                </ul>
+                                {{end}}  
+                                {{end}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

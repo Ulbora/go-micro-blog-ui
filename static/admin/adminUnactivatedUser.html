@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-admin-navbar" .}}
+    <body style="background-color:rgb(244, 242, 242)">
+        <div class="container">
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
+            <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
+            <h3 class="mt-5 pb-2" style="width: 100%; text-align: center; ">Inactive Users</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Users}}
+                    <tr class="clickable-row" data-href="/adminUser/{{.User.ID}}">
+                        <th>
+                            <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top list-profile-photo" alt="...">
+                        </th>
+                        <td>{{.User.Email}}</td>
+                        <td>{{.User.FirstName}}</td>
+                        <td>{{.User.LastName}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

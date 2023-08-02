@@ -55,6 +55,10 @@ type MockDelegate struct {
 	MockActivateCommentRes *Response
 
 	MockDeActivateCommentRes *Response
+
+	MockUnactivatedUserList *[]User
+
+	MockBannedUserList *[]User
 }
 
 // New New
@@ -99,13 +103,13 @@ func (d *MockDelegate) GetUserList() *[]User {
 
 // GetUnActivatedUserList GetUnActivatedUserList
 func (d *MockDelegate) GetUnActivatedUserList() *[]User {
-	return nil
+	return d.MockUnactivatedUserList
 
 }
 
 // GetBannedUserList GetBannedUserList
 func (d *MockDelegate) GetBannedUserList() *[]User {
-	return nil
+	return d.MockBannedUserList
 
 }
 

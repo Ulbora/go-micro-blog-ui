@@ -31,8 +31,11 @@ const (
 	editBlogPage = "editBlog.html"
 
 	//Admin Pages
-	adminBlogListPage = "adminBlogList.html"
-	adminBlogPage     = "adminBlog.html"
+	adminBlogListPage        = "adminBlogList.html"
+	adminBlogPage            = "adminBlog.html"
+	adminUserPage            = "adminUser.html"
+	adminUnactivatedUserPage = "adminUnactivatedUser.html"
+	adminBannedUserPage      = "adminBannedUser.html"
 
 	//routes
 	indexRt  = "/"
@@ -51,9 +54,10 @@ const (
 type Handler interface {
 	//---------------for admin user ---------------------------------
 
+	GetUserByIDPage(w http.ResponseWriter, r *http.Request)
 	// GetUserList(w http.ResponseWriter, r *http.Request)
-	// GetUnactivatedUserList(w http.ResponseWriter, r *http.Request)
-	// GetBannedUserList(w http.ResponseWriter, r *http.Request)
+	GetUnactivatedUserList(w http.ResponseWriter, r *http.Request)
+	GetBannedUserList(w http.ResponseWriter, r *http.Request)
 	// EnableUser(w http.ResponseWriter, r *http.Request)
 	// DisableUser(w http.ResponseWriter, r *http.Request)
 	// DisableUserForCause(w http.ResponseWriter, r *http.Request)

@@ -43,6 +43,54 @@
     }
 }
 
+
+.main-profile-photo{
+    max-width: 100%;    
+}
+
+
+@media screen and (max-width: 1000px){
+    .main-profile-photo{        
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .main-profile-photo{
+        max-width: 60%;
+    }
+}
+@media screen and (max-width: 600px){
+    .main-profile-photo{    
+        max-width: 60%;
+    }
+}
+
+
+.list-profile-photo{
+    max-width: 20%;
+}
+
+
+@media screen and (max-width: 1000px){
+    .list-profile-photo{
+        max-width: 20%;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .list-profile-photo{
+        max-width: 40%;
+    }
+}
+@media screen and (max-width: 600px){
+    .list-profile-photo{        
+        max-width: 40%;
+    }
+}
+
+
+
 .icons-desp{
     max-width: 5%;
 }

@@ -143,7 +143,9 @@ func main() {
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html", "./static/admin/adminBlogList.html",
-		"./static/user-admin-nav.html", "./static/admin/adminBlog.html"))
+		"./static/user-admin-nav.html", "./static/admin/adminBlog.html",
+		"./static/admin/adminUser.html", "./static/admin/adminUnactivatedUser.html",
+		"./static/admin/adminBannedUser.html"))
 
 	router := mux.NewRouter()
 
@@ -183,6 +185,9 @@ func main() {
 	router.HandleFunc("/adminViewPost/{bid}", h.GetAdminCommentList).Methods("GET")
 	router.HandleFunc("/activateComment/{cid}/{bid}", h.ActivateComment).Methods("GET")
 	router.HandleFunc("/deactivateComment/{cid}/{bid}", h.DeactivateComment).Methods("GET")
+	router.HandleFunc("/adminUser/{uid}", h.GetUserByIDPage).Methods("GET")
+	router.HandleFunc("/adminInactiveUserList", h.GetUnactivatedUserList).Methods("GET")
+	router.HandleFunc("/adminBannedUserList", h.GetBannedUserList).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

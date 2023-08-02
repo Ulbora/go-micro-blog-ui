@@ -18,11 +18,15 @@
                     <div class="card" style="width: 18rem; border: none; background-color: transparent;">
                         <div class="row g-0">
                             <div class="col-md-2">
-                                <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top profile-photo" alt="...">
+                                <a href="/adminUser/{{.User.ID}}">
+                                    <img src="data:image/jpeg;base64,{{.UserImage}}" class="card-img-top profile-photo" alt="...">
+                                </a>
                             </div>
                             <div class="col-md-10 pt-0 mt-0">
-                                <div class="card-body pt-0 mt-0">
-                                    <p class="card-text">{{.User.FirstName}} {{.User.LastName}}</p>
+                                <div class="card-body pt-0 mt-0 like-comment-link">
+                                    <a href="/adminUser/{{.User.ID}}">
+                                        <p class="card-text">{{.User.FirstName}} {{.User.LastName}}</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
