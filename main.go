@@ -188,6 +188,10 @@ func main() {
 	router.HandleFunc("/adminUser/{uid}", h.GetUserByIDPage).Methods("GET")
 	router.HandleFunc("/adminInactiveUserList", h.GetUnactivatedUserList).Methods("GET")
 	router.HandleFunc("/adminBannedUserList", h.GetBannedUserList).Methods("GET")
+	router.HandleFunc("/activateUser/{uid}", h.EnableUser).Methods("GET")
+	router.HandleFunc("/disableUser/{uid}", h.DisableUser).Methods("GET")
+	router.HandleFunc("/deactivateUser/{uid}", h.DisableUserForCause).Methods("GET")
+	router.HandleFunc("/reactivateUser/{uid}", h.ReinstateBannedUser).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

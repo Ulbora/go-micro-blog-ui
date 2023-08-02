@@ -59,6 +59,14 @@ type MockDelegate struct {
 	MockUnactivatedUserList *[]User
 
 	MockBannedUserList *[]User
+
+	MockEnableUser *Response
+
+	MockReactivateBannedUser *Response
+
+	MockDisableUser *Response
+
+	MockDisableUserForCause *Response
 }
 
 // New New
@@ -115,25 +123,24 @@ func (d *MockDelegate) GetBannedUserList() *[]User {
 
 // EnableUser EnableUser
 func (d *MockDelegate) EnableUser(u *User) *Response {
-	return nil
-
+	return d.MockEnableUser
 }
 
 // DisableUser DisableUser
 func (d *MockDelegate) DisableUser(u *User) *Response {
-	return nil
+	return d.MockDisableUser
 
 }
 
 // DisableUserForCause DisableUserForCause
 func (d *MockDelegate) DisableUserForCause(u *User) *Response {
-	return nil
+	return d.MockDisableUserForCause
 
 }
 
 // ReactivateUser ReactivateUser
 func (d *MockDelegate) ReactivateUser(u *User) *Response {
-	return nil
+	return d.MockReactivateBannedUser
 
 }
 

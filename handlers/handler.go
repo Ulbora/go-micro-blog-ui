@@ -45,6 +45,7 @@ const (
 	//admin routes
 	adminBlogListRt = "/adminPostList"
 	viesAdminPostRt = "/adminViewPost"
+	adminUserRt     = "/adminUser"
 
 	maxPosts    = 200
 	maxComments = 1000
@@ -58,10 +59,10 @@ type Handler interface {
 	// GetUserList(w http.ResponseWriter, r *http.Request)
 	GetUnactivatedUserList(w http.ResponseWriter, r *http.Request)
 	GetBannedUserList(w http.ResponseWriter, r *http.Request)
-	// EnableUser(w http.ResponseWriter, r *http.Request)
-	// DisableUser(w http.ResponseWriter, r *http.Request)
-	// DisableUserForCause(w http.ResponseWriter, r *http.Request)
-	// ReinstateBannedUser(w http.ResponseWriter, r *http.Request)
+	EnableUser(w http.ResponseWriter, r *http.Request)
+	DisableUser(w http.ResponseWriter, r *http.Request)
+	DisableUserForCause(w http.ResponseWriter, r *http.Request)
+	ReinstateBannedUser(w http.ResponseWriter, r *http.Request)
 
 	// AddRolePage(w http.ResponseWriter, r *http.Request)
 	// AddRole(w http.ResponseWriter, r *http.Request)

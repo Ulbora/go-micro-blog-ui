@@ -20,10 +20,10 @@
                                 <p class="card-text">Status: Active</p>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <a href="/disableUser/up/{{.User.ID}}">1. Disable User</a>
+                                        <a href="/disableUser/{{.User.ID}}">1. Disable User</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="/deactivateUser/up/{{.User.ID}}">2. Disable User For Cause</a>
+                                        <a href="/deactivateUser/{{.User.ID}}">2. Disable User For Cause</a>
                                     </li>
                                 </ul>
                                 {{else}}
@@ -31,14 +31,14 @@
                                 <p class="card-text">Status: Disabled For Cause</p>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <a href="/reactivateUser/up/{{.User.ID}}">1. Reactivate this User</a>
+                                        <a href="/reactivateUser/{{.User.ID}}">1. Reactivate this User</a>
                                     </li>
                                 </ul>
                                 {{else}}
                                 <p class="card-text">Status: Disabled</p>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <a href="/activate/up/{{.User.ID}}">1. Activate this User</a>
+                                        <a href="/activateUser/{{.User.ID}}">1. Activate this User</a>
                                     </li>
                                 </ul>
                                 {{end}}  
