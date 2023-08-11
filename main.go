@@ -145,7 +145,7 @@ func main() {
 		"./static/header.html", "./static/admin/adminBlogList.html",
 		"./static/user-admin-nav.html", "./static/admin/adminBlog.html",
 		"./static/admin/adminUser.html", "./static/admin/adminUnactivatedUser.html",
-		"./static/admin/adminBannedUser.html"))
+		"./static/admin/adminBannedUser.html", "./static/admin/adminConfig.html"))
 
 	router := mux.NewRouter()
 
@@ -192,6 +192,8 @@ func main() {
 	router.HandleFunc("/disableUser/{uid}", h.DisableUser).Methods("GET")
 	router.HandleFunc("/deactivateUser/{uid}", h.DisableUserForCause).Methods("GET")
 	router.HandleFunc("/reactivateUser/{uid}", h.ReinstateBannedUser).Methods("GET")
+	router.HandleFunc("/adminConfig", h.GetConfig).Methods("GET")
+	router.HandleFunc("/updateConfig", h.UpdateConfig).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

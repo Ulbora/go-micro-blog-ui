@@ -36,6 +36,7 @@ const (
 	adminUserPage            = "adminUser.html"
 	adminUnactivatedUserPage = "adminUnactivatedUser.html"
 	adminBannedUserPage      = "adminBannedUser.html"
+	adminConfigPage          = "adminConfig.html"
 
 	//routes
 	indexRt  = "/"
@@ -46,6 +47,7 @@ const (
 	adminBlogListRt = "/adminPostList"
 	viesAdminPostRt = "/adminViewPost"
 	adminUserRt     = "/adminUser"
+	adminConfigRt   = "/adminConfig"
 
 	maxPosts    = 200
 	maxComments = 1000
@@ -70,8 +72,8 @@ type Handler interface {
 	// GetRoleList(w http.ResponseWriter, r *http.Request)
 	// DeleteRole(w http.ResponseWriter, r *http.Request)
 
-	// GetConfig(w http.ResponseWriter, r *http.Request)
-	// UpdateConfig(w http.ResponseWriter, r *http.Request)
+	GetConfig(w http.ResponseWriter, r *http.Request)
+	UpdateConfig(w http.ResponseWriter, r *http.Request)
 
 	// GetUserAuthList(w http.ResponseWriter, r *http.Request)
 

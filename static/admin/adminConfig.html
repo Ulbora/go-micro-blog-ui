@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-admin-navbar" .}}
+    <body style="background-color:rgb(244, 242, 242)">
+        <div class="container">
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
+            <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
+            <div class="border mb-2" style="width: 40%; margin: 0 0 0 30%; background-color: white;">
+                <h3 class="blog-top1 mt-2 mb-2" style="width: 100%; text-align: center;">Edit Configuration</h3>
+                <form action="/updateConfig" method="POST">
+                    <input type="hidden" name="cid" value="{{.Config.ID}}">
+                    <div class="form-check">                        
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="allowAutoPost"
+                            id="allowAutoPost"
+                            {{if .Config.AllowAutoPost}}
+                            checked
+                            {{end}}
+                        >                       
+                        <label class="form-check-label" for="allowAutoPost">
+                            Allow Auto Posts
+                        </label>
+                    </div>
+                    <div class="form-check">                        
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="allowAutoComment"
+                            id="allowAutoComment"
+                            {{if .Config.AllowAutoComment}}
+                            checked
+                            {{end}}
+                        >                        
+                        <label class="form-check-label" for="allowAutoComment">
+                            Allow Auto Comments
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3 mb-3">Update</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -55,8 +55,12 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 	}
 
 	var mcdel del.MockDelegate
-	mcdel.AddUserID = 4
-	mcdel.AddUserSuccess = true
+	// mcdel.AddUserID = 4
+	// mcdel.AddUserSuccess = true
+	var mkus del.ResponseID
+	mkus.ID = 4
+	mkus.Success = true
+	mcdel.MockAddUserResp = &mkus
 
 	var mr del.Role
 	mr.ID = 5
@@ -75,8 +79,12 @@ func TestMCHandler_LinkedInCallback(t *testing.T) {
 	// mcdel.GetUserEmail = "test@test.com"
 
 	var mcdel2 del.MockDelegate
-	mcdel2.AddUserID = 4
-	mcdel2.AddUserSuccess = true
+	// mcdel2.AddUserID = 4
+	// mcdel2.AddUserSuccess = true
+	var mkus2 del.ResponseID
+	mkus2.ID = 4
+	mkus2.Success = true
+	mcdel2.MockAddUserResp = &mkus
 
 	// var rtn Role
 	// rtn.ID = d.GetRoleID
@@ -241,14 +249,17 @@ func TestMCHandler_GoogleSigninCallback(t *testing.T) {
 	}
 
 	var mcdel del.MockDelegate
-	mcdel.AddUserID = 4
-	mcdel.AddUserSuccess = true
+	//mcdel.AddUserID = 4
+	//mcdel.AddUserSuccess = true
+	var mkus del.ResponseID
+	mkus.ID = 4
+	mkus.Success = true
+	mcdel.MockAddUserResp = &mkus
 
 	var mr del.Role
 	mr.ID = 5
 	mr.Name = "user"
 	mcdel.MockRole = &mr
-
 
 	var mu del.User
 	mu.Active = true
@@ -264,8 +275,12 @@ func TestMCHandler_GoogleSigninCallback(t *testing.T) {
 	// mcdel.GetUserEmail = "test@test.com"
 
 	var mcdel2 del.MockDelegate
-	mcdel2.AddUserID = 4
-	mcdel2.AddUserSuccess = true
+	// mcdel2.AddUserID = 4
+	// mcdel2.AddUserSuccess = true
+	var mkus2 del.ResponseID
+	mkus2.ID = 4
+	mkus2.Success = true
+	mcdel2.MockAddUserResp = &mkus
 
 	//mcdel2.GetRoleID = 3
 	mcdel2.MockRole = &mr

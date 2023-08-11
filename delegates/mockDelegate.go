@@ -19,17 +19,19 @@ package delegates
 
 // MockDelegate MockDelegate
 type MockDelegate struct {
-	AddUserID      int64
-	AddUserSuccess bool
+	MockAddUserResp *ResponseID
 
-	// GetUserActive bool
-	// GetUserEmail  string
-	// MockUser *User
+	MockUpdateUserResp *Response
 
 	MockRole *Role
 
-	AddUserAuthID      int64
-	AddUserAuthSuccess bool
+	MockAddRoleResp *ResponseID
+
+	MockRoleList *[]Role
+
+	MockDeleteRoleResp *Response
+
+	MockAddUserAuthResp *ResponseID
 
 	MockUser *User
 
@@ -56,6 +58,8 @@ type MockDelegate struct {
 
 	MockDeActivateCommentRes *Response
 
+	MockUserList *[]User
+
 	MockUnactivatedUserList *[]User
 
 	MockBannedUserList *[]User
@@ -67,6 +71,10 @@ type MockDelegate struct {
 	MockDisableUser *Response
 
 	MockDisableUserForCause *Response
+
+	MockConfig *Config
+
+	MockUpdateConfigRes *Response
 }
 
 // New New
@@ -76,23 +84,17 @@ func (d *MockDelegate) New() Delegate {
 
 // AddUser AddUser
 func (d *MockDelegate) AddUser(u *User) *ResponseID {
-	var rtn ResponseID
-	rtn.ID = d.AddUserID
-	rtn.Success = d.AddUserSuccess
-	return &rtn
+	return d.MockAddUserResp
 }
 
 // UpdateUser UpdateUser
 func (d *MockDelegate) UpdateUser(u *User) *Response {
-	return nil
+	return d.MockUpdateUserResp
 
 }
 
 // GetUser GetUser
 func (d *MockDelegate) GetUser(email string) *User {
-	// var rtn User
-	// rtn.Active = d.GetUserActive
-	// rtn.Email = d.GetUserEmail
 	return d.MockUser
 
 }
@@ -105,7 +107,7 @@ func (d *MockDelegate) GetUserByID(id int64) *User {
 
 // GetUserList GetUserList
 func (d *MockDelegate) GetUserList() *[]User {
-	return nil
+	return d.MockUserList
 
 }
 
@@ -146,25 +148,22 @@ func (d *MockDelegate) ReactivateUser(u *User) *Response {
 
 // AddRole AddRole
 func (d *MockDelegate) AddRole(r *Role) *ResponseID {
-	return nil
+	return d.MockAddRoleResp
 }
 
 // GetRole GetRole
 func (d *MockDelegate) GetRole(name string) *Role {
-	// var rtn Role
-	// rtn.ID = d.GetRoleID
-	// rtn.Name = d.GetRoleName
 	return d.MockRole
 }
 
 // GetRoleList GetRoleList
 func (d *MockDelegate) GetRoleList() *[]Role {
-	return nil
+	return d.MockRoleList
 }
 
 // DeleteRole DeleteRole
 func (d *MockDelegate) DeleteRole(rid int64) *Response {
-	return nil
+	return d.MockDeleteRoleResp
 }
 
 // AddBlog AddBlog
@@ -254,11 +253,11 @@ func (d *MockDelegate) DeActivateComment(c *Comment) *Response {
 
 // AddUserAuth AddUserAuth
 func (d *MockDelegate) AddUserAuth(a *UserAuth) *ResponseID {
-	var rtn ResponseID
-	rtn.ID = d.AddUserAuthID
-	rtn.Success = d.AddUserAuthSuccess
+	// var rtn ResponseID
+	// rtn.ID = d.AddUserAuthID
+	// rtn.Success = d.AddUserAuthSuccess
 
-	return &rtn
+	return d.MockAddUserAuthResp
 }
 
 // GetUserAuthList GetUserAuthList
@@ -268,10 +267,10 @@ func (d *MockDelegate) GetUserAuthList(userID int64, start int64, end int64) *[]
 
 // UpdateConfig UpdateConfig
 func (d *MockDelegate) UpdateConfig(c *Config) *Response {
-	return nil
+	return d.MockUpdateConfigRes
 }
 
 // GetConfig GetConfig
 func (d *MockDelegate) GetConfig() *Config {
-	return nil
+	return d.MockConfig
 }
