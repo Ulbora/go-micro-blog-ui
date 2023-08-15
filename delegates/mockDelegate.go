@@ -33,6 +33,8 @@ type MockDelegate struct {
 
 	MockAddUserAuthResp *ResponseID
 
+	MockUserAuthList *[]UserAuth
+
 	MockUser *User
 
 	MockBlogList *[]Blog
@@ -48,7 +50,11 @@ type MockDelegate struct {
 
 	MockAddCommentRes *ResponseID
 
+	MockUpdateCommentRes *Response
+
 	MockAddLikeRes *ResponseID
+
+	MockRemoveLikeResp *Response
 
 	MockActivateRes *Response
 
@@ -183,7 +189,7 @@ func (d *MockDelegate) GetBlog(bid int64) *Blog {
 
 // GetBlogByName GetBlogByName
 func (d *MockDelegate) GetBlogByName(name string, start int64, end int64) *[]Blog {
-	return nil
+	return d.MockBlogList
 }
 
 // GetBlogList GetBlogList
@@ -213,7 +219,7 @@ func (d *MockDelegate) AddLike(l *Like) *ResponseID {
 
 // RemoveLike RemoveLike
 func (d *MockDelegate) RemoveLike(l *Like) *Response {
-	return nil
+	return d.MockRemoveLikeResp
 }
 
 // ViewLikes ViewLikes
@@ -228,7 +234,7 @@ func (d *MockDelegate) AddComment(c *Comment) *ResponseID {
 
 // UpdateComment UpdateComment
 func (d *MockDelegate) UpdateComment(c *Comment) *Response {
-	return nil
+	return d.MockUpdateCommentRes
 }
 
 // GetCommentList GetCommentList
@@ -253,16 +259,12 @@ func (d *MockDelegate) DeActivateComment(c *Comment) *Response {
 
 // AddUserAuth AddUserAuth
 func (d *MockDelegate) AddUserAuth(a *UserAuth) *ResponseID {
-	// var rtn ResponseID
-	// rtn.ID = d.AddUserAuthID
-	// rtn.Success = d.AddUserAuthSuccess
-
 	return d.MockAddUserAuthResp
 }
 
 // GetUserAuthList GetUserAuthList
 func (d *MockDelegate) GetUserAuthList(userID int64, start int64, end int64) *[]UserAuth {
-	return nil
+	return d.MockUserAuthList
 }
 
 // UpdateConfig UpdateConfig
