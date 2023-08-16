@@ -86,14 +86,6 @@ func (h *MCHandler) GetUnactivatedUserList(w http.ResponseWriter, r *http.Reques
 		var isAdmin = s.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetUnactivatedUserList: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			// bvars := mux.Vars(r)
-			// ststr := bvars["start"]
-			// str, _ := strconv.ParseInt(ststr, 10, 64)
-			// h.Log.Debug("page start", str)
-
-			// edstr := bvars["end"]
-			// end, _ := strconv.ParseInt(edstr, 10, 64)
-			// h.Log.Debug("page end", end)
 
 			users := h.Delegate.GetUnActivatedUserList()
 			var ul []User
@@ -128,14 +120,6 @@ func (h *MCHandler) GetBannedUserList(w http.ResponseWriter, r *http.Request) {
 		var isAdmin = s.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetBannedUserList: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			// bvars := mux.Vars(r)
-			// ststr := bvars["start"]
-			// str, _ := strconv.ParseInt(ststr, 10, 64)
-			// h.Log.Debug("page start", str)
-
-			// edstr := bvars["end"]
-			// end, _ := strconv.ParseInt(edstr, 10, 64)
-			// h.Log.Debug("page end", end)
 
 			users := h.Delegate.GetBannedUserList()
 			var ul []User
@@ -174,27 +158,15 @@ func (h *MCHandler) EnableUser(w http.ResponseWriter, r *http.Request) {
 			uidStr := vars["uid"]
 			h.Log.Debug("uid in EnableUser: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var ubb mcd.User
 			ubb.ID = uid
-			//abb.Active = true
 			res := h.Delegate.EnableUser(&ubb)
 			if !res.Success {
 				h.Log.Debug("add EnableUser suc: ", res.Success)
 				h.Log.Debug("add EnableUser code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
@@ -215,27 +187,15 @@ func (h *MCHandler) DisableUser(w http.ResponseWriter, r *http.Request) {
 			uidStr := vars["uid"]
 			h.Log.Debug("uid in DisableUser: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var ubb mcd.User
 			ubb.ID = uid
-			//abb.Active = true
 			res := h.Delegate.DisableUser(&ubb)
 			if !res.Success {
 				h.Log.Debug("add DisableUser suc: ", res.Success)
 				h.Log.Debug("add DisableUser code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
@@ -256,27 +216,15 @@ func (h *MCHandler) DisableUserForCause(w http.ResponseWriter, r *http.Request) 
 			uidStr := vars["uid"]
 			h.Log.Debug("uid in DisableUserForCause: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var ubb mcd.User
 			ubb.ID = uid
-			//abb.Active = true
 			res := h.Delegate.DisableUserForCause(&ubb)
 			if !res.Success {
 				h.Log.Debug("add DisableUserForCause suc: ", res.Success)
 				h.Log.Debug("add DisableUserForCause code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
@@ -297,27 +245,15 @@ func (h *MCHandler) ReinstateBannedUser(w http.ResponseWriter, r *http.Request) 
 			uidStr := vars["uid"]
 			h.Log.Debug("uid in ReinstateBannedUser: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var ubb mcd.User
 			ubb.ID = uid
-			//abb.Active = true
 			res := h.Delegate.ReactivateUser(&ubb)
 			if !res.Success {
 				h.Log.Debug("add ReinstateBannedUser suc: ", res.Success)
 				h.Log.Debug("add ReinstateBannedUser code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}

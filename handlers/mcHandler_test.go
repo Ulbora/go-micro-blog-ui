@@ -9,7 +9,6 @@ import (
 
 	lg "github.com/GolangToolKits/go-level-logger"
 	gss "github.com/GolangToolKits/go-secure-sessions"
-	m "github.com/Ulbora/go-micro-blog-ui/managers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
@@ -23,7 +22,6 @@ func TestMCHandler_processAPIKey(t *testing.T) {
 
 	type fields struct {
 		Log            lg.Log
-		Manager        m.Manager
 		APIKey         string
 		APIAdminKey    string
 		Signins        map[string]s.Signin
@@ -60,7 +58,6 @@ func TestMCHandler_processAPIKey(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &MCHandler{
 				Log:            tt.fields.Log,
-				Manager:        tt.fields.Manager,
 				APIKey:         tt.fields.APIKey,
 				APIAdminKey:    tt.fields.APIAdminKey,
 				Signins:        tt.fields.Signins,
@@ -88,7 +85,6 @@ func TestMCHandler_processAPIAdminKey(t *testing.T) {
 
 	type fields struct {
 		Log            lg.Log
-		Manager        m.Manager
 		APIKey         string
 		APIAdminKey    string
 		Signins        map[string]s.Signin
@@ -125,7 +121,6 @@ func TestMCHandler_processAPIAdminKey(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &MCHandler{
 				Log:            tt.fields.Log,
-				Manager:        tt.fields.Manager,
 				APIKey:         tt.fields.APIKey,
 				APIAdminKey:    tt.fields.APIAdminKey,
 				Signins:        tt.fields.Signins,
@@ -153,7 +148,6 @@ func TestMCHandler_checkContent(t *testing.T) {
 
 	type fields struct {
 		Log            lg.Log
-		Manager        m.Manager
 		APIKey         string
 		APIAdminKey    string
 		Signins        map[string]s.Signin
@@ -190,7 +184,6 @@ func TestMCHandler_checkContent(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &MCHandler{
 				Log:            tt.fields.Log,
-				Manager:        tt.fields.Manager,
 				APIKey:         tt.fields.APIKey,
 				APIAdminKey:    tt.fields.APIAdminKey,
 				Signins:        tt.fields.Signins,
@@ -230,7 +223,6 @@ func TestMCHandler_processBody(t *testing.T) {
 
 	type fields struct {
 		Log            lg.Log
-		Manager        m.Manager
 		APIKey         string
 		APIAdminKey    string
 		Signins        map[string]s.Signin
@@ -273,7 +265,7 @@ func TestMCHandler_processBody(t *testing.T) {
 				r:   r2,
 				obj: &testObj{},
 			},
-			want: false,
+			want:    false,
 			wantErr: true,
 		},
 		{
@@ -282,10 +274,10 @@ func TestMCHandler_processBody(t *testing.T) {
 				Log: log,
 			},
 			args: args{
-				r:   r,
+				r: r,
 				//obj: &testObj{},
 			},
-			want: false,
+			want:    false,
 			wantErr: true,
 		},
 	}
@@ -293,7 +285,6 @@ func TestMCHandler_processBody(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &MCHandler{
 				Log:            tt.fields.Log,
-				Manager:        tt.fields.Manager,
 				APIKey:         tt.fields.APIKey,
 				APIAdminKey:    tt.fields.APIAdminKey,
 				Signins:        tt.fields.Signins,

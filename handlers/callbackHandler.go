@@ -38,7 +38,6 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 	if s.State == state {
 		tk := si.AccessToken(code)
 		h.Log.Debug("token: ", tk.AccessToken)
-		//get userinfo from linkedin
 		uiRes := si.GetUserInfo(tk.AccessToken)
 		if uiRes.(*s.UserInfoResponse).EmailVerified && uiRes.(*s.UserInfoResponse).Email != "" {
 			uemail := uiRes.(*s.UserInfoResponse).Email
@@ -54,10 +53,8 @@ func (h *MCHandler) LinkedInCallback(w http.ResponseWriter, r *http.Request) {
 
 			var usuc bool
 			var urole int64
-			//save to db in service
 			user := h.Delegate.GetUser(uemail)
 			if !user.Active && user.Email == "" {
-				// usuc = true
 				h.Log.Debug("create new user: ", uemail)
 				role := h.Delegate.GetRole(del.UserRole)
 				var nusr del.User
@@ -124,7 +121,6 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 	if s.GoogleState == state {
 		tk := si.AccessToken(code)
 		h.Log.Debug("token: ", tk.AccessToken)
-		//get userinfo from linkedin
 		uiRes := si.GetUserInfo(tk.AccessToken)
 		if uiRes.(*s.GoogleUserInfoResponse).EmailVerified && uiRes.(*s.GoogleUserInfoResponse).Email != "" {
 			uemail := uiRes.(*s.GoogleUserInfoResponse).Email
@@ -140,10 +136,8 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 
 			var usuc bool
 			var urole int64
-			//save to db in service
 			user := h.Delegate.GetUser(uemail)
 			if !user.Active && user.Email == "" {
-				// usuc = true
 				h.Log.Debug("create new user: ", uemail)
 				role := h.Delegate.GetRole(del.UserRole)
 				var nusr del.User

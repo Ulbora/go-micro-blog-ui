@@ -80,6 +80,7 @@ type Handler interface {
 	GetAdminBlogList(w http.ResponseWriter, r *http.Request)
 	ActivateBlog(w http.ResponseWriter, r *http.Request)
 	DeactivateBlog(w http.ResponseWriter, r *http.Request)
+	DeleteBlog(w http.ResponseWriter, r *http.Request)
 
 	GetAdminCommentList(w http.ResponseWriter, r *http.Request)
 	ActivateComment(w http.ResponseWriter, r *http.Request)

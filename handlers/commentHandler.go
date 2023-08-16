@@ -66,7 +66,6 @@ func (h *MCHandler) processComment(r *http.Request) (string, *mcd.Comment) {
 	comment := r.FormValue("comment")
 	h.Log.Debug("name in processComment: ", r.FormValue("comment"))
 
-	//rtn.Content = b64.StdEncoding.EncodeToString([]byte(content))
 	rtn.BlogID = bid
 	rtn.Text = comment
 

@@ -35,24 +35,6 @@ type Signin interface {
 	SetProxy(p px.Proxy)
 }
 
-// // AuthParams AuthParams
-// type AuthParams struct {
-// 	ResponseType string
-// 	ClientID     string
-// 	RedirectURI  string
-// 	State        string
-// 	Scope        string
-// }
-
-// // TokenParams TokenParams
-// type TokenParams struct {
-// 	GrantType    string
-// 	AuthCode     string
-// 	ClientID     string
-// 	ClientSecret string
-// 	RedirectURI  string
-// }
-
 // TokenResponse TokenResponse
 type TokenResponse struct {
 	AccessToken           string `json:"access_token"`
@@ -87,8 +69,6 @@ func buildFormRequest(method string, url string, data url.Values) (*http.Request
 		req, err = http.NewRequest(method, url, strings.NewReader(data.Encode()))
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
-	// else {
-	// 	req, err = http.NewRequest(method, url, nil)
-	// }
+
 	return req, err
 }

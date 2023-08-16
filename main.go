@@ -151,12 +151,6 @@ func main() {
 
 	h := sh.New()
 
-	//router.HandleFunc("/", h.Index).Methods("GET")
-	//router.HandleFunc("/product/{id}/{sku}", h.ViewProduct).Methods("GET")
-	//router.HandleFunc("/addProduct", h.AddProduct).Methods("POST")
-
-	// router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
-
 	port := "8080"
 	envPort := os.Getenv("PORT")
 	if envPort != "" {
@@ -182,6 +176,7 @@ func main() {
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
 	router.HandleFunc("/activateBlog/{bid}", h.ActivateBlog).Methods("GET")
 	router.HandleFunc("/deactivateBlog/{bid}", h.DeactivateBlog).Methods("GET")
+	router.HandleFunc("/deleteBlog/{bid}", h.DeleteBlog).Methods("GET")
 	router.HandleFunc("/adminViewPost/{bid}", h.GetAdminCommentList).Methods("GET")
 	router.HandleFunc("/activateComment/{cid}/{bid}", h.ActivateComment).Methods("GET")
 	router.HandleFunc("/deactivateComment/{cid}/{bid}", h.DeactivateComment).Methods("GET")

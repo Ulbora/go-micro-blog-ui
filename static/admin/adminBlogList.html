@@ -65,6 +65,11 @@
                                     Comment
                                 </a>
                                 {{.CommentCnt}}
+                                {{else}}
+                                <a href="/deleteBlog/{{.Blog.ID}}">
+                                    <img src="../images/dislike.png" class="card-img-top icons-desp" alt="...">
+                                    Delete
+                                </a>
                                 {{end}}
                             </div>
                             {{if eq .User.Email $.MyEmail}}

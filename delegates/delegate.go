@@ -53,6 +53,7 @@ type Delegate interface {
 	GetAdminBlogList(start int64, end int64) *[]Blog
 	ActivateBlog(b *Blog) *Response
 	DeActivateBlog(b *Blog) *Response
+	DeleteBlog(bid int64) *Response
 
 	AddLike(l *Like) *ResponseID  // AddLike()
 	RemoveLike(l *Like) *Response // RemoveLike()

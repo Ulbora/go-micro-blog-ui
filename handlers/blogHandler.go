@@ -115,25 +115,19 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut4, "", -1)
 
 					bb.TextHTML = template.HTML(bb.Blog.Content)
-					//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
 					h.Log.Debug("TextHTML: ", bb.TextHTML)
 				}
-				//var ccnt int
-				//var lcnt int
+				
 				wg.Add(1)
 				go func(bbb *Blog) {
-					// wg.Add(1)
 					defer wg.Done()
 					cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, maxComments)
 					h.Log.Debug("commentCnt: ", len(*cl))
-					// bb.CommentCnt = len(*cl)
-					//ccnt = len(*cl)
 					bbb.CommentCnt = len(*cl)
 					h.Log.Debug("Comments Done: ")
 				}(&bb)
 				wg.Add(1)
 				go func(bbb *Blog) {
-					// wg.Add(1)
 					defer wg.Done()
 					ll := h.Delegate.ViewLikes(bbb.Blog.ID)
 					for _, l := range *ll {
@@ -142,48 +136,33 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 						}
 					}
 					h.Log.Debug("likeCnt: ", len(*ll))
-					// bb.LikeCnt = len(*ll)
 					bbb.LikeCnt = len(*ll)
 					h.Log.Debug("Views Done: ")
 				}(&bb)
 
 				wg.Add(1)
 				go func(bbb *Blog) {
-					// wg.Add(1)
 					defer wg.Done()
 					u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
 					h.Log.Debug("get user: ")
-					// bb.CommentCnt = len(*cl)
-					//ccnt = len(*cl)
 					bbb.User = u1
 					bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
 					h.Log.Debug("User Done: ")
 				}(&bb)
 
 				wg.Wait()
-				// h.Log.Debug("after wait: for ", i)
-				// h.Log.Debug("comments : ", ccnt)
-				// h.Log.Debug("likes : ", lcnt)
-				// bb.CommentCnt = ccnt
-				// bb.LikeCnt = lcnt
+				
 
 				blst = append(blst, bb)
-				// h.Log.Debug("blog: ", bb)
 			}
 			bp.BlogList = &blst
 			h.Log.Debug("after all waits")
-			//h.Log.Debug("template: ", h.AdminTemplates)
-			//res := h.Service.GetContentList(false)
-			// sort.Slice(*res, func(p, q int) bool {
-			// 	return (*res)[p].Title < (*res)[q].Title
-			// })
-			// h.Log.Debug("content in admin index sorted: ", *res)
+			
 			h.Templates.ExecuteTemplate(w, blogListPage, &bp)
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
 	}
-	//<object data="data:application/pdf;base64,YOURBASE64DATA" type="application/pdf"></object>
 }
 
 // AddBlogPage AddBlogPage
@@ -205,11 +184,7 @@ func (h *MCHandler) AddBlogPage(w http.ResponseWriter, r *http.Request) {
 				pd.UserEmail = uemail.(string)
 			}
 
-			//res := h.Service.GetContentList(false)
-			// sort.Slice(*res, func(p, q int) bool {
-			// 	return (*res)[p].Title < (*res)[q].Title
-			// })
-			// h.Log.Debug("content in admin index sorted: ", *res)
+			
 			h.Templates.ExecuteTemplate(w, addBlogPage, &pd)
 		} else {
 			http.Redirect(w, r, indexRt, http.StatusFound)
@@ -280,19 +255,15 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
 
 				bb.TextHTML = template.HTML(bg.Content)
-				//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
 				h.Log.Debug("TextHTML: ", bb.TextHTML)
 			}
 
 			bp.Blog = &bb
 			wg.Add(1)
 			go func(bbb *Blog) {
-				// wg.Add(1)
 				defer wg.Done()
 				cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, maxComments)
 				h.Log.Debug("commentCnt: ", len(*cl))
-				// bb.CommentCnt = len(*cl)
-				//ccnt = len(*cl)
 				var cmtLst []Comment
 				for i := range *cl {
 					cmt := (*cl)[i]
@@ -310,29 +281,15 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 
 			wg.Add(1)
 			go func(bbb *Blog) {
-				// wg.Add(1)
 				defer wg.Done()
 				u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
 				h.Log.Debug("get user: ")
-				// bb.CommentCnt = len(*cl)
-				//ccnt = len(*cl)
 				bbb.User = u1
 				bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
 				h.Log.Debug("User Done: ")
 			}(&bb)
 
-			// wg.Add(1)
-			// go func(bbb *Blog) {
-			// 	// wg.Add(1)
-			// 	defer wg.Done()
-			// 	u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
-			// 	h.Log.Debug("get user: ")
-			// 	// bb.CommentCnt = len(*cl)
-			// 	//ccnt = len(*cl)
-			// 	bbb.User = u1
-			// 	bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
-			// 	h.Log.Debug("User Done: ")
-			// }(&bb)
+			
 
 			wg.Wait()
 
@@ -357,7 +314,6 @@ func (h *MCHandler) UpdateBlogPage(w http.ResponseWriter, r *http.Request) {
 			bidstr := bvars["bid"]
 			bid, _ := strconv.ParseInt(bidstr, 10, 64)
 			h.Log.Debug("blog id in edit", bid)
-			//var wg sync.WaitGroup
 			bg := h.Delegate.GetBlog(bid)
 
 			var bp BlogPage
@@ -379,7 +335,6 @@ func (h *MCHandler) UpdateBlogPage(w http.ResponseWriter, r *http.Request) {
 				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
 
 				bb.TextHTML = template.HTML(bg.Content)
-				//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
 				h.Log.Debug("TextHTML: ", bb.TextHTML)
 			}
 
@@ -421,8 +376,6 @@ func (h *MCHandler) UpdateBlog(w http.ResponseWriter, r *http.Request) {
 			h.Log.Debug("id in updateBlog: ", blog.ID)
 			h.Log.Debug("name in addBlog name: ", blog.Name)
 			h.Log.Debug("blog in addBlog content: ", blog.Content)
-			//u := h.Delegate.GetUser(email)
-			//blog.UserID = u.ID
 			res := h.Delegate.UpdateBlog(blog)
 			h.Log.Debug("addBlog success: ", res.Success)
 			h.Log.Debug("addBlog code: ", res.Code)

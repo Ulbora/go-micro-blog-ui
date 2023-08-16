@@ -66,19 +66,15 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
 
 				bb.TextHTML = template.HTML(bg.Content)
-				//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
 				h.Log.Debug("TextHTML: ", bb.TextHTML)
 			}
 
 			bp.Blog = &bb
 			wg.Add(1)
 			go func(bbb *Blog) {
-				// wg.Add(1)
 				defer wg.Done()
 				cl := h.Delegate.GetAdminCommentList(bbb.Blog.ID, 0, maxComments)
 				h.Log.Debug("commentCnt: ", len(*cl))
-				// bb.CommentCnt = len(*cl)
-				//ccnt = len(*cl)
 				var cmtLst []Comment
 				for i := range *cl {
 					cmt := (*cl)[i]
@@ -96,29 +92,13 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 
 			wg.Add(1)
 			go func(bbb *Blog) {
-				// wg.Add(1)
 				defer wg.Done()
 				u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
 				h.Log.Debug("get user: ")
-				// bb.CommentCnt = len(*cl)
-				//ccnt = len(*cl)
 				bbb.User = u1
 				bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
 				h.Log.Debug("User Done: ")
 			}(&bb)
-
-			// wg.Add(1)
-			// go func(bbb *Blog) {
-			// 	// wg.Add(1)
-			// 	defer wg.Done()
-			// 	u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
-			// 	h.Log.Debug("get user: ")
-			// 	// bb.CommentCnt = len(*cl)
-			// 	//ccnt = len(*cl)
-			// 	bbb.User = u1
-			// 	bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
-			// 	h.Log.Debug("User Done: ")
-			// }(&bb)
 
 			wg.Wait()
 
@@ -145,28 +125,15 @@ func (h *MCHandler) ActivateComment(w http.ResponseWriter, r *http.Request) {
 			bidStr := vars["bid"]
 			h.Log.Debug("cid in Activate Comment: ", cidStr)
 			cid, _ := strconv.ParseInt(cidStr, 10, 64)
-			//bid, _ := strconv.ParseInt(bidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var acc mcd.Comment
 			acc.ID = cid
-			//abb.Active = true
 			res := h.Delegate.ActivateComment(&acc)
 			if !res.Success {
 				h.Log.Debug("add Activate Comment suc: ", res.Success)
 				h.Log.Debug("add Activate Comment code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, viesAdminPostRt+"/"+bidStr, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
@@ -188,28 +155,15 @@ func (h *MCHandler) DeactivateComment(w http.ResponseWriter, r *http.Request) {
 			bidStr := vars["bid"]
 			h.Log.Debug("cid in Deactivate Comment: ", cidStr)
 			cid, _ := strconv.ParseInt(cidStr, 10, 64)
-			//bid, _ := strconv.ParseInt(bidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var acc mcd.Comment
 			acc.ID = cid
-			//abb.Active = true
 			res := h.Delegate.DeActivateComment(&acc)
 			if !res.Success {
 				h.Log.Debug("add Activate Comment suc: ", res.Success)
 				h.Log.Debug("add Activate Comment code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, viesAdminPostRt+"/"+bidStr, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}

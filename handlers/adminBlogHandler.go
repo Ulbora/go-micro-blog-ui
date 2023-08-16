@@ -69,25 +69,17 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 					bb.Blog.Content = strings.Replace(bb.Blog.Content, stripOut4, "", -1)
 
 					bb.TextHTML = template.HTML(bb.Blog.Content)
-					//bb.TextHTML = strings.Replace(bb.TextHTML, stripOut, "")
-					// h.Log.Debug("TextHTML: ", bb.TextHTML)
 				}
-				//var ccnt int
-				//var lcnt int
 				wg.Add(1)
 				go func(bbb *Blog) {
-					// wg.Add(1)
 					defer wg.Done()
 					cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, maxComments)
 					h.Log.Debug("commentCnt: ", len(*cl))
-					// bb.CommentCnt = len(*cl)
-					//ccnt = len(*cl)
 					bbb.CommentCnt = len(*cl)
 					h.Log.Debug("Comments Done: ")
 				}(&bb)
 				wg.Add(1)
 				go func(bbb *Blog) {
-					// wg.Add(1)
 					defer wg.Done()
 					ll := h.Delegate.ViewLikes(bbb.Blog.ID)
 					for _, l := range *ll {
@@ -96,48 +88,33 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 						}
 					}
 					h.Log.Debug("likeCnt: ", len(*ll))
-					// bb.LikeCnt = len(*ll)
 					bbb.LikeCnt = len(*ll)
 					h.Log.Debug("Views Done: ")
 				}(&bb)
 
 				wg.Add(1)
 				go func(bbb *Blog) {
-					// wg.Add(1)
 					defer wg.Done()
 					u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
 					h.Log.Debug("get user: ")
-					// bb.CommentCnt = len(*cl)
-					//ccnt = len(*cl)
 					bbb.User = u1
 					bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
 					h.Log.Debug("User Done: ")
 				}(&bb)
 
 				wg.Wait()
-				// h.Log.Debug("after wait: for ", i)
-				// h.Log.Debug("comments : ", ccnt)
-				// h.Log.Debug("likes : ", lcnt)
-				// bb.CommentCnt = ccnt
-				// bb.LikeCnt = lcnt
 
 				blst = append(blst, bb)
-				// h.Log.Debug("blog: ", bb)
 			}
 			bp.BlogList = &blst
 			h.Log.Debug("after all waits")
 			h.Log.Debug("template: ", *h.AdminTemplates)
-			//res := h.Service.GetContentList(false)
-			// sort.Slice(*res, func(p, q int) bool {
-			// 	return (*res)[p].Title < (*res)[q].Title
-			// })
-			// h.Log.Debug("content in admin index sorted: ", *res)
+
 			h.AdminTemplates.ExecuteTemplate(w, adminBlogListPage, &bp)
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
 	}
-	//<object data="data:application/pdf;base64,YOURBASE64DATA" type="application/pdf"></object>
 }
 
 // ActivateBlog ActivateBlog
@@ -154,27 +131,15 @@ func (h *MCHandler) ActivateBlog(w http.ResponseWriter, r *http.Request) {
 			bidStr := vars["bid"]
 			h.Log.Debug("bid in Activate Blog: ", bidStr)
 			bid, _ := strconv.ParseInt(bidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//h.Log.Debug("getting Blog: ")
-			//abb := h.Delegate.GetBlog(bid)
-			//h.Log.Debug("Blog: ")
 
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
 			var abb mcd.Blog
 			abb.ID = bid
-			//abb.Active = true
 			res := h.Delegate.ActivateBlog(&abb)
 			if !res.Success {
 				h.Log.Debug("add Activate Blog suc: ", res.Success)
 				h.Log.Debug("add Activate Blog code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, adminBlogListRt, http.StatusFound)
-			//}
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
@@ -195,25 +160,44 @@ func (h *MCHandler) DeactivateBlog(w http.ResponseWriter, r *http.Request) {
 			bidStr := vars["bid"]
 			h.Log.Debug("bid: ", bidStr)
 			bid, _ := strconv.ParseInt(bidStr, 10, 64)
-			//uemail := s.Get("userEmail")
-			//if uemail != nil {
-			//email := uemail.(string)
-			//dbb := h.Delegate.GetBlog(bid)
 
 			var dbb mcd.Blog
 			dbb.ID = bid
-			//var lk mcd.Like
-			//lk.BlogID = bid
-			//lk.UserID = u.ID
-			//dbb.Active = false
+
 			res := h.Delegate.DeActivateBlog(&dbb)
 			if !res.Success {
 				h.Log.Debug("add Dectivate Blog suc: ", res.Success)
 				h.Log.Debug("add Dectivate Blog code: ", res.Code)
-				//h.Delegate.RemoveLike(&lk)
 			}
 			http.Redirect(w, r, adminBlogListRt, http.StatusFound)
-			//}
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
+}
+
+// DeleteBlog DeleteBlog
+func (h *MCHandler) DeleteBlog(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in Delete Blog")
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc in Delete Blog", suc)
+	if suc {
+		loggedInAuth := s.Get("loggedIn")
+		var isAdmin = s.Get("isAdmin")
+		h.Log.Debug("loggedIn in Delete Blog: ", loggedInAuth)
+		if loggedInAuth == true && isAdmin == true {
+			vars := mux.Vars(r)
+			bidStr := vars["bid"]
+			h.Log.Debug("bid: ", bidStr)
+			bid, _ := strconv.ParseInt(bidStr, 10, 64)
+
+			res := h.Delegate.DeleteBlog(bid)
+			if !res.Success {
+				h.Log.Debug("add Delete Blog suc: ", res.Success)
+				h.Log.Debug("add Delete Blog code: ", res.Code)
+			}
+			http.Redirect(w, r, adminBlogListRt, http.StatusFound)
+
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}

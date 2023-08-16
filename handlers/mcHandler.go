@@ -27,14 +27,12 @@ import (
 	lg "github.com/GolangToolKits/go-level-logger"
 	gss "github.com/GolangToolKits/go-secure-sessions"
 	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
-	m "github.com/Ulbora/go-micro-blog-ui/managers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
 // MCHandler MCHandler
 type MCHandler struct {
 	Log            lg.Log
-	Manager        m.Manager
 	APIKey         string
 	APIAdminKey    string
 	Delegate       mcd.Delegate
@@ -95,15 +93,11 @@ func (h *MCHandler) setContentType(w http.ResponseWriter) {
 func (h *MCHandler) processBody(r *http.Request, obj any) (bool, error) {
 	var suc bool
 	var err error
-	//fmt.Println("r.Body: ", r.Body)
 	h.Log.Debug("r.Body: ", r.Body)
 	if r.Body != nil {
 		decoder := json.NewDecoder(r.Body)
-		//fmt.Println("decoder: ", decoder)
 		err = decoder.Decode(obj)
-		//fmt.Println("decoder: ", decoder)
 		if err != nil {
-			//log.Println("Decode Error: ", err.Error())
 			h.Log.Error("Decode Error: ", err.Error())
 		} else {
 			suc = true
@@ -115,7 +109,6 @@ func (h *MCHandler) processBody(r *http.Request, obj any) (bool, error) {
 }
 
 func (h *MCHandler) getSession(r *http.Request) (gss.Session, bool) {
-	//fmt.Println("getSession--------------------------------------------------")
 	var suc bool
 	var srtn gss.Session
 	gob.Register(&s.TokenResponse{})
@@ -129,6 +122,5 @@ func (h *MCHandler) getSession(r *http.Request) (gss.Session, bool) {
 		}
 		srtn = sec
 	}
-	//fmt.Println("exit getSession--------------------------------------------------")
 	return srtn, suc
 }

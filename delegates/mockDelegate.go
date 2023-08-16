@@ -60,6 +60,8 @@ type MockDelegate struct {
 
 	MockDeActivateRes *Response
 
+	MockDeleteBlogRes *Response
+
 	MockActivateCommentRes *Response
 
 	MockDeActivateCommentRes *Response
@@ -210,6 +212,11 @@ func (d *MockDelegate) ActivateBlog(b *Blog) *Response {
 // DeActivateBlog DeActivateBlog
 func (d *MockDelegate) DeActivateBlog(b *Blog) *Response {
 	return d.MockDeActivateRes
+}
+
+// DeleteBlog DeleteBlog
+func (d *MockDelegate) DeleteBlog(bid int64) *Response {
+	return d.MockDeleteBlogRes
 }
 
 // AddLike AddLike

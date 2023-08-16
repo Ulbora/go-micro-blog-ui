@@ -45,11 +45,7 @@ func (h *MCHandler) LoginUserPage(w http.ResponseWriter, r *http.Request) {
 			pd.Title = h.Title
 			pd.Desc = h.Desc
 			pd.KeyWords = h.KeyWords
-			//res := h.Service.GetContentList(false)
-			// sort.Slice(*res, func(p, q int) bool {
-			// 	return (*res)[p].Title < (*res)[q].Title
-			// })
-			// h.Log.Debug("content in admin index sorted: ", *res)
+
 			h.Templates.ExecuteTemplate(w, loginPage, &pd)
 		} else {
 			http.Redirect(w, r, indexRt, http.StatusFound)
@@ -61,26 +57,15 @@ func (h *MCHandler) LoginUserPage(w http.ResponseWriter, r *http.Request) {
 func (h *MCHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	signingSystem := vars["signingSystem"]
-	//signingSystem := r.FormValue("signingSystem")
 	if signingSystem == linkedInSystem {
 		h.Log.Debug("signingSystem: ", signingSystem)
 		si := h.Signins["linkedIn"]
 		si.Authorization(w, r)
-		// h.Log.Debug("res.Code in loginUser: ", res.Code)
-		// if res.Code == http.StatusOK {
-		// 	w.WriteHeader(http.StatusOK)
-		// } else {
-		// 	w.WriteHeader(http.StatusBadRequest)
-		// }
+
 	} else if signingSystem == googleOAuth2 {
 		h.Log.Debug("signingSystem: ", signingSystem)
 		si := h.Signins["googleOAuth2"]
 		si.Authorization(w, r)
-		// h.Log.Debug("res.Code in loginUser: ", res.Code)
-		// if res.Code == http.StatusOK {
-		// 	w.WriteHeader(http.StatusOK)
-		// } else {
-		// 	w.WriteHeader(http.StatusBadRequest)
-		// }
+
 	}
 }

@@ -145,3 +145,18 @@ func (d *MCDelegate) DeActivateBlog(b *Blog) *Response {
 	d.Log.Debug("rtn: ", rtn)
 	return &rtn
 }
+
+//add delete blog method
+
+// DeleteBlog DeleteBlog
+func (d *MCDelegate) DeleteBlog(bid int64) *Response {
+	var rtn Response
+	bidStr := strconv.FormatInt(bid, 10)
+	brq, err := d.buildRequest(http.MethodDelete, "/rs/blog/delete/"+bidStr, nil, adminKey)
+	if err == nil {
+		gsuc, stat := d.proxy.Do(brq, &rtn)
+		d.Log.Debug("suc: ", gsuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &rtn
+}

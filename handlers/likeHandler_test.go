@@ -12,7 +12,6 @@ import (
 	gss "github.com/GolangToolKits/go-secure-sessions"
 	mux "github.com/GolangToolKits/grrt"
 	mcd "github.com/Ulbora/go-micro-blog-ui/delegates"
-	m "github.com/Ulbora/go-micro-blog-ui/managers"
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
@@ -110,7 +109,6 @@ func TestMCHandler_AddLike(t *testing.T) {
 
 	type fields struct {
 		Log            lg.Log
-		Manager        m.Manager
 		APIKey         string
 		APIAdminKey    string
 		Delegate       mcd.Delegate
@@ -184,7 +182,6 @@ func TestMCHandler_AddLike(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &MCHandler{
 				Log:            tt.fields.Log,
-				Manager:        tt.fields.Manager,
 				APIKey:         tt.fields.APIKey,
 				APIAdminKey:    tt.fields.APIAdminKey,
 				Delegate:       tt.fields.Delegate,

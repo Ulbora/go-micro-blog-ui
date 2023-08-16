@@ -3590,7 +3590,7 @@ func TestMockDelegate_GetConfig(t *testing.T) {
 					ID: 5,
 				},
 			},
-			
+
 			want: &Config{
 				ID: 5,
 			},
@@ -3634,6 +3634,111 @@ func TestMockDelegate_GetConfig(t *testing.T) {
 			}
 			if got := d.GetConfig(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("MockDelegate.GetConfig() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMockDelegate_DeleteBlog(t *testing.T) {
+	type fields struct {
+		MockAddUserResp          *ResponseID
+		MockUpdateUserResp       *Response
+		MockRole                 *Role
+		MockAddRoleResp          *ResponseID
+		MockRoleList             *[]Role
+		MockDeleteRoleResp       *Response
+		MockAddUserAuthResp      *ResponseID
+		MockUserAuthList         *[]UserAuth
+		MockUser                 *User
+		MockBlogList             *[]Blog
+		MockBlog                 *Blog
+		MockCommentList          *[]Comment
+		MockLikeList             *[]Like
+		MockAddBlogRes           *ResponseID
+		MockUpdateBlogRes        *Response
+		MockAddCommentRes        *ResponseID
+		MockUpdateCommentRes     *Response
+		MockAddLikeRes           *ResponseID
+		MockRemoveLikeResp       *Response
+		MockActivateRes          *Response
+		MockDeActivateRes        *Response
+		MockDeleteBlogRes        *Response
+		MockActivateCommentRes   *Response
+		MockDeActivateCommentRes *Response
+		MockUserList             *[]User
+		MockUnactivatedUserList  *[]User
+		MockBannedUserList       *[]User
+		MockEnableUser           *Response
+		MockReactivateBannedUser *Response
+		MockDisableUser          *Response
+		MockDisableUserForCause  *Response
+		MockConfig               *Config
+		MockUpdateConfigRes      *Response
+	}
+	type args struct {
+		bid int64
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *Response
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockDeleteBlogRes: &Response{
+					Success: true,
+				},
+			},
+			args: args{
+				bid: 5,
+			},
+			want: &Response{
+				Success: true,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:          tt.fields.MockAddUserResp,
+				MockUpdateUserResp:       tt.fields.MockUpdateUserResp,
+				MockRole:                 tt.fields.MockRole,
+				MockAddRoleResp:          tt.fields.MockAddRoleResp,
+				MockRoleList:             tt.fields.MockRoleList,
+				MockDeleteRoleResp:       tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:      tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:         tt.fields.MockUserAuthList,
+				MockUser:                 tt.fields.MockUser,
+				MockBlogList:             tt.fields.MockBlogList,
+				MockBlog:                 tt.fields.MockBlog,
+				MockCommentList:          tt.fields.MockCommentList,
+				MockLikeList:             tt.fields.MockLikeList,
+				MockAddBlogRes:           tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:        tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:        tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:     tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:           tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:       tt.fields.MockRemoveLikeResp,
+				MockActivateRes:          tt.fields.MockActivateRes,
+				MockDeActivateRes:        tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:        tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:   tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes: tt.fields.MockDeActivateCommentRes,
+				MockUserList:             tt.fields.MockUserList,
+				MockUnactivatedUserList:  tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:       tt.fields.MockBannedUserList,
+				MockEnableUser:           tt.fields.MockEnableUser,
+				MockReactivateBannedUser: tt.fields.MockReactivateBannedUser,
+				MockDisableUser:          tt.fields.MockDisableUser,
+				MockDisableUserForCause:  tt.fields.MockDisableUserForCause,
+				MockConfig:               tt.fields.MockConfig,
+				MockUpdateConfigRes:      tt.fields.MockUpdateConfigRes,
+			}
+			if got := d.DeleteBlog(tt.args.bid); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.DeleteBlog() = %v, want %v", got, tt.want)
 			}
 		})
 	}
