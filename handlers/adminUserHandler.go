@@ -47,28 +47,28 @@ type User struct {
 // GetUserByIDPage GetUserByIDPage
 func (h *MCHandler) GetUserByIDPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in GetUserByIDPage")
-	s, suc := h.getSession(r)
+	gs, suc := h.getSession(r)
 	h.Log.Debug("session suc in GetUserByIDPage", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := gs.Get("loggedIn")
+		var isAdmin = gs.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			bvars := mux.Vars(r)
-			uidstr := bvars["uid"]
+			guvars := mux.Vars(r)
+			uidstr := guvars["uid"]
 			uid, _ := strconv.ParseInt(uidstr, 10, 64)
 			h.Log.Debug("user id", uid)
 
 			user := h.Delegate.GetUserByID(uid)
 
-			var up UserPage
-			up.Title = h.Title
-			up.Desc = h.Desc
-			up.KeyWords = h.KeyWords
-			up.User = user
-			up.UserImage = b64.StdEncoding.EncodeToString(up.User.Image)
+			var gup UserPage
+			gup.Title = h.Title
+			gup.Desc = h.Desc
+			gup.KeyWords = h.KeyWords
+			gup.User = user
+			gup.UserImage = b64.StdEncoding.EncodeToString(gup.User.Image)
 
-			h.AdminTemplates.ExecuteTemplate(w, adminUserPage, &up)
+			h.AdminTemplates.ExecuteTemplate(w, adminUserPage, &gup)
 
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
@@ -79,30 +79,30 @@ func (h *MCHandler) GetUserByIDPage(w http.ResponseWriter, r *http.Request) {
 // GetUnactivatedUserList GetUnactivatedUserList
 func (h *MCHandler) GetUnactivatedUserList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in GetUnactivatedUserList")
-	s, suc := h.getSession(r)
+	uas, suc := h.getSession(r)
 	h.Log.Debug("session suc in GetUnactivatedUserList", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := uas.Get("loggedIn")
+		var isAdmin = uas.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetUnactivatedUserList: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
 
 			users := h.Delegate.GetUnActivatedUserList()
-			var ul []User
+			var ual []User
 			for i := range *users {
 				var u User
 				u.User = &(*users)[i]
 				u.UserImage = b64.StdEncoding.EncodeToString(u.User.Image)
-				ul = append(ul, u)
+				ual = append(ual, u)
 			}
 
-			var up UserPage
-			up.Title = h.Title
-			up.Desc = h.Desc
-			up.KeyWords = h.KeyWords
-			up.Users = &ul
+			var uap UserPage
+			uap.Title = h.Title
+			uap.Desc = h.Desc
+			uap.KeyWords = h.KeyWords
+			uap.Users = &ual
 
-			h.AdminTemplates.ExecuteTemplate(w, adminUnactivatedUserPage, &up)
+			h.AdminTemplates.ExecuteTemplate(w, adminUnactivatedUserPage, &uap)
 
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
@@ -113,30 +113,30 @@ func (h *MCHandler) GetUnactivatedUserList(w http.ResponseWriter, r *http.Reques
 // GetBannedUserList GetBannedUserList
 func (h *MCHandler) GetBannedUserList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in GetBannedUserList")
-	s, suc := h.getSession(r)
+	gbs, suc := h.getSession(r)
 	h.Log.Debug("session suc in GetBannedUserList", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := gbs.Get("loggedIn")
+		var isAdmin = gbs.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetBannedUserList: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
 
-			users := h.Delegate.GetBannedUserList()
+			busers := h.Delegate.GetBannedUserList()
 			var ul []User
-			for i := range *users {
+			for i := range *busers {
 				var u User
-				u.User = &(*users)[i]
+				u.User = &(*busers)[i]
 				u.UserImage = b64.StdEncoding.EncodeToString(u.User.Image)
 				ul = append(ul, u)
 			}
 
-			var up UserPage
-			up.Title = h.Title
-			up.Desc = h.Desc
-			up.KeyWords = h.KeyWords
-			up.Users = &ul
+			var bup UserPage
+			bup.Title = h.Title
+			bup.Desc = h.Desc
+			bup.KeyWords = h.KeyWords
+			bup.Users = &ul
 
-			h.AdminTemplates.ExecuteTemplate(w, adminBannedUserPage, &up)
+			h.AdminTemplates.ExecuteTemplate(w, adminBannedUserPage, &bup)
 
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
@@ -147,24 +147,24 @@ func (h *MCHandler) GetBannedUserList(w http.ResponseWriter, r *http.Request) {
 // EnableUser EnableUser
 func (h *MCHandler) EnableUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in EnableUser")
-	s, suc := h.getSession(r)
+	es, suc := h.getSession(r)
 	h.Log.Debug("session suc in EnableUser", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := es.Get("loggedIn")
+		var isAdmin = es.Get("isAdmin")
 		h.Log.Debug("loggedIn in EnableUser: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			vars := mux.Vars(r)
-			uidStr := vars["uid"]
+			evars := mux.Vars(r)
+			uidStr := evars["uid"]
 			h.Log.Debug("uid in EnableUser: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
 
-			var ubb mcd.User
-			ubb.ID = uid
-			res := h.Delegate.EnableUser(&ubb)
-			if !res.Success {
-				h.Log.Debug("add EnableUser suc: ", res.Success)
-				h.Log.Debug("add EnableUser code: ", res.Code)
+			var eubb mcd.User
+			eubb.ID = uid
+			eres := h.Delegate.EnableUser(&eubb)
+			if !eres.Success {
+				h.Log.Debug("add EnableUser suc: ", eres.Success)
+				h.Log.Debug("add EnableUser code: ", eres.Code)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
 		} else {
@@ -176,24 +176,24 @@ func (h *MCHandler) EnableUser(w http.ResponseWriter, r *http.Request) {
 // DisableUser DisableUser
 func (h *MCHandler) DisableUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in DisableUser")
-	s, suc := h.getSession(r)
+	das, suc := h.getSession(r)
 	h.Log.Debug("session suc in DisableUser", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := das.Get("loggedIn")
+		var isAdmin = das.Get("isAdmin")
 		h.Log.Debug("loggedIn in DisableUser: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			vars := mux.Vars(r)
-			uidStr := vars["uid"]
+			davars := mux.Vars(r)
+			uidStr := davars["uid"]
 			h.Log.Debug("uid in DisableUser: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
 
-			var ubb mcd.User
-			ubb.ID = uid
-			res := h.Delegate.DisableUser(&ubb)
-			if !res.Success {
-				h.Log.Debug("add DisableUser suc: ", res.Success)
-				h.Log.Debug("add DisableUser code: ", res.Code)
+			var dubb mcd.User
+			dubb.ID = uid
+			dares := h.Delegate.DisableUser(&dubb)
+			if !dares.Success {
+				h.Log.Debug("add DisableUser suc: ", dares.Success)
+				h.Log.Debug("add DisableUser code: ", dares.Code)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
 		} else {
@@ -205,24 +205,24 @@ func (h *MCHandler) DisableUser(w http.ResponseWriter, r *http.Request) {
 // DisableUserForCause DisableUserForCause
 func (h *MCHandler) DisableUserForCause(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in DisableUserForCause")
-	s, suc := h.getSession(r)
+	dds, suc := h.getSession(r)
 	h.Log.Debug("session suc in DisableUserForCause", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := dds.Get("loggedIn")
+		var isAdmin = dds.Get("isAdmin")
 		h.Log.Debug("loggedIn in DisableUserForCause: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			vars := mux.Vars(r)
-			uidStr := vars["uid"]
+			dddvars := mux.Vars(r)
+			uidStr := dddvars["uid"]
 			h.Log.Debug("uid in DisableUserForCause: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
 
-			var ubb mcd.User
-			ubb.ID = uid
-			res := h.Delegate.DisableUserForCause(&ubb)
-			if !res.Success {
-				h.Log.Debug("add DisableUserForCause suc: ", res.Success)
-				h.Log.Debug("add DisableUserForCause code: ", res.Code)
+			var dddubb mcd.User
+			dddubb.ID = uid
+			dddres := h.Delegate.DisableUserForCause(&dddubb)
+			if !dddres.Success {
+				h.Log.Debug("add DisableUserForCause suc: ", dddres.Success)
+				h.Log.Debug("add DisableUserForCause code: ", dddres.Code)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
 		} else {
@@ -234,24 +234,24 @@ func (h *MCHandler) DisableUserForCause(w http.ResponseWriter, r *http.Request) 
 // ReinstateBannedUser ReinstateBannedUser
 func (h *MCHandler) ReinstateBannedUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in ReinstateBannedUser")
-	s, suc := h.getSession(r)
+	ris, suc := h.getSession(r)
 	h.Log.Debug("session suc in ReinstateBannedUser", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := ris.Get("loggedIn")
+		var isAdmin = ris.Get("isAdmin")
 		h.Log.Debug("loggedIn in ReinstateBannedUser: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			vars := mux.Vars(r)
-			uidStr := vars["uid"]
+			rivars := mux.Vars(r)
+			uidStr := rivars["uid"]
 			h.Log.Debug("uid in ReinstateBannedUser: ", uidStr)
 			uid, _ := strconv.ParseInt(uidStr, 10, 64)
 
-			var ubb mcd.User
-			ubb.ID = uid
-			res := h.Delegate.ReactivateUser(&ubb)
-			if !res.Success {
-				h.Log.Debug("add ReinstateBannedUser suc: ", res.Success)
-				h.Log.Debug("add ReinstateBannedUser code: ", res.Code)
+			var riubb mcd.User
+			riubb.ID = uid
+			rires := h.Delegate.ReactivateUser(&riubb)
+			if !rires.Success {
+				h.Log.Debug("add ReinstateBannedUser suc: ", rires.Success)
+				h.Log.Debug("add ReinstateBannedUser code: ", rires.Code)
 			}
 			http.Redirect(w, r, adminUserRt+"/"+uidStr, http.StatusFound)
 		} else {

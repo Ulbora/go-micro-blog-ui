@@ -120,68 +120,68 @@ func (d *MCDelegate) GetBannedUserList() *[]User {
 
 // EnableUser EnableUser
 func (d *MCDelegate) EnableUser(u *User) *Response {
-	var rtn Response
+	var eurtn Response
 	aJSON, err := json.Marshal(u)
 	if err == nil {
 		erq, err := d.buildRequest(http.MethodPut, "/rs/user/enable", aJSON, adminKey)
 		if err == nil {
-			usuc, stat := d.proxy.Do(erq, &rtn)
-			rtn.Code = int64(stat)
+			usuc, stat := d.proxy.Do(erq, &eurtn)
+			eurtn.Code = int64(stat)
 			d.Log.Debug("suc: ", usuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", rtn)
-	return &rtn
+	d.Log.Debug("rtn: ", eurtn)
+	return &eurtn
 }
 
 // DisableUser DisableUser
 func (d *MCDelegate) DisableUser(u *User) *Response {
-	var rtn Response
+	var durtn Response
 	aJSON, err := json.Marshal(u)
 	if err == nil {
 		drq, err := d.buildRequest(http.MethodPut, "/rs/user/disable", aJSON, adminKey)
 		if err == nil {
-			dsuc, stat := d.proxy.Do(drq, &rtn)
-			rtn.Code = int64(stat)
+			dsuc, stat := d.proxy.Do(drq, &durtn)
+			durtn.Code = int64(stat)
 			d.Log.Debug("suc: ", dsuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", rtn)
-	return &rtn
+	d.Log.Debug("rtn: ", durtn)
+	return &durtn
 }
 
 // DisableUserForCause DisableUserForCause
 func (d *MCDelegate) DisableUserForCause(u *User) *Response {
-	var rtn Response
+	var ddurtn Response
 	aJSON, err := json.Marshal(u)
 	if err == nil {
 		drq, err := d.buildRequest(http.MethodPut, "/rs/user/disableForCause", aJSON, adminKey)
 		if err == nil {
-			dsuc, stat := d.proxy.Do(drq, &rtn)
-			rtn.Code = int64(stat)
+			dsuc, stat := d.proxy.Do(drq, &ddurtn)
+			ddurtn.Code = int64(stat)
 			d.Log.Debug("suc: ", dsuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", rtn)
-	return &rtn
+	d.Log.Debug("rtn: ", ddurtn)
+	return &ddurtn
 }
 
 // ReactivateUser ReactivateUser
 func (d *MCDelegate) ReactivateUser(u *User) *Response {
-	var rtn Response
+	var rertn Response
 	aJSON, err := json.Marshal(u)
 	if err == nil {
 		erq, err := d.buildRequest(http.MethodPut, "/rs/user/reinstate", aJSON, adminKey)
 		if err == nil {
-			usuc, stat := d.proxy.Do(erq, &rtn)
-			rtn.Code = int64(stat)
+			usuc, stat := d.proxy.Do(erq, &rertn)
+			rertn.Code = int64(stat)
 			d.Log.Debug("suc: ", usuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", rtn)
-	return &rtn
+	d.Log.Debug("rtn: ", rertn)
+	return &rertn
 }

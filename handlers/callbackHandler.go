@@ -121,62 +121,62 @@ func (h *MCHandler) GoogleSigninCallback(w http.ResponseWriter, r *http.Request)
 	if s.GoogleState == state {
 		tk := si.AccessToken(code)
 		h.Log.Debug("token: ", tk.AccessToken)
-		uiRes := si.GetUserInfo(tk.AccessToken)
-		if uiRes.(*s.GoogleUserInfoResponse).EmailVerified && uiRes.(*s.GoogleUserInfoResponse).Email != "" {
-			uemail := uiRes.(*s.GoogleUserInfoResponse).Email
-			fname := uiRes.(*s.GoogleUserInfoResponse).FirstName
-			lname := uiRes.(*s.GoogleUserInfoResponse).LastName
-			picture := uiRes.(*s.GoogleUserInfoResponse).PictureURL
+		guiRes := si.GetUserInfo(tk.AccessToken)
+		if guiRes.(*s.GoogleUserInfoResponse).EmailVerified && guiRes.(*s.GoogleUserInfoResponse).Email != "" {
+			uemail := guiRes.(*s.GoogleUserInfoResponse).Email
+			fname := guiRes.(*s.GoogleUserInfoResponse).FirstName
+			lname := guiRes.(*s.GoogleUserInfoResponse).LastName
+			picture := guiRes.(*s.GoogleUserInfoResponse).PictureURL
 
-			h.Log.Debug("uemail: ", uemail)
-			h.Log.Debug("fname: ", fname)
-			h.Log.Debug("lname: ", lname)
-			h.Log.Debug("picture: ", picture)
-			h.Log.Debug("token: ", tk.AccessToken)
+			h.Log.Debug("guemail: ", uemail)
+			h.Log.Debug("gfname: ", fname)
+			h.Log.Debug("glname: ", lname)
+			h.Log.Debug("gpicture: ", picture)
+			h.Log.Debug("gtoken: ", tk.AccessToken)
 
-			var usuc bool
+			var gusuc bool
 			var urole int64
-			user := h.Delegate.GetUser(uemail)
-			if !user.Active && user.Email == "" {
+			guser := h.Delegate.GetUser(uemail)
+			if !guser.Active && guser.Email == "" {
 				h.Log.Debug("create new user: ", uemail)
 				role := h.Delegate.GetRole(del.UserRole)
-				var nusr del.User
-				nusr.Active = true
-				nusr.Email = uemail
-				nusr.FirstName = fname
-				nusr.LastName = lname
-				nusr.RoleID = role.ID
+				var gnusr del.User
+				gnusr.Active = true
+				gnusr.Email = uemail
+				gnusr.FirstName = fname
+				gnusr.LastName = lname
+				gnusr.RoleID = role.ID
 				image := si.GetUserPicture(picture)
-				nusr.Image = image
-				adusr := h.Delegate.AddUser(&nusr)
+				gnusr.Image = image
+				adusr := h.Delegate.AddUser(&gnusr)
 				if adusr.Success {
-					usuc = true
+					gusuc = true
 					var usauth del.UserAuth
 					usauth.AuthType = "GoogleOAuth2"
 					usauth.Entered = time.Now()
 					usauth.UserID = adusr.ID
 					h.Delegate.AddUserAuth(&usauth)
 				}
-			} else if user.Active {
-				urole = user.RoleID
-				usuc = true
+			} else if guser.Active {
+				urole = guser.RoleID
+				gusuc = true
 				var usauth del.UserAuth
 				usauth.AuthType = "GoogleOAuth2"
 				usauth.Entered = time.Now()
-				usauth.UserID = user.ID
+				usauth.UserID = guser.ID
 				h.Delegate.AddUserAuth(&usauth)
 			}
 
-			if usuc {
-				sec, suc := h.getSession(r)
+			if gusuc {
+				gsec, suc := h.getSession(r)
 				if suc {
 					arole := h.Delegate.GetRole(del.AdminRole)
 					if urole == arole.ID {
-						sec.Set("isAdmin", true)
+						gsec.Set("isAdmin", true)
 					}
-					sec.Set("loggedIn", true)
-					sec.Set("userEmail", uemail)
-					serr := sec.Save(w)
+					gsec.Set("loggedIn", true)
+					gsec.Set("userEmail", uemail)
+					serr := gsec.Save(w)
 					h.Log.Debug("serr", serr)
 
 				}

@@ -123,4 +123,5 @@ type Handler interface {
 	// GetComment(w http.ResponseWriter, r *http.Request)
 	// UpdateComment(w http.ResponseWriter, r *http.Request)
 	// GetCommentList(w http.ResponseWriter, r *http.Request)
+	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }

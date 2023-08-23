@@ -33,27 +33,27 @@ import (
 // GetAdminCommentList GetAdminCommentList
 func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in GetAdminCommentList")
-	s, suc := h.getSession(r)
+	cs, suc := h.getSession(r)
 	h.Log.Debug("session suc in GetAdminCommentList", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := cs.Get("loggedIn")
+		var isAdmin = cs.Get("isAdmin")
 		h.Log.Debug("loggedIn in GetAdminCommentList: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			bvars := mux.Vars(r)
-			bidstr := bvars["bid"]
+			cvars := mux.Vars(r)
+			bidstr := cvars["bid"]
 			bid, _ := strconv.ParseInt(bidstr, 10, 64)
 			h.Log.Debug("blog id in edit", bid)
 			var wg sync.WaitGroup
 			bg := h.Delegate.GetBlog(bid)
 
-			var bp BlogPage
-			bp.Title = h.Title
-			bp.Desc = h.Desc
-			bp.KeyWords = h.KeyWords
-			uemail := s.Get("userEmail")
+			var cbp BlogPage
+			cbp.Title = h.Title
+			cbp.Desc = h.Desc
+			cbp.KeyWords = h.KeyWords
+			uemail := cs.Get("userEmail")
 			if uemail != nil {
-				bp.MyEmail = uemail.(string)
+				cbp.MyEmail = uemail.(string)
 			}
 			var bb Blog
 			bb.Blog = bg
@@ -69,7 +69,7 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 				h.Log.Debug("TextHTML: ", bb.TextHTML)
 			}
 
-			bp.Blog = &bb
+			cbp.Blog = &bb
 			wg.Add(1)
 			go func(bbb *Blog) {
 				defer wg.Done()
@@ -102,7 +102,7 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 
 			wg.Wait()
 
-			h.AdminTemplates.ExecuteTemplate(w, adminBlogPage, &bp)
+			h.AdminTemplates.ExecuteTemplate(w, adminBlogPage, &cbp)
 
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
@@ -113,16 +113,16 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 // ActivateComment ActivateComment
 func (h *MCHandler) ActivateComment(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in Activate Comment")
-	s, suc := h.getSession(r)
+	acs, suc := h.getSession(r)
 	h.Log.Debug("session suc in Activate Comment", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := acs.Get("loggedIn")
+		var isAdmin = acs.Get("isAdmin")
 		h.Log.Debug("loggedIn in Activate Comment: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			vars := mux.Vars(r)
-			cidStr := vars["cid"]
-			bidStr := vars["bid"]
+			avars := mux.Vars(r)
+			cidStr := avars["cid"]
+			bidStr := avars["bid"]
 			h.Log.Debug("cid in Activate Comment: ", cidStr)
 			cid, _ := strconv.ParseInt(cidStr, 10, 64)
 
@@ -143,22 +143,22 @@ func (h *MCHandler) ActivateComment(w http.ResponseWriter, r *http.Request) {
 // DeactivateComment DeactivateComment
 func (h *MCHandler) DeactivateComment(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in Deactivate Comment")
-	s, suc := h.getSession(r)
+	dcs, suc := h.getSession(r)
 	h.Log.Debug("session suc in Deactivate Comment", suc)
 	if suc {
-		loggedInAuth := s.Get("loggedIn")
-		var isAdmin = s.Get("isAdmin")
+		loggedInAuth := dcs.Get("loggedIn")
+		var isAdmin = dcs.Get("isAdmin")
 		h.Log.Debug("loggedIn in Deactivate Comment: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			vars := mux.Vars(r)
-			cidStr := vars["cid"]
-			bidStr := vars["bid"]
+			dvars := mux.Vars(r)
+			cidStr := dvars["cid"]
+			bidStr := dvars["bid"]
 			h.Log.Debug("cid in Deactivate Comment: ", cidStr)
 			cid, _ := strconv.ParseInt(cidStr, 10, 64)
 
-			var acc mcd.Comment
-			acc.ID = cid
-			res := h.Delegate.DeActivateComment(&acc)
+			var dcc mcd.Comment
+			dcc.ID = cid
+			res := h.Delegate.DeActivateComment(&dcc)
 			if !res.Success {
 				h.Log.Debug("add Activate Comment suc: ", res.Success)
 				h.Log.Debug("add Activate Comment code: ", res.Code)
