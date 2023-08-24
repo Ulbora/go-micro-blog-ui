@@ -67,6 +67,7 @@ type BlogPage struct {
 	Blog     *Blog
 	MyEmail  string
 	IsAdmin  bool
+	SiteData *SiteData
 }
 
 // AddBlogPageData AddBlogPageData
@@ -117,7 +118,7 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 					bb.TextHTML = template.HTML(bb.Blog.Content)
 					h.Log.Debug("TextHTML: ", bb.TextHTML)
 				}
-				
+
 				wg.Add(1)
 				go func(bbb *Blog) {
 					defer wg.Done()
@@ -151,13 +152,12 @@ func (h *MCHandler) GetBlogList(w http.ResponseWriter, r *http.Request) {
 				}(&bb)
 
 				wg.Wait()
-				
 
 				blst = append(blst, bb)
 			}
 			bp.BlogList = &blst
 			h.Log.Debug("after all waits")
-			
+
 			h.Templates.ExecuteTemplate(w, blogListPage, &bp)
 		} else {
 			http.Redirect(w, r, loginRt, http.StatusFound)
@@ -184,7 +184,6 @@ func (h *MCHandler) AddBlogPage(w http.ResponseWriter, r *http.Request) {
 				pd.UserEmail = uemail.(string)
 			}
 
-			
 			h.Templates.ExecuteTemplate(w, addBlogPage, &pd)
 		} else {
 			http.Redirect(w, r, indexRt, http.StatusFound)
@@ -236,10 +235,19 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 			var wg sync.WaitGroup
 			bg := h.Delegate.GetBlog(bid)
 
+			var sd SiteData
+			sd.Canonical = template.URL(h.SiteURL + "/viewPost/" + bidstr)
+			sd.OgURL = template.URL(h.SiteURL + "/viewPost/" + bidstr)
+			sd.OgSiteName = h.SiteName
+			sd.OgType = "article"
+			//sd.Description = bg.Name
+			sd.OgTitle = bg.Name
+
 			var bp BlogPage
 			bp.Title = h.Title
 			bp.Desc = h.Desc
 			bp.KeyWords = h.KeyWords
+			bp.SiteData = &sd
 			uemail := s.Get("userEmail")
 			if uemail != nil {
 				bp.MyEmail = uemail.(string)
@@ -288,8 +296,6 @@ func (h *MCHandler) GetBlog(w http.ResponseWriter, r *http.Request) {
 				bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
 				h.Log.Debug("User Done: ")
 			}(&bb)
-
-			
 
 			wg.Wait()
 

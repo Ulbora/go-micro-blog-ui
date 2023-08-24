@@ -41,6 +41,8 @@ func main() {
 	var restURL string
 	var apiKey string
 	var apiAdminKey string
+	var siteURL string
+	var siteName string
 	// var linkedInSigninRedirectURL string
 	// var googleSigninRedirectURL string
 
@@ -86,6 +88,18 @@ func main() {
 		apiAdminKey = "54211789991515"
 	}
 
+	if os.Getenv("SITE_URL") != "" {
+		siteURL = os.Getenv("SITE_URL")
+	} else {
+		siteURL = "http://localhost:8080"
+	}
+
+	if os.Getenv("SITE_NAME") != "" {
+		siteName = os.Getenv("SITE_NAME")
+	} else {
+		siteName = "Go Micro Blog"
+	}
+
 	var l lg.Logger
 	log := l.New()
 	log.SetLogLevel(lg.AllLevel)
@@ -110,9 +124,11 @@ func main() {
 	dd := del.New()
 
 	var sh hd.MCHandler
+	sh.SiteName = siteName
 	sh.Title = siteTitle
 	sh.Desc = siteDesc
 	sh.KeyWords = siteKeyWords
+	sh.SiteURL = siteURL
 	sh.Log = log
 	sh.SessionManager = sessionManager
 	sh.Delegate = dd

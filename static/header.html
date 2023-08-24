@@ -5,6 +5,13 @@
     <meta name="description" content="{{.Desc}}">
     <meta name="keywords" content="{{.KeyWords}}">
     <meta name="author" content="">
+    {{if .SiteData}}
+    <meta property="og:type" content="{{.SiteData.OgType}}">
+    <meta property="og:site_name" content="{{.SiteData.OgSiteName}}">
+    <meta property="og:title" content="{{.SiteData.OgTitle}}">
+    <meta property="og:url" content="{{.SiteData.OgURL}}">
+    <link rel="canonical" href="{{.SiteData.Canonical}}">
+    {{end}}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap core CSS -->
     <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->

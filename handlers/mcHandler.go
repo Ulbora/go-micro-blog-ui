@@ -30,6 +30,17 @@ import (
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
+// SiteData SiteData
+type SiteData struct {
+	Canonical   template.URL
+	OgImage     template.URL
+	OgType      string
+	OgSiteName  string
+	OgTitle     string
+	OgURL       template.URL
+	Description string
+}
+
 // MCHandler MCHandler
 type MCHandler struct {
 	Log            lg.Log
@@ -42,9 +53,11 @@ type MCHandler struct {
 	Templates      *template.Template
 
 	//page attributes
+	SiteName string
 	Title    string
 	Desc     string
 	KeyWords string
+	SiteURL  string
 }
 
 // New New
