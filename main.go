@@ -205,6 +205,7 @@ func main() {
 	router.HandleFunc("/addComment", h.AddComment).Methods("POST")
 	router.HandleFunc("/editPost/{bid}", h.UpdateBlogPage).Methods("GET")
 	router.HandleFunc("/updatePost", h.UpdateBlog).Methods("POST")
+	router.HandleFunc("/searchPost", h.SearchBlogList).Methods("POST")
 
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
 	router.HandleFunc("/activateBlog/{bid}", h.ActivateBlog).Methods("GET")

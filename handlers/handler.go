@@ -112,6 +112,7 @@ type Handler interface {
 	GetBlog(w http.ResponseWriter, r *http.Request)
 	// GetBlogByName(w http.ResponseWriter, r *http.Request)
 	GetBlogList(w http.ResponseWriter, r *http.Request)
+	SearchBlogList(w http.ResponseWriter, r *http.Request)
 
 	AddLike(w http.ResponseWriter, r *http.Request)
 	// RemoveLike(w http.ResponseWriter, r *http.Request)
@@ -123,5 +124,10 @@ type Handler interface {
 	// GetComment(w http.ResponseWriter, r *http.Request)
 	// UpdateComment(w http.ResponseWriter, r *http.Request)
 	// GetCommentList(w http.ResponseWriter, r *http.Request)
+
+	SetRulesPage(w http.ResponseWriter, r *http.Request)
+	SetRules(w http.ResponseWriter, r *http.Request)
+	GetRules(w http.ResponseWriter, r *http.Request)
+
 	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }

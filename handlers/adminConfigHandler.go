@@ -31,6 +31,7 @@ type ConfigPage struct {
 	Desc     string
 	KeyWords string
 	Config   *mcd.Config
+	SiteData *SiteData
 }
 
 // GetConfig GetConfig

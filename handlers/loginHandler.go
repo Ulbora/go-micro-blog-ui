@@ -29,6 +29,7 @@ type LoginPageData struct {
 	Title    string
 	Desc     string
 	KeyWords string
+	SiteData *SiteData
 }
 
 // LoginUserPage LoginUserPage

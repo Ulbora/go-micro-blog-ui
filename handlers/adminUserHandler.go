@@ -36,6 +36,7 @@ type UserPage struct {
 	User      *mcd.User
 	Users     *[]User
 	UserImage string
+	SiteData  *SiteData
 }
 
 // User User

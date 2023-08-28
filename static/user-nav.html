@@ -18,16 +18,34 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="/newPost">Add Post</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="/search">Search</a>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="/rules">Rules</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="/tos">Terms Of Service</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
+                    <a class="nav-link" href="/about">About</a>
                 </li>
             </ul>
+            <form
+                method="post"
+                action="/searchPost"
+                class="d-flex"
+                role="search"
+            >
+                <input
+                    class="form-control me-2"
+                    type="search"
+                    name="name"
+                    placeholder="Search"
+                    aria-label="Search"
+                >
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </nav>
