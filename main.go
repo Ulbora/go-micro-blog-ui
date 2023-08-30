@@ -178,7 +178,8 @@ func main() {
 		"./static/header.html", "./static/admin/adminBlogList.html",
 		"./static/user-admin-nav.html", "./static/admin/adminBlog.html",
 		"./static/admin/adminUser.html", "./static/admin/adminUnactivatedUser.html",
-		"./static/admin/adminBannedUser.html", "./static/admin/adminConfig.html"))
+		"./static/admin/adminBannedUser.html", "./static/admin/adminConfig.html",
+		"./static/admin/adminAddRule.html"))
 
 	router := mux.NewRouter()
 
@@ -208,6 +209,7 @@ func main() {
 	router.HandleFunc("/searchPost", h.SearchBlogList).Methods("POST")
 
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
+	router.HandleFunc("/searchAdminPost", h.SearchAdminBlogList).Methods("POST")
 	router.HandleFunc("/activateBlog/{bid}", h.ActivateBlog).Methods("GET")
 	router.HandleFunc("/deactivateBlog/{bid}", h.DeactivateBlog).Methods("GET")
 	router.HandleFunc("/deleteBlog/{bid}", h.DeleteBlog).Methods("GET")
@@ -223,6 +225,7 @@ func main() {
 	router.HandleFunc("/reactivateUser/{uid}", h.ReinstateBannedUser).Methods("GET")
 	router.HandleFunc("/adminConfig", h.GetConfig).Methods("GET")
 	router.HandleFunc("/updateConfig", h.UpdateConfig).Methods("POST")
+	router.HandleFunc("/adminSetRules", h.SetRulesPage).Methods("GET")
 	router.HandleFunc("/rs/loglevel", h.SetLogLevel).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))

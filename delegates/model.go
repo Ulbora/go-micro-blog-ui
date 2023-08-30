@@ -78,3 +78,9 @@ type Config struct {
 	AllowAutoPost    bool  `json:"allowAutoPost"`
 	AllowAutoComment bool  `json:"allowAutoComment"`
 }
+
+// Rule Rule
+type Rule struct {
+	ID      int64  `json:"id"`
+	Content string `json:"content"`
+}

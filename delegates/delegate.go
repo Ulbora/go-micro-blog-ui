@@ -49,6 +49,7 @@ type Delegate interface {
 	UpdateBlog(b *Blog) *Response
 	GetBlog(bid int64) *Blog
 	GetBlogByName(name string, start int64, end int64) *[]Blog
+	GetAdminBlogByName(name string, start int64, end int64) *[]Blog
 	GetBlogList(start int64, end int64) *[]Blog
 	GetAdminBlogList(start int64, end int64) *[]Blog
 	ActivateBlog(b *Blog) *Response
@@ -72,4 +73,7 @@ type Delegate interface {
 	UpdateConfig(c *Config) *Response // UpdateConfig()
 	GetConfig() *Config               // GetConfig()
 
+	AddRule(r *Rule) *ResponseID
+	UpdateRule(r *Rule) *Response
+	GetRule() *Rule
 }

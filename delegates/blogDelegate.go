@@ -84,6 +84,20 @@ func (d *MCDelegate) GetBlogByName(name string, start int64, end int64) *[]Blog 
 	return &rtn
 }
 
+// GetAdminBlogByName GetAdminBlogByName
+func (d *MCDelegate) GetAdminBlogByName(name string, start int64, end int64) *[]Blog {
+	var artn []Blog
+	astartStr := strconv.FormatInt(start, 10)
+	aendStr := strconv.FormatInt(end, 10)
+	abrq, err := d.buildRequest(http.MethodGet, "/rs/blog/admin/get/name/"+name+"/"+astartStr+"/"+aendStr, nil, adminKey)
+	if err == nil {
+		gsuc, stat := d.proxy.Do(abrq, &artn)
+		d.Log.Debug("suc: ", gsuc)
+		d.Log.Debug("stat: ", stat)
+	}
+	return &artn
+}
+
 // GetBlogList GetBlogList
 func (d *MCDelegate) GetBlogList(start int64, end int64) *[]Blog {
 	var rtn []Blog

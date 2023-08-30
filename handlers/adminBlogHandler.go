@@ -117,6 +117,95 @@ func (h *MCHandler) GetAdminBlogList(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// SearchAdminBlogList SearchAdminBlogList
+func (h *MCHandler) SearchAdminBlogList(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in SearchAdminBlogList")
+	aas, suc := h.getSession(r)
+	h.Log.Debug("session suc in SearchAdminBlogList", suc)
+	if suc {
+		loggedInAuth := aas.Get("loggedIn")
+		var isAdmin = aas.Get("isAdmin")
+		h.Log.Debug("loggedIn in SearchAdminBlogList: ", loggedInAuth)
+		if loggedInAuth == true && isAdmin == true {
+			name := r.FormValue("name")
+			sblogList := h.Delegate.GetAdminBlogByName(name, 0, maxPosts)
+			h.Log.Debug("blogCnt: ", len(*sblogList))
+			var sbp BlogPage
+			sbp.Title = h.Title
+			sbp.Desc = h.Desc
+			sbp.KeyWords = h.KeyWords
+			uemail := aas.Get("userEmail")
+			if uemail != nil {
+				sbp.MyEmail = uemail.(string)
+			}
+			var isAdmin = aas.Get("isAdmin")
+			h.Log.Debug("isAdmin: ", isAdmin)
+			if isAdmin == true {
+				sbp.IsAdmin = true
+			}
+			var ablst []Blog
+			for i := range *sblogList {
+				var wg sync.WaitGroup
+				var asbb Blog
+				asbb.Blog = &(*sblogList)[i]
+				txt, err := b64.StdEncoding.DecodeString(asbb.Blog.Content)
+				if err == nil {
+					asbb.Blog.Content = string(txt)
+					asbb.Blog.Content = strings.Replace(asbb.Blog.Content, stripOut, "", -1)
+					asbb.Blog.Content = strings.Replace(asbb.Blog.Content, stripOut2, "", -1)
+					asbb.Blog.Content = strings.Replace(asbb.Blog.Content, stripOut3, "", -1)
+					asbb.Blog.Content = strings.Replace(asbb.Blog.Content, stripOut4, "", -1)
+
+					asbb.TextHTML = template.HTML(asbb.Blog.Content)
+					h.Log.Debug("TextHTML: ", asbb.TextHTML)
+				}
+
+				wg.Add(1)
+				go func(bbb *Blog) {
+					defer wg.Done()
+					cl := h.Delegate.GetCommentList(bbb.Blog.ID, 0, maxComments)
+					h.Log.Debug("commentCnt: ", len(*cl))
+					bbb.CommentCnt = len(*cl)
+					h.Log.Debug("Comments Done: ")
+				}(&asbb)
+				wg.Add(1)
+				go func(bbb *Blog) {
+					defer wg.Done()
+					ll := h.Delegate.ViewLikes(bbb.Blog.ID)
+					for _, l := range *ll {
+						if l.UserID == bbb.Blog.UserID {
+							bbb.Liked = true
+						}
+					}
+					h.Log.Debug("likeCnt: ", len(*ll))
+					bbb.LikeCnt = len(*ll)
+					h.Log.Debug("Views Done: ")
+				}(&asbb)
+
+				wg.Add(1)
+				go func(bbb *Blog) {
+					defer wg.Done()
+					u1 := h.Delegate.GetUserByID(bbb.Blog.UserID)
+					h.Log.Debug("get user: ")
+					bbb.User = u1
+					bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
+					h.Log.Debug("User Done: ")
+				}(&asbb)
+
+				wg.Wait()
+
+				ablst = append(ablst, asbb)
+			}
+			sbp.BlogList = &ablst
+			h.Log.Debug("after all waits")
+
+			h.AdminTemplates.ExecuteTemplate(w, adminBlogListPage, &sbp)
+		} else {
+			http.Redirect(w, r, loginRt, http.StatusFound)
+		}
+	}
+}
+
 // ActivateBlog ActivateBlog
 func (h *MCHandler) ActivateBlog(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in Activate Blog")

@@ -38,6 +38,8 @@ const (
 	adminBannedUserPage      = "adminBannedUser.html"
 	adminConfigPage          = "adminConfig.html"
 
+	adminAddRulePage = "adminAddRule.html"
+
 	//routes
 	indexRt  = "/"
 	loginRt  = "/login"
@@ -78,6 +80,7 @@ type Handler interface {
 	// GetUserAuthList(w http.ResponseWriter, r *http.Request)
 
 	GetAdminBlogList(w http.ResponseWriter, r *http.Request)
+	SearchAdminBlogList(w http.ResponseWriter, r *http.Request)
 	ActivateBlog(w http.ResponseWriter, r *http.Request)
 	DeactivateBlog(w http.ResponseWriter, r *http.Request)
 	DeleteBlog(w http.ResponseWriter, r *http.Request)

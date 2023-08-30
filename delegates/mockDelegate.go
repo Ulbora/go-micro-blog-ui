@@ -83,6 +83,12 @@ type MockDelegate struct {
 	MockConfig *Config
 
 	MockUpdateConfigRes *Response
+
+	MockAddRuleResp *ResponseID
+
+	MockUpdateRuleResp *Response
+
+	MockRule *Rule
 }
 
 // New New
@@ -194,6 +200,11 @@ func (d *MockDelegate) GetBlogByName(name string, start int64, end int64) *[]Blo
 	return d.MockBlogList
 }
 
+// GetAdminBlogByName GetAdminBlogByName
+func (d *MockDelegate) GetAdminBlogByName(name string, start int64, end int64) *[]Blog {
+	return d.MockBlogList
+}
+
 // GetBlogList GetBlogList
 func (d *MockDelegate) GetBlogList(start int64, end int64) *[]Blog {
 	return d.MockBlogList
@@ -282,4 +293,19 @@ func (d *MockDelegate) UpdateConfig(c *Config) *Response {
 // GetConfig GetConfig
 func (d *MockDelegate) GetConfig() *Config {
 	return d.MockConfig
+}
+
+// AddRule AddRule
+func (d *MockDelegate) AddRule(r *Rule) *ResponseID {
+	return d.MockAddRuleResp
+}
+
+// UpdateRule UpdateRule
+func (d *MockDelegate) UpdateRule(r *Rule) *Response {
+	return d.MockUpdateRuleResp
+}
+
+// GetRule GetRule
+func (d *MockDelegate) GetRule() *Rule {
+	return d.MockRule
 }

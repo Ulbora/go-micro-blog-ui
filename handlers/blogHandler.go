@@ -394,29 +394,6 @@ func (h *MCHandler) UpdateBlog(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *MCHandler) processBlog(r *http.Request) (string, *mcd.Blog) {
-	var rtn mcd.Blog
-	idStr := r.FormValue("id")
-	uidStr := r.FormValue("userId")
-	name := r.FormValue("name")
-	email := r.FormValue("userEmail")
-	content := r.FormValue("content")
-	h.Log.Debug("name in processBlog: ", r.FormValue("name"))
-	if idStr != "" {
-		id, _ := strconv.ParseInt(idStr, 10, 64)
-		rtn.ID = id
-	}
-	if uidStr != "" {
-		uid, _ := strconv.ParseInt(uidStr, 10, 64)
-		rtn.UserID = uid
-	}
-	rtn.Content = b64.StdEncoding.EncodeToString([]byte(content))
-	rtn.Name = name
-	rtn.Entered = time.Now()
-
-	return email, &rtn
-}
-
 // SearchBlogList SearchBlogList
 func (h *MCHandler) SearchBlogList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("in SearchBlogList")
@@ -503,4 +480,27 @@ func (h *MCHandler) SearchBlogList(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, loginRt, http.StatusFound)
 		}
 	}
+}
+
+func (h *MCHandler) processBlog(r *http.Request) (string, *mcd.Blog) {
+	var rtn mcd.Blog
+	idStr := r.FormValue("id")
+	uidStr := r.FormValue("userId")
+	name := r.FormValue("name")
+	email := r.FormValue("userEmail")
+	content := r.FormValue("content")
+	h.Log.Debug("name in processBlog: ", r.FormValue("name"))
+	if idStr != "" {
+		id, _ := strconv.ParseInt(idStr, 10, 64)
+		rtn.ID = id
+	}
+	if uidStr != "" {
+		uid, _ := strconv.ParseInt(uidStr, 10, 64)
+		rtn.UserID = uid
+	}
+	rtn.Content = b64.StdEncoding.EncodeToString([]byte(content))
+	rtn.Name = name
+	rtn.Entered = time.Now()
+
+	return email, &rtn
 }
