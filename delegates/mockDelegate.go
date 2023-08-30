@@ -89,6 +89,18 @@ type MockDelegate struct {
 	MockUpdateRuleResp *Response
 
 	MockRule *Rule
+
+	MockAddTermsResp *ResponseID
+
+	MockUpdateTermsResp *Response
+
+	MockTerms *Terms
+
+	MockAddAboutResp *ResponseID
+
+	MockUpdateAboutResp *Response
+
+	MockAbout *About
 }
 
 // New New
@@ -308,4 +320,34 @@ func (d *MockDelegate) UpdateRule(r *Rule) *Response {
 // GetRule GetRule
 func (d *MockDelegate) GetRule() *Rule {
 	return d.MockRule
+}
+
+// AddTerms AddTerms
+func (d *MockDelegate) AddTerms(r *Terms) *ResponseID {
+	return d.MockAddTermsResp
+}
+
+// UpdateTerms UpdateTerms
+func (d *MockDelegate) UpdateTerms(r *Terms) *Response {
+	return d.MockUpdateTermsResp
+}
+
+// GetTerms GetTerms
+func (d *MockDelegate) GetTerms() *Terms {
+	return d.MockTerms
+}
+
+// AddAbout AddAbout
+func (d *MockDelegate) AddAbout(r *About) *ResponseID {
+	return d.MockAddAboutResp
+}
+
+// UpdateAbout UpdateAbout
+func (d *MockDelegate) UpdateAbout(r *About) *Response {
+	return d.MockUpdateAboutResp
+}
+
+// GetAbout GetAbout
+func (d *MockDelegate) GetAbout() *About {
+	return d.MockAbout
 }

@@ -84,3 +84,16 @@ type Rule struct {
 	ID      int64  `json:"id"`
 	Content string `json:"content"`
 }
+
+// Terms Terms
+type Terms struct {
+	ID      int64  `json:"id"`
+	Content string `json:"content"`
+}
+
+
+// About About
+type About struct {
+	ID      int64  `json:"id"`
+	Content string `json:"content"`
+}

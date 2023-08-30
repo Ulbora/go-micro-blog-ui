@@ -5,7 +5,8 @@
     <body style="background-color:rgb(244, 242, 242)" onload="initQuill();">
         <div class="container">
             <h3 class="blog-top" style="width: 100%; text-align: center;">Add Rule</h3>
-            <form action="/updateRule" method="POST">
+            <form onsubmit="addPost();" action="/adminUpdateRules" method="POST">
+                <input type="hidden" name="id" value="{{.Rule.Rule.ID}}">
                 <input
                     type="hidden"
                     id="content"

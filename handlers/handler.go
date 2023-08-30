@@ -29,6 +29,9 @@ const (
 	blogPage     = "blog.html"
 	addBlogPage  = "addBlog.html"
 	editBlogPage = "editBlog.html"
+	rulesPage    = "rules.html"
+	termsPage    = "terms.html"
+	aboutPage    = "about.html"
 
 	//Admin Pages
 	adminBlogListPage        = "adminBlogList.html"
@@ -38,18 +41,28 @@ const (
 	adminBannedUserPage      = "adminBannedUser.html"
 	adminConfigPage          = "adminConfig.html"
 
-	adminAddRulePage = "adminAddRule.html"
+	adminAddRulePage  = "adminAddRule.html"
+	adminAddTermsPage = "adminAddTerms.html"
+	adminAddAboutPage = "adminAddAbout.html"
 
 	//routes
 	indexRt  = "/"
 	loginRt  = "/login"
 	viewPost = "/viewPost/"
 
+	showRules = "/rules"
+	showTerms = "/terms"
+	showAbout = "/about"
+
 	//admin routes
 	adminBlogListRt = "/adminPostList"
 	viesAdminPostRt = "/adminViewPost"
 	adminUserRt     = "/adminUser"
 	adminConfigRt   = "/adminConfig"
+
+	adminSetRules = "/setRules"
+	adminSetTerms = "/setTerms"
+	adminSetAbout = "/setAbout"
 
 	maxPosts    = 200
 	maxComments = 1000
@@ -131,6 +144,14 @@ type Handler interface {
 	SetRulesPage(w http.ResponseWriter, r *http.Request)
 	SetRules(w http.ResponseWriter, r *http.Request)
 	GetRules(w http.ResponseWriter, r *http.Request)
+
+	SetTermsPage(w http.ResponseWriter, r *http.Request)
+	SetTerms(w http.ResponseWriter, r *http.Request)
+	GetTerms(w http.ResponseWriter, r *http.Request)
+
+	SetAboutPage(w http.ResponseWriter, r *http.Request)
+	SetAbout(w http.ResponseWriter, r *http.Request)
+	GetAbout(w http.ResponseWriter, r *http.Request)
 
 	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }

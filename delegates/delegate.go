@@ -76,4 +76,12 @@ type Delegate interface {
 	AddRule(r *Rule) *ResponseID
 	UpdateRule(r *Rule) *Response
 	GetRule() *Rule
+
+	AddTerms(r *Terms) *ResponseID
+	UpdateTerms(r *Terms) *Response
+	GetTerms() *Terms
+
+	AddAbout(r *About) *ResponseID
+	UpdateAbout(r *About) *Response
+	GetAbout() *About
 }

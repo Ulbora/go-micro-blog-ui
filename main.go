@@ -172,14 +172,16 @@ func main() {
 	sh.Templates = template.Must(template.ParseFiles("./static/login.html",
 		"./static/blogList.html", "./static/header.html", "./static/user-nav.html",
 		"./static/addBlog.html", "./static/blog.html", "./static/editBlog.html",
-		"./static/user-admin-nav.html"))
+		"./static/user-admin-nav.html", "./static/rules.html", "./static/terms.html",
+		"./static/about.html"))
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html", "./static/admin/adminBlogList.html",
 		"./static/user-admin-nav.html", "./static/admin/adminBlog.html",
 		"./static/admin/adminUser.html", "./static/admin/adminUnactivatedUser.html",
 		"./static/admin/adminBannedUser.html", "./static/admin/adminConfig.html",
-		"./static/admin/adminAddRule.html"))
+		"./static/admin/adminAddRule.html", "./static/admin/adminAddTerms.html",
+		"./static/admin/adminAddAbout.html"))
 
 	router := mux.NewRouter()
 
@@ -207,6 +209,9 @@ func main() {
 	router.HandleFunc("/editPost/{bid}", h.UpdateBlogPage).Methods("GET")
 	router.HandleFunc("/updatePost", h.UpdateBlog).Methods("POST")
 	router.HandleFunc("/searchPost", h.SearchBlogList).Methods("POST")
+	router.HandleFunc("/rules", h.GetRules).Methods("GET")
+	router.HandleFunc("/terms", h.GetTerms).Methods("GET")
+	router.HandleFunc("/about", h.GetAbout).Methods("GET")
 
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
 	router.HandleFunc("/searchAdminPost", h.SearchAdminBlogList).Methods("POST")
@@ -226,6 +231,11 @@ func main() {
 	router.HandleFunc("/adminConfig", h.GetConfig).Methods("GET")
 	router.HandleFunc("/updateConfig", h.UpdateConfig).Methods("POST")
 	router.HandleFunc("/adminSetRules", h.SetRulesPage).Methods("GET")
+	router.HandleFunc("/adminUpdateRules", h.SetRules).Methods("POST")
+	router.HandleFunc("/adminSetTerms", h.SetTermsPage).Methods("GET")
+	router.HandleFunc("/adminUpdateTerms", h.SetTerms).Methods("POST")
+	router.HandleFunc("/adminSetAbout", h.SetAboutPage).Methods("GET")
+	router.HandleFunc("/adminUpdateAbout", h.SetAbout).Methods("POST")
 	router.HandleFunc("/rs/loglevel", h.SetLogLevel).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
