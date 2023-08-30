@@ -90,8 +90,8 @@ github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:55.21,57.5 1 
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:58.4,61.18 4 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:61.18,70.5 7 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:72.4,74.23 3 1
-github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:74.23,79.24 5 1
-github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:79.24,87.6 7 1
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:74.23,79.25 5 1
+github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:79.25,87.6 7 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:88.5,90.35 3 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:93.4,94.23 2 1
 github.com/Ulbora/go-micro-blog-ui/handlers/adminCommentHandler.go:94.23,101.5 6 1

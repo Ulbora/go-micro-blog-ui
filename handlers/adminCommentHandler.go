@@ -55,8 +55,8 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 			if uemail != nil {
 				cbp.MyEmail = uemail.(string)
 			}
-			var bb Blog
-			bb.Blog = bg
+			var cbb Blog
+			cbb.Blog = bg
 			txt, err := b64.StdEncoding.DecodeString(bg.Content)
 			if err == nil {
 				bg.Content = string(txt)
@@ -65,19 +65,19 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 				bg.Content = strings.Replace(bg.Content, stripOut3, "", -1)
 				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
 
-				bb.TextHTML = template.HTML(bg.Content)
-				h.Log.Debug("TextHTML: ", bb.TextHTML)
+				cbb.TextHTML = template.HTML(bg.Content)
+				h.Log.Debug("TextHTML: ", cbb.TextHTML)
 			}
 
-			cbp.Blog = &bb
+			cbp.Blog = &cbb
 			wg.Add(1)
 			go func(bbb *Blog) {
 				defer wg.Done()
-				cl := h.Delegate.GetAdminCommentList(bbb.Blog.ID, 0, maxComments)
-				h.Log.Debug("commentCnt: ", len(*cl))
+				ccl := h.Delegate.GetAdminCommentList(bbb.Blog.ID, 0, maxComments)
+				h.Log.Debug("commentCnt: ", len(*ccl))
 				var cmtLst []Comment
-				for i := range *cl {
-					cmt := (*cl)[i]
+				for i := range *ccl {
+					cmt := (*ccl)[i]
 					var c Comment
 					c.Comment = &cmt
 					u1 := h.Delegate.GetUserByID(cmt.UserID)
@@ -86,9 +86,9 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 					cmtLst = append(cmtLst, c)
 				}
 				bbb.CommentList = &cmtLst
-				bbb.CommentCnt = len(*cl)
+				bbb.CommentCnt = len(*ccl)
 				h.Log.Debug("Comments Done: ")
-			}(&bb)
+			}(&cbb)
 
 			wg.Add(1)
 			go func(bbb *Blog) {
@@ -98,7 +98,7 @@ func (h *MCHandler) GetAdminCommentList(w http.ResponseWriter, r *http.Request) 
 				bbb.User = u1
 				bbb.UserImage = b64.StdEncoding.EncodeToString(bbb.User.Image)
 				h.Log.Debug("User Done: ")
-			}(&bb)
+			}(&cbb)
 
 			wg.Wait()
 
