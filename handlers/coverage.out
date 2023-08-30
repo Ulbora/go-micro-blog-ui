@@ -215,8 +215,8 @@ github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:319.27,331.21 11 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:331.21,333.5 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:334.4,337.18 4 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:337.18,346.5 7 1
-github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:348.4,357.40 7 1
-github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:357.40,359.5 1 1
+github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:348.4,357.42 7 1
+github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:357.42,359.5 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:359.10,361.5 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:362.9,364.4 1 1
 github.com/Ulbora/go-micro-blog-ui/handlers/blogHandler.go:369.72,377.9 8 1

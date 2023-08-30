@@ -323,16 +323,16 @@ func (h *MCHandler) UpdateBlogPage(w http.ResponseWriter, r *http.Request) {
 			h.Log.Debug("blog id in edit", bid)
 			bg := h.Delegate.GetBlog(bid)
 
-			var bp BlogPage
-			bp.Title = h.Title
-			bp.Desc = h.Desc
-			bp.KeyWords = h.KeyWords
+			var ubp BlogPage
+			ubp.Title = h.Title
+			ubp.Desc = h.Desc
+			ubp.KeyWords = h.KeyWords
 			uemail := s.Get("userEmail")
 			if uemail != nil {
-				bp.MyEmail = uemail.(string)
+				ubp.MyEmail = uemail.(string)
 			}
-			var bb Blog
-			bb.Blog = bg
+			var ubb Blog
+			ubb.Blog = bg
 			txt, err := b64.StdEncoding.DecodeString(bg.Content)
 			if err == nil {
 				bg.Content = string(txt)
@@ -341,21 +341,21 @@ func (h *MCHandler) UpdateBlogPage(w http.ResponseWriter, r *http.Request) {
 				bg.Content = strings.Replace(bg.Content, stripOut3, "", -1)
 				bg.Content = strings.Replace(bg.Content, stripOut4, "", -1)
 
-				bb.TextHTML = template.HTML(bg.Content)
-				h.Log.Debug("TextHTML: ", bb.TextHTML)
+				ubb.TextHTML = template.HTML(bg.Content)
+				h.Log.Debug("TextHTML: ", ubb.TextHTML)
 			}
 
-			bp.Blog = &bb
+			ubp.Blog = &ubb
 
-			u1 := h.Delegate.GetUserByID(bb.Blog.UserID)
+			u1 := h.Delegate.GetUserByID(ubb.Blog.UserID)
 			h.Log.Debug("get user: ")
 
-			bb.User = u1
-			bb.UserImage = b64.StdEncoding.EncodeToString(bb.User.Image)
+			ubb.User = u1
+			ubb.UserImage = b64.StdEncoding.EncodeToString(ubb.User.Image)
 			h.Log.Debug("User Done: ")
 
-			if bp.Blog.User.Email == bp.MyEmail {
-				h.Templates.ExecuteTemplate(w, editBlogPage, &bp)
+			if ubp.Blog.User.Email == ubp.MyEmail {
+				h.Templates.ExecuteTemplate(w, editBlogPage, &ubp)
 			} else {
 				http.Redirect(w, r, indexRt, http.StatusFound)
 			}
