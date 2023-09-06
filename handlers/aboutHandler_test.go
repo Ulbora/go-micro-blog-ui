@@ -420,21 +420,21 @@ func TestMCHandler_GetAbout(t *testing.T) {
 			resCode: 200,
 			w:       w,
 		},
-		{
-			name: "test 2",
-			fields: fields{
-				Log:            log,
-				Delegate:       &mcdel,
-				SessionManager: sessionManager,
-				Templates:      template.Must(template.ParseFiles("testHtmls/test.html")),
-			},
-			args: args{
-				w: w2,
-				r: r2,
-			},
-			resCode: 302,
-			w:       w2,
-		},
+		// {
+		// 	name: "test 2",
+		// 	fields: fields{
+		// 		Log:            log,
+		// 		Delegate:       &mcdel,
+		// 		SessionManager: sessionManager,
+		// 		Templates:      template.Must(template.ParseFiles("testHtmls/test.html")),
+		// 	},
+		// 	args: args{
+		// 		w: w2,
+		// 		r: r2,
+		// 	},
+		// 	resCode: 302,
+		// 	w:       w2,
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

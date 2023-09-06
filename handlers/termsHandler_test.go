@@ -16,7 +16,7 @@ import (
 	s "github.com/Ulbora/go-micro-blog-ui/signins"
 )
 
-func TestMCHandler_SetRulesPage(t *testing.T) {
+func TestMCHandler_SetTermsPage(t *testing.T) {
 
 	var cf gss.ConfigOptions
 	cf.MaxAge = 3600
@@ -65,10 +65,10 @@ func TestMCHandler_SetRulesPage(t *testing.T) {
 	}
 
 	var mcdel mcd.MockDelegate
-	var rl mcd.Rule
+	var rl mcd.Terms
 	rl.ID = 2
 	rl.Content = "test"
-	mcdel.MockRule = &rl
+	mcdel.MockTerms = &rl
 
 	type fields struct {
 		Log            lg.Log
@@ -145,7 +145,7 @@ func TestMCHandler_SetRulesPage(t *testing.T) {
 				KeyWords:       tt.fields.KeyWords,
 				SiteURL:        tt.fields.SiteURL,
 			}
-			h.SetRulesPage(tt.args.w, tt.args.r)
+			h.SetTermsPage(tt.args.w, tt.args.r)
 			if tt.resCode != tt.w.Code {
 				t.Fail()
 			}
@@ -153,7 +153,7 @@ func TestMCHandler_SetRulesPage(t *testing.T) {
 	}
 }
 
-func TestMCHandler_SetRules(t *testing.T) {
+func TestMCHandler_SetTerms(t *testing.T) {
 
 	var cf gss.ConfigOptions
 	cf.MaxAge = 3600
@@ -164,7 +164,7 @@ func TestMCHandler_SetRules(t *testing.T) {
 		log.Println("Session err: ", err)
 	}
 
-	r, _ := http.NewRequest("POST", "/setRules", strings.NewReader("content=some content"))
+	r, _ := http.NewRequest("POST", "/setTerms", strings.NewReader("content=some content"))
 	r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	w := httptest.NewRecorder()
 
@@ -179,7 +179,7 @@ func TestMCHandler_SetRules(t *testing.T) {
 		r.AddCookie(cook[0])
 	}
 
-	r2, _ := http.NewRequest("POST", "/setRules", strings.NewReader("id=3&content=some content"))
+	r2, _ := http.NewRequest("POST", "/setTerms", strings.NewReader("id=3&content=some content"))
 	r2.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	w2 := httptest.NewRecorder()
 
@@ -194,7 +194,7 @@ func TestMCHandler_SetRules(t *testing.T) {
 		r2.AddCookie(cook2[0])
 	}
 
-	r3, _ := http.NewRequest("POST", "/setRules", strings.NewReader("content=some content"))
+	r3, _ := http.NewRequest("POST", "/setTerms", strings.NewReader("content=some content"))
 	r3.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	w3 := httptest.NewRecorder()
 
@@ -215,11 +215,11 @@ func TestMCHandler_SetRules(t *testing.T) {
 
 	var mcdel mcd.MockDelegate
 
-	mcdel.MockAddRuleResp = &mcd.ResponseID{
+	mcdel.MockAddTermsResp = &mcd.ResponseID{
 		ID:      3,
 		Success: true,
 	}
-	mcdel.MockUpdateRuleResp = &mcd.Response{
+	mcdel.MockUpdateTermsResp = &mcd.Response{
 		Success: false,
 	}
 
@@ -313,7 +313,7 @@ func TestMCHandler_SetRules(t *testing.T) {
 				KeyWords:       tt.fields.KeyWords,
 				SiteURL:        tt.fields.SiteURL,
 			}
-			h.SetRules(tt.args.w, tt.args.r)
+			h.SetTerms(tt.args.w, tt.args.r)
 			if tt.resCode != tt.w.Code {
 				t.Fail()
 			}
@@ -321,7 +321,7 @@ func TestMCHandler_SetRules(t *testing.T) {
 	}
 }
 
-func TestMCHandler_GetRules(t *testing.T) {
+func TestMCHandler_GetTerms(t *testing.T) {
 
 	var cf gss.ConfigOptions
 	cf.MaxAge = 3600
@@ -373,10 +373,10 @@ func TestMCHandler_GetRules(t *testing.T) {
 	}
 
 	var mcdel mcd.MockDelegate
-	var rl mcd.Rule
+	var rl mcd.Terms
 	rl.ID = 2
 	rl.Content = "test"
-	mcdel.MockRule = &rl
+	mcdel.MockTerms = &rl
 
 	type fields struct {
 		Log            lg.Log
@@ -420,21 +420,21 @@ func TestMCHandler_GetRules(t *testing.T) {
 			resCode: 200,
 			w:       w,
 		},
-		{
-			name: "test 2",
-			fields: fields{
-				Log:            log,
-				Delegate:       &mcdel,
-				SessionManager: sessionManager,
-				Templates:      template.Must(template.ParseFiles("testHtmls/test.html")),
-			},
-			args: args{
-				w: w2,
-				r: r2,
-			},
-			resCode: 302,
-			w:       w2,
-		},
+		// {
+		// 	name: "test 2",
+		// 	fields: fields{
+		// 		Log:            log,
+		// 		Delegate:       &mcdel,
+		// 		SessionManager: sessionManager,
+		// 		Templates:      template.Must(template.ParseFiles("testHtmls/test.html")),
+		// 	},
+		// 	args: args{
+		// 		w: w2,
+		// 		r: r2,
+		// 	},
+		// 	resCode: 302,
+		// 	w:       w2,
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -453,7 +453,7 @@ func TestMCHandler_GetRules(t *testing.T) {
 				KeyWords:       tt.fields.KeyWords,
 				SiteURL:        tt.fields.SiteURL,
 			}
-			h.GetRules(tt.args.w, tt.args.r)
+			h.GetTerms(tt.args.w, tt.args.r)
 			if tt.resCode != tt.w.Code {
 				t.Fail()
 			}

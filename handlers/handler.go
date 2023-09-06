@@ -24,14 +24,16 @@ const (
 	googleOAuth2   = "googleOAuth2"
 
 	//pages
-	loginPage    = "login.html"
-	blogListPage = "blogList.html"
-	blogPage     = "blog.html"
-	addBlogPage  = "addBlog.html"
-	editBlogPage = "editBlog.html"
-	rulesPage    = "rules.html"
-	termsPage    = "terms.html"
-	aboutPage    = "about.html"
+	loginPage         = "login.html"
+	blogListPage      = "blogList.html"
+	blogPage          = "blog.html"
+	addBlogPage       = "addBlog.html"
+	editBlogPage      = "editBlog.html"
+	rulesPage         = "rules.html"
+	termsPage         = "terms.html"
+	aboutPage         = "about.html"
+	homePage          = "home.html"
+	privacyPolicyPage = "privacyPolicy.html"
 
 	//Admin Pages
 	adminBlogListPage        = "adminBlogList.html"
@@ -41,18 +43,23 @@ const (
 	adminBannedUserPage      = "adminBannedUser.html"
 	adminConfigPage          = "adminConfig.html"
 
-	adminAddRulePage  = "adminAddRule.html"
-	adminAddTermsPage = "adminAddTerms.html"
-	adminAddAboutPage = "adminAddAbout.html"
+	adminAddRulePage          = "adminAddRule.html"
+	adminAddTermsPage         = "adminAddTerms.html"
+	adminAddAboutPage         = "adminAddAbout.html"
+	adminAddHomePage          = "adminAddHome.html"
+	adminAddPrivacyPolicyPage = "adminAddPrivacyPolicy.html"
 
 	//routes
-	indexRt  = "/"
+	indexRt  = "/app"
+	homeRt   = "/"
 	loginRt  = "/login"
 	viewPost = "/viewPost/"
 
-	showRules = "/rules"
-	showTerms = "/terms"
-	showAbout = "/about"
+	showRules         = "/rules"
+	showTerms         = "/terms"
+	showAbout         = "/about"
+	showHome          = "/"
+	showPrivacyPolicy = "/privacyPolicy"
 
 	//admin routes
 	adminBlogListRt = "/adminPostList"
@@ -152,6 +159,14 @@ type Handler interface {
 	SetAboutPage(w http.ResponseWriter, r *http.Request)
 	SetAbout(w http.ResponseWriter, r *http.Request)
 	GetAbout(w http.ResponseWriter, r *http.Request)
+
+	SetHomePage(w http.ResponseWriter, r *http.Request)
+	SetHome(w http.ResponseWriter, r *http.Request)
+	GetHome(w http.ResponseWriter, r *http.Request)
+
+	SetPrivacyPolicyPage(w http.ResponseWriter, r *http.Request)
+	SetPrivacyPolicy(w http.ResponseWriter, r *http.Request)
+	GetPrivacyPolicy(w http.ResponseWriter, r *http.Request)
 
 	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-navbar" .}}
+    <body style="background-color:white">
+        <div class="container">
+            <h1 class="blog-top" style="width: 100%; text-align: center;">{{.Title}}</h1>
+            <h3 class="mt-2 pb-2" style="width: 100%; text-align: center; ">{{.Desc}}</h3>
+            <div class="mb-2" style="background-color: white;">
+                <div class="row mt-1 mb-5 post-link">
+                    <div class="col-12 text-center">
+                        {{.Home.TextHTML}}
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>

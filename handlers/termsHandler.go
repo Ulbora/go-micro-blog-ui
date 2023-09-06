@@ -102,36 +102,37 @@ func (h *MCHandler) GetTerms(w http.ResponseWriter, r *http.Request) {
 	if suc {
 		loggedInAuth := grs.Get("loggedIn")
 		h.Log.Debug("loggedIn in GetTerms: ", loggedInAuth)
-		if loggedInAuth == true {
+		// if loggedInAuth == true {
 
-			tg := h.Delegate.GetTerms()
+		tg := h.Delegate.GetTerms()
 
-			var grp TermsPage
-			grp.Title = h.Title
-			grp.Desc = h.Desc
-			grp.KeyWords = h.KeyWords
+		var grp TermsPage
+		grp.Title = h.Title
+		grp.Desc = h.Desc
+		grp.KeyWords = h.KeyWords
 
-			var rrr Terms
-			rrr.Terms = tg
-			txt, err := b64.StdEncoding.DecodeString(tg.Content)
-			if err == nil {
-				tg.Content = string(txt)
-				tg.Content = strings.Replace(tg.Content, stripOut, "", -1)
-				tg.Content = strings.Replace(tg.Content, stripOut2, "", -1)
-				tg.Content = strings.Replace(tg.Content, stripOut3, "", -1)
-				tg.Content = strings.Replace(tg.Content, stripOut4, "", -1)
+		var rrr Terms
+		rrr.Terms = tg
+		txt, err := b64.StdEncoding.DecodeString(tg.Content)
+		if err == nil {
+			tg.Content = string(txt)
+			tg.Content = strings.Replace(tg.Content, stripOut, "", -1)
+			tg.Content = strings.Replace(tg.Content, stripOut2, "", -1)
+			tg.Content = strings.Replace(tg.Content, stripOut3, "", -1)
+			tg.Content = strings.Replace(tg.Content, stripOut4, "", -1)
 
-				rrr.TextHTML = template.HTML(tg.Content)
-				h.Log.Debug("TextHTML: ", rrr.TextHTML)
-			}
-
-			grp.Terms = &rrr
-
-			h.Templates.ExecuteTemplate(w, termsPage, &grp)
-
-		} else {
-			http.Redirect(w, r, loginRt, http.StatusFound)
+			rrr.TextHTML = template.HTML(tg.Content)
+			h.Log.Debug("TextHTML: ", rrr.TextHTML)
 		}
+
+		grp.Terms = &rrr
+
+		h.Templates.ExecuteTemplate(w, termsPage, &grp)
+
+		// }
+		// else {
+		// http.Redirect(w, r, loginRt, http.StatusFound)
+		// }
 	}
 }
 

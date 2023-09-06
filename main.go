@@ -173,7 +173,7 @@ func main() {
 		"./static/blogList.html", "./static/header.html", "./static/user-nav.html",
 		"./static/addBlog.html", "./static/blog.html", "./static/editBlog.html",
 		"./static/user-admin-nav.html", "./static/rules.html", "./static/terms.html",
-		"./static/about.html"))
+		"./static/about.html", "./static/home.html", "./static/privacyPolicy.html"))
 
 	sh.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html",
 		"./static/header.html", "./static/admin/adminBlogList.html",
@@ -181,7 +181,8 @@ func main() {
 		"./static/admin/adminUser.html", "./static/admin/adminUnactivatedUser.html",
 		"./static/admin/adminBannedUser.html", "./static/admin/adminConfig.html",
 		"./static/admin/adminAddRule.html", "./static/admin/adminAddTerms.html",
-		"./static/admin/adminAddAbout.html"))
+		"./static/admin/adminAddAbout.html", "./static/admin/adminAddHome.html",
+		"./static/admin/adminAddPrivacyPolicy.html"))
 
 	router := mux.NewRouter()
 
@@ -196,11 +197,12 @@ func main() {
 		}
 	}
 
+	router.HandleFunc("/", h.GetHome).Methods("GET")
 	router.HandleFunc("/auth/linkedin/callback", h.LinkedInCallback).Methods("GET")
 	router.HandleFunc("/signin-google/callback", h.GoogleSigninCallback).Methods("GET")
 	router.HandleFunc("/login", h.LoginUserPage).Methods("GET")
 	router.HandleFunc("/loginUser/{signingSystem}", h.LoginUser).Methods("GET")
-	router.HandleFunc("/", h.GetBlogList).Methods("GET")
+	router.HandleFunc("/app", h.GetBlogList).Methods("GET")
 	router.HandleFunc("/newPost", h.AddBlogPage).Methods("GET")
 	router.HandleFunc("/addPost", h.AddBlog).Methods("POST")
 	router.HandleFunc("/addLike/{bid}", h.AddLike).Methods("GET")
@@ -212,6 +214,7 @@ func main() {
 	router.HandleFunc("/rules", h.GetRules).Methods("GET")
 	router.HandleFunc("/terms", h.GetTerms).Methods("GET")
 	router.HandleFunc("/about", h.GetAbout).Methods("GET")
+	router.HandleFunc("/privacyPolicy", h.GetPrivacyPolicy).Methods("GET")
 
 	router.HandleFunc("/adminPostList", h.GetAdminBlogList).Methods("GET")
 	router.HandleFunc("/searchAdminPost", h.SearchAdminBlogList).Methods("POST")
@@ -236,6 +239,10 @@ func main() {
 	router.HandleFunc("/adminUpdateTerms", h.SetTerms).Methods("POST")
 	router.HandleFunc("/adminSetAbout", h.SetAboutPage).Methods("GET")
 	router.HandleFunc("/adminUpdateAbout", h.SetAbout).Methods("POST")
+	router.HandleFunc("/adminSetHome", h.SetHomePage).Methods("GET")
+	router.HandleFunc("/adminUpdateHome", h.SetHome).Methods("POST")
+	router.HandleFunc("/adminSetPrivacyPolicy", h.SetPrivacyPolicyPage).Methods("GET")
+	router.HandleFunc("/adminUpdatePrivacyPolicy", h.SetPrivacyPolicy).Methods("POST")
 	router.HandleFunc("/rs/loglevel", h.SetLogLevel).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))

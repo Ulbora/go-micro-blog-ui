@@ -4894,3 +4894,809 @@ func TestMockDelegate_GetAbout(t *testing.T) {
 		})
 	}
 }
+
+func TestMockDelegate_AddHome(t *testing.T) {
+	type fields struct {
+		MockAddUserResp             *ResponseID
+		MockUpdateUserResp          *Response
+		MockRole                    *Role
+		MockAddRoleResp             *ResponseID
+		MockRoleList                *[]Role
+		MockDeleteRoleResp          *Response
+		MockAddUserAuthResp         *ResponseID
+		MockUserAuthList            *[]UserAuth
+		MockUser                    *User
+		MockBlogList                *[]Blog
+		MockBlog                    *Blog
+		MockCommentList             *[]Comment
+		MockLikeList                *[]Like
+		MockAddBlogRes              *ResponseID
+		MockUpdateBlogRes           *Response
+		MockAddCommentRes           *ResponseID
+		MockUpdateCommentRes        *Response
+		MockAddLikeRes              *ResponseID
+		MockRemoveLikeResp          *Response
+		MockActivateRes             *Response
+		MockDeActivateRes           *Response
+		MockDeleteBlogRes           *Response
+		MockActivateCommentRes      *Response
+		MockDeActivateCommentRes    *Response
+		MockUserList                *[]User
+		MockUnactivatedUserList     *[]User
+		MockBannedUserList          *[]User
+		MockEnableUser              *Response
+		MockReactivateBannedUser    *Response
+		MockDisableUser             *Response
+		MockDisableUserForCause     *Response
+		MockConfig                  *Config
+		MockUpdateConfigRes         *Response
+		MockAddRuleResp             *ResponseID
+		MockUpdateRuleResp          *Response
+		MockRule                    *Rule
+		MockAddTermsResp            *ResponseID
+		MockUpdateTermsResp         *Response
+		MockTerms                   *Terms
+		MockAddAboutResp            *ResponseID
+		MockUpdateAboutResp         *Response
+		MockAbout                   *About
+		MockAddHomeResp             *ResponseID
+		MockUpdateHomeResp          *Response
+		MockHome                    *Home
+		MockAddPrivacyPolicyResp    *ResponseID
+		MockUpdatePrivacyPolicyResp *Response
+		MockPrivacyPolicy           *PrivacyPolicy
+	}
+	type args struct {
+		r *Home
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *ResponseID
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockAddHomeResp: &ResponseID{
+					ID:      5,
+					Success: true,
+				},
+			},
+			args: args{
+				r: &Home{},
+			},
+			want: &ResponseID{
+				ID:      5,
+				Success: true,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:             tt.fields.MockAddUserResp,
+				MockUpdateUserResp:          tt.fields.MockUpdateUserResp,
+				MockRole:                    tt.fields.MockRole,
+				MockAddRoleResp:             tt.fields.MockAddRoleResp,
+				MockRoleList:                tt.fields.MockRoleList,
+				MockDeleteRoleResp:          tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:         tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:            tt.fields.MockUserAuthList,
+				MockUser:                    tt.fields.MockUser,
+				MockBlogList:                tt.fields.MockBlogList,
+				MockBlog:                    tt.fields.MockBlog,
+				MockCommentList:             tt.fields.MockCommentList,
+				MockLikeList:                tt.fields.MockLikeList,
+				MockAddBlogRes:              tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:           tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:           tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:        tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:              tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:          tt.fields.MockRemoveLikeResp,
+				MockActivateRes:             tt.fields.MockActivateRes,
+				MockDeActivateRes:           tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:           tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:      tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes:    tt.fields.MockDeActivateCommentRes,
+				MockUserList:                tt.fields.MockUserList,
+				MockUnactivatedUserList:     tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:          tt.fields.MockBannedUserList,
+				MockEnableUser:              tt.fields.MockEnableUser,
+				MockReactivateBannedUser:    tt.fields.MockReactivateBannedUser,
+				MockDisableUser:             tt.fields.MockDisableUser,
+				MockDisableUserForCause:     tt.fields.MockDisableUserForCause,
+				MockConfig:                  tt.fields.MockConfig,
+				MockUpdateConfigRes:         tt.fields.MockUpdateConfigRes,
+				MockAddRuleResp:             tt.fields.MockAddRuleResp,
+				MockUpdateRuleResp:          tt.fields.MockUpdateRuleResp,
+				MockRule:                    tt.fields.MockRule,
+				MockAddTermsResp:            tt.fields.MockAddTermsResp,
+				MockUpdateTermsResp:         tt.fields.MockUpdateTermsResp,
+				MockTerms:                   tt.fields.MockTerms,
+				MockAddAboutResp:            tt.fields.MockAddAboutResp,
+				MockUpdateAboutResp:         tt.fields.MockUpdateAboutResp,
+				MockAbout:                   tt.fields.MockAbout,
+				MockAddHomeResp:             tt.fields.MockAddHomeResp,
+				MockUpdateHomeResp:          tt.fields.MockUpdateHomeResp,
+				MockHome:                    tt.fields.MockHome,
+				MockAddPrivacyPolicyResp:    tt.fields.MockAddPrivacyPolicyResp,
+				MockUpdatePrivacyPolicyResp: tt.fields.MockUpdatePrivacyPolicyResp,
+				MockPrivacyPolicy:           tt.fields.MockPrivacyPolicy,
+			}
+			if got := d.AddHome(tt.args.r); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.AddHome() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMockDelegate_UpdateHome(t *testing.T) {
+	type fields struct {
+		MockAddUserResp             *ResponseID
+		MockUpdateUserResp          *Response
+		MockRole                    *Role
+		MockAddRoleResp             *ResponseID
+		MockRoleList                *[]Role
+		MockDeleteRoleResp          *Response
+		MockAddUserAuthResp         *ResponseID
+		MockUserAuthList            *[]UserAuth
+		MockUser                    *User
+		MockBlogList                *[]Blog
+		MockBlog                    *Blog
+		MockCommentList             *[]Comment
+		MockLikeList                *[]Like
+		MockAddBlogRes              *ResponseID
+		MockUpdateBlogRes           *Response
+		MockAddCommentRes           *ResponseID
+		MockUpdateCommentRes        *Response
+		MockAddLikeRes              *ResponseID
+		MockRemoveLikeResp          *Response
+		MockActivateRes             *Response
+		MockDeActivateRes           *Response
+		MockDeleteBlogRes           *Response
+		MockActivateCommentRes      *Response
+		MockDeActivateCommentRes    *Response
+		MockUserList                *[]User
+		MockUnactivatedUserList     *[]User
+		MockBannedUserList          *[]User
+		MockEnableUser              *Response
+		MockReactivateBannedUser    *Response
+		MockDisableUser             *Response
+		MockDisableUserForCause     *Response
+		MockConfig                  *Config
+		MockUpdateConfigRes         *Response
+		MockAddRuleResp             *ResponseID
+		MockUpdateRuleResp          *Response
+		MockRule                    *Rule
+		MockAddTermsResp            *ResponseID
+		MockUpdateTermsResp         *Response
+		MockTerms                   *Terms
+		MockAddAboutResp            *ResponseID
+		MockUpdateAboutResp         *Response
+		MockAbout                   *About
+		MockAddHomeResp             *ResponseID
+		MockUpdateHomeResp          *Response
+		MockHome                    *Home
+		MockAddPrivacyPolicyResp    *ResponseID
+		MockUpdatePrivacyPolicyResp *Response
+		MockPrivacyPolicy           *PrivacyPolicy
+	}
+	type args struct {
+		r *Home
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *Response
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockUpdateHomeResp: &Response{
+					Success: true,
+				},
+			},
+			args: args{
+				r: &Home{},
+			},
+			want: &Response{
+				Success: true,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:             tt.fields.MockAddUserResp,
+				MockUpdateUserResp:          tt.fields.MockUpdateUserResp,
+				MockRole:                    tt.fields.MockRole,
+				MockAddRoleResp:             tt.fields.MockAddRoleResp,
+				MockRoleList:                tt.fields.MockRoleList,
+				MockDeleteRoleResp:          tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:         tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:            tt.fields.MockUserAuthList,
+				MockUser:                    tt.fields.MockUser,
+				MockBlogList:                tt.fields.MockBlogList,
+				MockBlog:                    tt.fields.MockBlog,
+				MockCommentList:             tt.fields.MockCommentList,
+				MockLikeList:                tt.fields.MockLikeList,
+				MockAddBlogRes:              tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:           tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:           tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:        tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:              tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:          tt.fields.MockRemoveLikeResp,
+				MockActivateRes:             tt.fields.MockActivateRes,
+				MockDeActivateRes:           tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:           tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:      tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes:    tt.fields.MockDeActivateCommentRes,
+				MockUserList:                tt.fields.MockUserList,
+				MockUnactivatedUserList:     tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:          tt.fields.MockBannedUserList,
+				MockEnableUser:              tt.fields.MockEnableUser,
+				MockReactivateBannedUser:    tt.fields.MockReactivateBannedUser,
+				MockDisableUser:             tt.fields.MockDisableUser,
+				MockDisableUserForCause:     tt.fields.MockDisableUserForCause,
+				MockConfig:                  tt.fields.MockConfig,
+				MockUpdateConfigRes:         tt.fields.MockUpdateConfigRes,
+				MockAddRuleResp:             tt.fields.MockAddRuleResp,
+				MockUpdateRuleResp:          tt.fields.MockUpdateRuleResp,
+				MockRule:                    tt.fields.MockRule,
+				MockAddTermsResp:            tt.fields.MockAddTermsResp,
+				MockUpdateTermsResp:         tt.fields.MockUpdateTermsResp,
+				MockTerms:                   tt.fields.MockTerms,
+				MockAddAboutResp:            tt.fields.MockAddAboutResp,
+				MockUpdateAboutResp:         tt.fields.MockUpdateAboutResp,
+				MockAbout:                   tt.fields.MockAbout,
+				MockAddHomeResp:             tt.fields.MockAddHomeResp,
+				MockUpdateHomeResp:          tt.fields.MockUpdateHomeResp,
+				MockHome:                    tt.fields.MockHome,
+				MockAddPrivacyPolicyResp:    tt.fields.MockAddPrivacyPolicyResp,
+				MockUpdatePrivacyPolicyResp: tt.fields.MockUpdatePrivacyPolicyResp,
+				MockPrivacyPolicy:           tt.fields.MockPrivacyPolicy,
+			}
+			if got := d.UpdateHome(tt.args.r); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.UpdateHome() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMockDelegate_GetHome(t *testing.T) {
+	type fields struct {
+		MockAddUserResp             *ResponseID
+		MockUpdateUserResp          *Response
+		MockRole                    *Role
+		MockAddRoleResp             *ResponseID
+		MockRoleList                *[]Role
+		MockDeleteRoleResp          *Response
+		MockAddUserAuthResp         *ResponseID
+		MockUserAuthList            *[]UserAuth
+		MockUser                    *User
+		MockBlogList                *[]Blog
+		MockBlog                    *Blog
+		MockCommentList             *[]Comment
+		MockLikeList                *[]Like
+		MockAddBlogRes              *ResponseID
+		MockUpdateBlogRes           *Response
+		MockAddCommentRes           *ResponseID
+		MockUpdateCommentRes        *Response
+		MockAddLikeRes              *ResponseID
+		MockRemoveLikeResp          *Response
+		MockActivateRes             *Response
+		MockDeActivateRes           *Response
+		MockDeleteBlogRes           *Response
+		MockActivateCommentRes      *Response
+		MockDeActivateCommentRes    *Response
+		MockUserList                *[]User
+		MockUnactivatedUserList     *[]User
+		MockBannedUserList          *[]User
+		MockEnableUser              *Response
+		MockReactivateBannedUser    *Response
+		MockDisableUser             *Response
+		MockDisableUserForCause     *Response
+		MockConfig                  *Config
+		MockUpdateConfigRes         *Response
+		MockAddRuleResp             *ResponseID
+		MockUpdateRuleResp          *Response
+		MockRule                    *Rule
+		MockAddTermsResp            *ResponseID
+		MockUpdateTermsResp         *Response
+		MockTerms                   *Terms
+		MockAddAboutResp            *ResponseID
+		MockUpdateAboutResp         *Response
+		MockAbout                   *About
+		MockAddHomeResp             *ResponseID
+		MockUpdateHomeResp          *Response
+		MockHome                    *Home
+		MockAddPrivacyPolicyResp    *ResponseID
+		MockUpdatePrivacyPolicyResp *Response
+		MockPrivacyPolicy           *PrivacyPolicy
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   *Home
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockHome: &Home{
+					ID:      5,
+					Content: "test",
+				},
+			},
+
+			want: &Home{
+				ID:      5,
+				Content: "test",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:             tt.fields.MockAddUserResp,
+				MockUpdateUserResp:          tt.fields.MockUpdateUserResp,
+				MockRole:                    tt.fields.MockRole,
+				MockAddRoleResp:             tt.fields.MockAddRoleResp,
+				MockRoleList:                tt.fields.MockRoleList,
+				MockDeleteRoleResp:          tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:         tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:            tt.fields.MockUserAuthList,
+				MockUser:                    tt.fields.MockUser,
+				MockBlogList:                tt.fields.MockBlogList,
+				MockBlog:                    tt.fields.MockBlog,
+				MockCommentList:             tt.fields.MockCommentList,
+				MockLikeList:                tt.fields.MockLikeList,
+				MockAddBlogRes:              tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:           tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:           tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:        tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:              tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:          tt.fields.MockRemoveLikeResp,
+				MockActivateRes:             tt.fields.MockActivateRes,
+				MockDeActivateRes:           tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:           tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:      tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes:    tt.fields.MockDeActivateCommentRes,
+				MockUserList:                tt.fields.MockUserList,
+				MockUnactivatedUserList:     tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:          tt.fields.MockBannedUserList,
+				MockEnableUser:              tt.fields.MockEnableUser,
+				MockReactivateBannedUser:    tt.fields.MockReactivateBannedUser,
+				MockDisableUser:             tt.fields.MockDisableUser,
+				MockDisableUserForCause:     tt.fields.MockDisableUserForCause,
+				MockConfig:                  tt.fields.MockConfig,
+				MockUpdateConfigRes:         tt.fields.MockUpdateConfigRes,
+				MockAddRuleResp:             tt.fields.MockAddRuleResp,
+				MockUpdateRuleResp:          tt.fields.MockUpdateRuleResp,
+				MockRule:                    tt.fields.MockRule,
+				MockAddTermsResp:            tt.fields.MockAddTermsResp,
+				MockUpdateTermsResp:         tt.fields.MockUpdateTermsResp,
+				MockTerms:                   tt.fields.MockTerms,
+				MockAddAboutResp:            tt.fields.MockAddAboutResp,
+				MockUpdateAboutResp:         tt.fields.MockUpdateAboutResp,
+				MockAbout:                   tt.fields.MockAbout,
+				MockAddHomeResp:             tt.fields.MockAddHomeResp,
+				MockUpdateHomeResp:          tt.fields.MockUpdateHomeResp,
+				MockHome:                    tt.fields.MockHome,
+				MockAddPrivacyPolicyResp:    tt.fields.MockAddPrivacyPolicyResp,
+				MockUpdatePrivacyPolicyResp: tt.fields.MockUpdatePrivacyPolicyResp,
+				MockPrivacyPolicy:           tt.fields.MockPrivacyPolicy,
+			}
+			if got := d.GetHome(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.GetHome() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMockDelegate_AddPrivacyPolicy(t *testing.T) {
+	type fields struct {
+		MockAddUserResp             *ResponseID
+		MockUpdateUserResp          *Response
+		MockRole                    *Role
+		MockAddRoleResp             *ResponseID
+		MockRoleList                *[]Role
+		MockDeleteRoleResp          *Response
+		MockAddUserAuthResp         *ResponseID
+		MockUserAuthList            *[]UserAuth
+		MockUser                    *User
+		MockBlogList                *[]Blog
+		MockBlog                    *Blog
+		MockCommentList             *[]Comment
+		MockLikeList                *[]Like
+		MockAddBlogRes              *ResponseID
+		MockUpdateBlogRes           *Response
+		MockAddCommentRes           *ResponseID
+		MockUpdateCommentRes        *Response
+		MockAddLikeRes              *ResponseID
+		MockRemoveLikeResp          *Response
+		MockActivateRes             *Response
+		MockDeActivateRes           *Response
+		MockDeleteBlogRes           *Response
+		MockActivateCommentRes      *Response
+		MockDeActivateCommentRes    *Response
+		MockUserList                *[]User
+		MockUnactivatedUserList     *[]User
+		MockBannedUserList          *[]User
+		MockEnableUser              *Response
+		MockReactivateBannedUser    *Response
+		MockDisableUser             *Response
+		MockDisableUserForCause     *Response
+		MockConfig                  *Config
+		MockUpdateConfigRes         *Response
+		MockAddRuleResp             *ResponseID
+		MockUpdateRuleResp          *Response
+		MockRule                    *Rule
+		MockAddTermsResp            *ResponseID
+		MockUpdateTermsResp         *Response
+		MockTerms                   *Terms
+		MockAddAboutResp            *ResponseID
+		MockUpdateAboutResp         *Response
+		MockAbout                   *About
+		MockAddHomeResp             *ResponseID
+		MockUpdateHomeResp          *Response
+		MockHome                    *Home
+		MockAddPrivacyPolicyResp    *ResponseID
+		MockUpdatePrivacyPolicyResp *Response
+		MockPrivacyPolicy           *PrivacyPolicy
+	}
+	type args struct {
+		r *PrivacyPolicy
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *ResponseID
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockAddPrivacyPolicyResp: &ResponseID{
+					ID:      5,
+					Success: true,
+				},
+			},
+			args: args{
+				r: &PrivacyPolicy{},
+			},
+			want: &ResponseID{
+				ID:      5,
+				Success: true,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:             tt.fields.MockAddUserResp,
+				MockUpdateUserResp:          tt.fields.MockUpdateUserResp,
+				MockRole:                    tt.fields.MockRole,
+				MockAddRoleResp:             tt.fields.MockAddRoleResp,
+				MockRoleList:                tt.fields.MockRoleList,
+				MockDeleteRoleResp:          tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:         tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:            tt.fields.MockUserAuthList,
+				MockUser:                    tt.fields.MockUser,
+				MockBlogList:                tt.fields.MockBlogList,
+				MockBlog:                    tt.fields.MockBlog,
+				MockCommentList:             tt.fields.MockCommentList,
+				MockLikeList:                tt.fields.MockLikeList,
+				MockAddBlogRes:              tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:           tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:           tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:        tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:              tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:          tt.fields.MockRemoveLikeResp,
+				MockActivateRes:             tt.fields.MockActivateRes,
+				MockDeActivateRes:           tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:           tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:      tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes:    tt.fields.MockDeActivateCommentRes,
+				MockUserList:                tt.fields.MockUserList,
+				MockUnactivatedUserList:     tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:          tt.fields.MockBannedUserList,
+				MockEnableUser:              tt.fields.MockEnableUser,
+				MockReactivateBannedUser:    tt.fields.MockReactivateBannedUser,
+				MockDisableUser:             tt.fields.MockDisableUser,
+				MockDisableUserForCause:     tt.fields.MockDisableUserForCause,
+				MockConfig:                  tt.fields.MockConfig,
+				MockUpdateConfigRes:         tt.fields.MockUpdateConfigRes,
+				MockAddRuleResp:             tt.fields.MockAddRuleResp,
+				MockUpdateRuleResp:          tt.fields.MockUpdateRuleResp,
+				MockRule:                    tt.fields.MockRule,
+				MockAddTermsResp:            tt.fields.MockAddTermsResp,
+				MockUpdateTermsResp:         tt.fields.MockUpdateTermsResp,
+				MockTerms:                   tt.fields.MockTerms,
+				MockAddAboutResp:            tt.fields.MockAddAboutResp,
+				MockUpdateAboutResp:         tt.fields.MockUpdateAboutResp,
+				MockAbout:                   tt.fields.MockAbout,
+				MockAddHomeResp:             tt.fields.MockAddHomeResp,
+				MockUpdateHomeResp:          tt.fields.MockUpdateHomeResp,
+				MockHome:                    tt.fields.MockHome,
+				MockAddPrivacyPolicyResp:    tt.fields.MockAddPrivacyPolicyResp,
+				MockUpdatePrivacyPolicyResp: tt.fields.MockUpdatePrivacyPolicyResp,
+				MockPrivacyPolicy:           tt.fields.MockPrivacyPolicy,
+			}
+			if got := d.AddPrivacyPolicy(tt.args.r); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.AddPrivacyPolicy() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMockDelegate_UpdatePrivacyPolicy(t *testing.T) {
+	type fields struct {
+		MockAddUserResp             *ResponseID
+		MockUpdateUserResp          *Response
+		MockRole                    *Role
+		MockAddRoleResp             *ResponseID
+		MockRoleList                *[]Role
+		MockDeleteRoleResp          *Response
+		MockAddUserAuthResp         *ResponseID
+		MockUserAuthList            *[]UserAuth
+		MockUser                    *User
+		MockBlogList                *[]Blog
+		MockBlog                    *Blog
+		MockCommentList             *[]Comment
+		MockLikeList                *[]Like
+		MockAddBlogRes              *ResponseID
+		MockUpdateBlogRes           *Response
+		MockAddCommentRes           *ResponseID
+		MockUpdateCommentRes        *Response
+		MockAddLikeRes              *ResponseID
+		MockRemoveLikeResp          *Response
+		MockActivateRes             *Response
+		MockDeActivateRes           *Response
+		MockDeleteBlogRes           *Response
+		MockActivateCommentRes      *Response
+		MockDeActivateCommentRes    *Response
+		MockUserList                *[]User
+		MockUnactivatedUserList     *[]User
+		MockBannedUserList          *[]User
+		MockEnableUser              *Response
+		MockReactivateBannedUser    *Response
+		MockDisableUser             *Response
+		MockDisableUserForCause     *Response
+		MockConfig                  *Config
+		MockUpdateConfigRes         *Response
+		MockAddRuleResp             *ResponseID
+		MockUpdateRuleResp          *Response
+		MockRule                    *Rule
+		MockAddTermsResp            *ResponseID
+		MockUpdateTermsResp         *Response
+		MockTerms                   *Terms
+		MockAddAboutResp            *ResponseID
+		MockUpdateAboutResp         *Response
+		MockAbout                   *About
+		MockAddHomeResp             *ResponseID
+		MockUpdateHomeResp          *Response
+		MockHome                    *Home
+		MockAddPrivacyPolicyResp    *ResponseID
+		MockUpdatePrivacyPolicyResp *Response
+		MockPrivacyPolicy           *PrivacyPolicy
+	}
+	type args struct {
+		r *PrivacyPolicy
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *Response
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockUpdatePrivacyPolicyResp: &Response{
+					Success: true,
+				},
+			},
+			args: args{
+				r: &PrivacyPolicy{},
+			},
+			want: &Response{
+				Success: true,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:             tt.fields.MockAddUserResp,
+				MockUpdateUserResp:          tt.fields.MockUpdateUserResp,
+				MockRole:                    tt.fields.MockRole,
+				MockAddRoleResp:             tt.fields.MockAddRoleResp,
+				MockRoleList:                tt.fields.MockRoleList,
+				MockDeleteRoleResp:          tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:         tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:            tt.fields.MockUserAuthList,
+				MockUser:                    tt.fields.MockUser,
+				MockBlogList:                tt.fields.MockBlogList,
+				MockBlog:                    tt.fields.MockBlog,
+				MockCommentList:             tt.fields.MockCommentList,
+				MockLikeList:                tt.fields.MockLikeList,
+				MockAddBlogRes:              tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:           tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:           tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:        tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:              tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:          tt.fields.MockRemoveLikeResp,
+				MockActivateRes:             tt.fields.MockActivateRes,
+				MockDeActivateRes:           tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:           tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:      tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes:    tt.fields.MockDeActivateCommentRes,
+				MockUserList:                tt.fields.MockUserList,
+				MockUnactivatedUserList:     tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:          tt.fields.MockBannedUserList,
+				MockEnableUser:              tt.fields.MockEnableUser,
+				MockReactivateBannedUser:    tt.fields.MockReactivateBannedUser,
+				MockDisableUser:             tt.fields.MockDisableUser,
+				MockDisableUserForCause:     tt.fields.MockDisableUserForCause,
+				MockConfig:                  tt.fields.MockConfig,
+				MockUpdateConfigRes:         tt.fields.MockUpdateConfigRes,
+				MockAddRuleResp:             tt.fields.MockAddRuleResp,
+				MockUpdateRuleResp:          tt.fields.MockUpdateRuleResp,
+				MockRule:                    tt.fields.MockRule,
+				MockAddTermsResp:            tt.fields.MockAddTermsResp,
+				MockUpdateTermsResp:         tt.fields.MockUpdateTermsResp,
+				MockTerms:                   tt.fields.MockTerms,
+				MockAddAboutResp:            tt.fields.MockAddAboutResp,
+				MockUpdateAboutResp:         tt.fields.MockUpdateAboutResp,
+				MockAbout:                   tt.fields.MockAbout,
+				MockAddHomeResp:             tt.fields.MockAddHomeResp,
+				MockUpdateHomeResp:          tt.fields.MockUpdateHomeResp,
+				MockHome:                    tt.fields.MockHome,
+				MockAddPrivacyPolicyResp:    tt.fields.MockAddPrivacyPolicyResp,
+				MockUpdatePrivacyPolicyResp: tt.fields.MockUpdatePrivacyPolicyResp,
+				MockPrivacyPolicy:           tt.fields.MockPrivacyPolicy,
+			}
+			if got := d.UpdatePrivacyPolicy(tt.args.r); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.UpdatePrivacyPolicy() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMockDelegate_GetPrivacyPolicy(t *testing.T) {
+	type fields struct {
+		MockAddUserResp             *ResponseID
+		MockUpdateUserResp          *Response
+		MockRole                    *Role
+		MockAddRoleResp             *ResponseID
+		MockRoleList                *[]Role
+		MockDeleteRoleResp          *Response
+		MockAddUserAuthResp         *ResponseID
+		MockUserAuthList            *[]UserAuth
+		MockUser                    *User
+		MockBlogList                *[]Blog
+		MockBlog                    *Blog
+		MockCommentList             *[]Comment
+		MockLikeList                *[]Like
+		MockAddBlogRes              *ResponseID
+		MockUpdateBlogRes           *Response
+		MockAddCommentRes           *ResponseID
+		MockUpdateCommentRes        *Response
+		MockAddLikeRes              *ResponseID
+		MockRemoveLikeResp          *Response
+		MockActivateRes             *Response
+		MockDeActivateRes           *Response
+		MockDeleteBlogRes           *Response
+		MockActivateCommentRes      *Response
+		MockDeActivateCommentRes    *Response
+		MockUserList                *[]User
+		MockUnactivatedUserList     *[]User
+		MockBannedUserList          *[]User
+		MockEnableUser              *Response
+		MockReactivateBannedUser    *Response
+		MockDisableUser             *Response
+		MockDisableUserForCause     *Response
+		MockConfig                  *Config
+		MockUpdateConfigRes         *Response
+		MockAddRuleResp             *ResponseID
+		MockUpdateRuleResp          *Response
+		MockRule                    *Rule
+		MockAddTermsResp            *ResponseID
+		MockUpdateTermsResp         *Response
+		MockTerms                   *Terms
+		MockAddAboutResp            *ResponseID
+		MockUpdateAboutResp         *Response
+		MockAbout                   *About
+		MockAddHomeResp             *ResponseID
+		MockUpdateHomeResp          *Response
+		MockHome                    *Home
+		MockAddPrivacyPolicyResp    *ResponseID
+		MockUpdatePrivacyPolicyResp *Response
+		MockPrivacyPolicy           *PrivacyPolicy
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   *PrivacyPolicy
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test 1",
+			fields: fields{
+				MockPrivacyPolicy: &PrivacyPolicy{
+					ID:      5,
+					Content: "test",
+				},
+			},
+
+			want: &PrivacyPolicy{
+				ID:      5,
+				Content: "test",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &MockDelegate{
+				MockAddUserResp:             tt.fields.MockAddUserResp,
+				MockUpdateUserResp:          tt.fields.MockUpdateUserResp,
+				MockRole:                    tt.fields.MockRole,
+				MockAddRoleResp:             tt.fields.MockAddRoleResp,
+				MockRoleList:                tt.fields.MockRoleList,
+				MockDeleteRoleResp:          tt.fields.MockDeleteRoleResp,
+				MockAddUserAuthResp:         tt.fields.MockAddUserAuthResp,
+				MockUserAuthList:            tt.fields.MockUserAuthList,
+				MockUser:                    tt.fields.MockUser,
+				MockBlogList:                tt.fields.MockBlogList,
+				MockBlog:                    tt.fields.MockBlog,
+				MockCommentList:             tt.fields.MockCommentList,
+				MockLikeList:                tt.fields.MockLikeList,
+				MockAddBlogRes:              tt.fields.MockAddBlogRes,
+				MockUpdateBlogRes:           tt.fields.MockUpdateBlogRes,
+				MockAddCommentRes:           tt.fields.MockAddCommentRes,
+				MockUpdateCommentRes:        tt.fields.MockUpdateCommentRes,
+				MockAddLikeRes:              tt.fields.MockAddLikeRes,
+				MockRemoveLikeResp:          tt.fields.MockRemoveLikeResp,
+				MockActivateRes:             tt.fields.MockActivateRes,
+				MockDeActivateRes:           tt.fields.MockDeActivateRes,
+				MockDeleteBlogRes:           tt.fields.MockDeleteBlogRes,
+				MockActivateCommentRes:      tt.fields.MockActivateCommentRes,
+				MockDeActivateCommentRes:    tt.fields.MockDeActivateCommentRes,
+				MockUserList:                tt.fields.MockUserList,
+				MockUnactivatedUserList:     tt.fields.MockUnactivatedUserList,
+				MockBannedUserList:          tt.fields.MockBannedUserList,
+				MockEnableUser:              tt.fields.MockEnableUser,
+				MockReactivateBannedUser:    tt.fields.MockReactivateBannedUser,
+				MockDisableUser:             tt.fields.MockDisableUser,
+				MockDisableUserForCause:     tt.fields.MockDisableUserForCause,
+				MockConfig:                  tt.fields.MockConfig,
+				MockUpdateConfigRes:         tt.fields.MockUpdateConfigRes,
+				MockAddRuleResp:             tt.fields.MockAddRuleResp,
+				MockUpdateRuleResp:          tt.fields.MockUpdateRuleResp,
+				MockRule:                    tt.fields.MockRule,
+				MockAddTermsResp:            tt.fields.MockAddTermsResp,
+				MockUpdateTermsResp:         tt.fields.MockUpdateTermsResp,
+				MockTerms:                   tt.fields.MockTerms,
+				MockAddAboutResp:            tt.fields.MockAddAboutResp,
+				MockUpdateAboutResp:         tt.fields.MockUpdateAboutResp,
+				MockAbout:                   tt.fields.MockAbout,
+				MockAddHomeResp:             tt.fields.MockAddHomeResp,
+				MockUpdateHomeResp:          tt.fields.MockUpdateHomeResp,
+				MockHome:                    tt.fields.MockHome,
+				MockAddPrivacyPolicyResp:    tt.fields.MockAddPrivacyPolicyResp,
+				MockUpdatePrivacyPolicyResp: tt.fields.MockUpdatePrivacyPolicyResp,
+				MockPrivacyPolicy:           tt.fields.MockPrivacyPolicy,
+			}
+			if got := d.GetPrivacyPolicy(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MockDelegate.GetPrivacyPolicy() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

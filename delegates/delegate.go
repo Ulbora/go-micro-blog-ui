@@ -84,4 +84,12 @@ type Delegate interface {
 	AddAbout(r *About) *ResponseID
 	UpdateAbout(r *About) *Response
 	GetAbout() *About
+
+	AddHome(r *Home) *ResponseID
+	UpdateHome(r *Home) *Response
+	GetHome() *Home
+
+	AddPrivacyPolicy(r *PrivacyPolicy) *ResponseID
+	UpdatePrivacyPolicy(r *PrivacyPolicy) *Response
+	GetPrivacyPolicy() *PrivacyPolicy
 }

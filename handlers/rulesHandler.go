@@ -106,36 +106,37 @@ func (h *MCHandler) GetRules(w http.ResponseWriter, r *http.Request) {
 	if suc {
 		loggedInAuth := grs.Get("loggedIn")
 		h.Log.Debug("loggedIn in GetBlog: ", loggedInAuth)
-		if loggedInAuth == true {
+		// if loggedInAuth == true {
 
-			rg := h.Delegate.GetRule()
+		rg := h.Delegate.GetRule()
 
-			var grp RulePage
-			grp.Title = h.Title
-			grp.Desc = h.Desc
-			grp.KeyWords = h.KeyWords
+		var grp RulePage
+		grp.Title = h.Title
+		grp.Desc = h.Desc
+		grp.KeyWords = h.KeyWords
 
-			var rrr Rule
-			rrr.Rule = rg
-			txt, err := b64.StdEncoding.DecodeString(rg.Content)
-			if err == nil {
-				rg.Content = string(txt)
-				rg.Content = strings.Replace(rg.Content, stripOut, "", -1)
-				rg.Content = strings.Replace(rg.Content, stripOut2, "", -1)
-				rg.Content = strings.Replace(rg.Content, stripOut3, "", -1)
-				rg.Content = strings.Replace(rg.Content, stripOut4, "", -1)
+		var rrr Rule
+		rrr.Rule = rg
+		txt, err := b64.StdEncoding.DecodeString(rg.Content)
+		if err == nil {
+			rg.Content = string(txt)
+			rg.Content = strings.Replace(rg.Content, stripOut, "", -1)
+			rg.Content = strings.Replace(rg.Content, stripOut2, "", -1)
+			rg.Content = strings.Replace(rg.Content, stripOut3, "", -1)
+			rg.Content = strings.Replace(rg.Content, stripOut4, "", -1)
 
-				rrr.TextHTML = template.HTML(rg.Content)
-				h.Log.Debug("TextHTML: ", rrr.TextHTML)
-			}
-
-			grp.Rule = &rrr
-
-			h.Templates.ExecuteTemplate(w, rulesPage, &grp)
-
-		} else {
-			http.Redirect(w, r, loginRt, http.StatusFound)
+			rrr.TextHTML = template.HTML(rg.Content)
+			h.Log.Debug("TextHTML: ", rrr.TextHTML)
 		}
+
+		grp.Rule = &rrr
+
+		h.Templates.ExecuteTemplate(w, rulesPage, &grp)
+
+		// }
+		// else {
+		// http.Redirect(w, r, loginRt, http.StatusFound)
+		// }
 	}
 }
 

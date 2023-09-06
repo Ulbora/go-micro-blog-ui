@@ -28,9 +28,9 @@ import (
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// About About
-type About struct {
-	About    *mcd.About
+// Home Home
+type Home struct {
+	Home     *mcd.Home
 	TextHTML template.HTML
 	// User        *mcd.User
 	// UserImage   string
@@ -40,94 +40,94 @@ type About struct {
 	// Liked       bool
 }
 
-// AboutPage AboutPage
-type AboutPage struct {
+// HomePage HomePage
+type HomePage struct {
 	Title    string
 	Desc     string
 	KeyWords string
-	About    *About
+	Home     *Home
 	IsAdmin  bool
 	SiteData *SiteData
 }
 
-// SetAboutPage SetAboutPage
-func (h *MCHandler) SetAboutPage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("in SetAboutPage")
+// SetHomePage SetHomePage
+func (h *MCHandler) SetHomePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in SetHomePage")
 	sr, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
 		loggedInAuth := sr.Get("loggedIn")
 		var isAdmin = sr.Get("isAdmin")
-		h.Log.Debug("loggedIn in SetAboutPage: ", loggedInAuth)
+		h.Log.Debug("loggedIn in SetHomePage: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
 			h.Log.Debug("template: ", h.Templates)
-			about := h.Delegate.GetAbout()
+			home := h.Delegate.GetHome()
 
-			var upg AboutPage
+			var upg HomePage
 			upg.Title = h.Title
 			upg.Desc = h.Desc
 			upg.KeyWords = h.KeyWords
 
-			var rl About
-			rl.About = about
+			var rl Home
+			rl.Home = home
 
-			h.Log.Debug("Content: ", about.Content)
+			h.Log.Debug("Content: ", home.Content)
 
-			txt, err := b64.StdEncoding.DecodeString(about.Content)
+			txt, err := b64.StdEncoding.DecodeString(home.Content)
 			h.Log.Debug("text: ", string(txt))
 			h.Log.Debug("err: ", err)
 			if err == nil {
-				about.Content = string(txt)
-				about.Content = strings.Replace(about.Content, stripOut, "", -1)
-				about.Content = strings.Replace(about.Content, stripOut2, "", -1)
-				about.Content = strings.Replace(about.Content, stripOut3, "", -1)
-				about.Content = strings.Replace(about.Content, stripOut4, "", -1)
+				home.Content = string(txt)
+				home.Content = strings.Replace(home.Content, stripOut, "", -1)
+				home.Content = strings.Replace(home.Content, stripOut2, "", -1)
+				home.Content = strings.Replace(home.Content, stripOut3, "", -1)
+				home.Content = strings.Replace(home.Content, stripOut4, "", -1)
 
-				rl.TextHTML = template.HTML(about.Content)
+				rl.TextHTML = template.HTML(home.Content)
 				h.Log.Debug("TextHTML: ", rl.TextHTML)
 			}
-			upg.About = &rl
-			h.AdminTemplates.ExecuteTemplate(w, adminAddAboutPage, &upg)
+			upg.Home = &rl
+			h.AdminTemplates.ExecuteTemplate(w, adminAddHomePage, &upg)
 		} else {
 			http.Redirect(w, r, indexRt, http.StatusFound)
 		}
 	}
 }
 
-// GetAbout GetAbout
-func (h *MCHandler) GetAbout(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("in GetBlog")
+// GetHome GetHome
+func (h *MCHandler) GetHome(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in GetHome")
 	grs, suc := h.getSession(r)
-	h.Log.Debug("session suc in GetAbout", suc)
+	h.Log.Debug("session suc in GetHome", suc)
 	if suc {
 		loggedInAuth := grs.Get("loggedIn")
-		h.Log.Debug("loggedIn in GetAbout: ", loggedInAuth)
+		h.Log.Debug("loggedIn in GetHome: ", loggedInAuth)
 		// if loggedInAuth == true {
 
-		about := h.Delegate.GetAbout()
+		home := h.Delegate.GetHome()
 
-		var grp AboutPage
+		var grp HomePage
 		grp.Title = h.Title
 		grp.Desc = h.Desc
 		grp.KeyWords = h.KeyWords
 
-		var rrr About
-		rrr.About = about
-		txt, err := b64.StdEncoding.DecodeString(about.Content)
+		var rrr Home
+		rrr.Home = home
+		txt, err := b64.StdEncoding.DecodeString(home.Content)
 		if err == nil {
-			about.Content = string(txt)
-			about.Content = strings.Replace(about.Content, stripOut, "", -1)
-			about.Content = strings.Replace(about.Content, stripOut2, "", -1)
-			about.Content = strings.Replace(about.Content, stripOut3, "", -1)
-			about.Content = strings.Replace(about.Content, stripOut4, "", -1)
+			home.Content = string(txt)
+			home.Content = strings.Replace(home.Content, stripOut, "", -1)
+			home.Content = strings.Replace(home.Content, stripOut2, "", -1)
+			home.Content = strings.Replace(home.Content, stripOut3, "", -1)
+			home.Content = strings.Replace(home.Content, stripOut4, "", -1)
 
-			rrr.TextHTML = template.HTML(about.Content)
+			rrr.TextHTML = template.HTML(home.Content)
 			h.Log.Debug("TextHTML: ", rrr.TextHTML)
 		}
 
-		grp.About = &rrr
+		grp.Home = &rrr
 
-		h.Templates.ExecuteTemplate(w, aboutPage, &grp)
+		h.Templates.ExecuteTemplate(w, homePage, &grp)
 
 		// }
 		// else {
@@ -136,46 +136,46 @@ func (h *MCHandler) GetAbout(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// SetAbout SetAbout
-func (h *MCHandler) SetAbout(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("in SetAbout")
+// SetHome SetHome
+func (h *MCHandler) SetHome(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in SetHome")
 	rid := r.FormValue("id")
-	h.Log.Debug("id in SetAbout: ", rid)
+	h.Log.Debug("id in SetHome: ", rid)
 	srs, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
 		loggedInAuth := srs.Get("loggedIn")
 		var isAdmin = srs.Get("isAdmin")
-		h.Log.Debug("loggedIn in SetAbout: ", loggedInAuth)
+		h.Log.Debug("loggedIn in SetHome: ", loggedInAuth)
 		if loggedInAuth == true && isAdmin == true {
-			rll := h.processAbout(r)
+			rll := h.processHome(r)
 			var rsucc bool
 			var code int64
 			if rll.ID == 0 {
-				res := h.Delegate.AddAbout(rll)
+				res := h.Delegate.AddHome(rll)
 				rsucc = res.Success
 				code = res.Code
 			} else {
-				res := h.Delegate.UpdateAbout(rll)
+				res := h.Delegate.UpdateHome(rll)
 				rsucc = res.Success
 				code = res.Code
 			}
 			if !rsucc {
-				h.Log.Debug("SetAbout success: ", rsucc)
-				h.Log.Debug("SetAbout code: ", code)
+				h.Log.Debug("SetHome success: ", rsucc)
+				h.Log.Debug("SetHome code: ", code)
 			}
-			http.Redirect(w, r, showAbout, http.StatusFound)
+			http.Redirect(w, r, showHome, http.StatusFound)
 		} else {
 			http.Redirect(w, r, indexRt, http.StatusFound)
 		}
 	}
 }
 
-func (h *MCHandler) processAbout(r *http.Request) *mcd.About {
-	var rtn mcd.About
+func (h *MCHandler) processHome(r *http.Request) *mcd.Home {
+	var rtn mcd.Home
 	idStr := r.FormValue("id")
 	content := r.FormValue("content")
-	h.Log.Debug("id in processAbout: ", r.FormValue("id"))
+	h.Log.Debug("id in processHome: ", r.FormValue("id"))
 	if idStr != "" {
 		id, _ := strconv.ParseInt(idStr, 10, 64)
 		rtn.ID = id

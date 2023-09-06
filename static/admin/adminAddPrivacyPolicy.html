@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    {{template "header" .}}
+    {{template "user-admin-navbar" .}}
+    <body style="background-color:rgb(244, 242, 242)" onload="initQuill();">
+        <div class="container">
+            <h3 class="blog-top" style="width: 100%; text-align: center;">Add Privacy Policy</h3>
+            <form onsubmit="addPost();" action="/adminUpdatePrivacyPolicy" method="POST">
+                <input type="hidden" name="id" value="{{.PrivacyPolicy.PrivacyPolicy.ID}}">
+                <input
+                    type="hidden"
+                    id="content"
+                    name="content"
+                    value=""
+                >
+                <!-- made this tinyMCE -->
+                <div class="mb-3">
+                    <label for="post" class="form-label">PrivacyPolicy</label>
+                    <!-- <textarea
+                        class="form-control"
+                        id="post"
+                        required
+                        rows="15"
+                        placeholder="What do you want to talk about?"
+                    ></textarea> -->
+                    <div id="editor">
+                        {{.PrivacyPolicy.TextHTML}}
+                    </div>
+                </div>
+                <!-- add links here -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </body>
+    <script>
+        // initQuill();
+        // var toolbarOptions = [
+        //     ['bold', 'italic','underline', 'strike'], 
+        //     [{ 'color': [] }, { 'background': [] }],
+        //     [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }], 
+        //     [ {'direction': 'rtl'}, { 'align': [] }],
+        //     [ 'link', 'image', 'video', 'formula' ],
+        // ];
+        // var quill = new Quill('#editor', {              
+        //   theme: 'snow',
+        //   modules: {
+        //     toolbar: toolbarOptions
+        //     }
+        // });
+    </script>
+</html>

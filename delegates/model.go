@@ -91,9 +91,20 @@ type Terms struct {
 	Content string `json:"content"`
 }
 
-
 // About About
 type About struct {
+	ID      int64  `json:"id"`
+	Content string `json:"content"`
+}
+
+// Home Home
+type Home struct {
+	ID      int64  `json:"id"`
+	Content string `json:"content"`
+}
+
+// PrivacyPolicy PrivacyPolicy
+type PrivacyPolicy struct {
 	ID      int64  `json:"id"`
 	Content string `json:"content"`
 }

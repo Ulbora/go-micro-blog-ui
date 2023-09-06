@@ -101,6 +101,18 @@ type MockDelegate struct {
 	MockUpdateAboutResp *Response
 
 	MockAbout *About
+
+	MockAddHomeResp *ResponseID
+
+	MockUpdateHomeResp *Response
+
+	MockHome *Home
+
+	MockAddPrivacyPolicyResp *ResponseID
+
+	MockUpdatePrivacyPolicyResp *Response
+
+	MockPrivacyPolicy *PrivacyPolicy
 }
 
 // New New
@@ -350,4 +362,34 @@ func (d *MockDelegate) UpdateAbout(r *About) *Response {
 // GetAbout GetAbout
 func (d *MockDelegate) GetAbout() *About {
 	return d.MockAbout
+}
+
+// AddHome AddHome
+func (d *MockDelegate) AddHome(r *Home) *ResponseID {
+	return d.MockAddHomeResp
+}
+
+// UpdateHome UpdateHome
+func (d *MockDelegate) UpdateHome(r *Home) *Response {
+	return d.MockUpdateHomeResp
+}
+
+// GetHome GetHome
+func (d *MockDelegate) GetHome() *Home {
+	return d.MockHome
+}
+
+// AddPrivacyPolicy AddPrivacyPolicy
+func (d *MockDelegate) AddPrivacyPolicy(r *PrivacyPolicy) *ResponseID {
+	return d.MockAddPrivacyPolicyResp
+}
+
+// UpdatePrivacyPolicy UpdatePrivacyPolicy
+func (d *MockDelegate) UpdatePrivacyPolicy(r *PrivacyPolicy) *Response {
+	return d.MockUpdatePrivacyPolicyResp
+}
+
+// GetPrivacyPolicy GetPrivacyPolicy
+func (d *MockDelegate) GetPrivacyPolicy() *PrivacyPolicy {
+	return d.MockPrivacyPolicy
 }
