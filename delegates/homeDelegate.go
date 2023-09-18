@@ -24,36 +24,36 @@ import (
 
 // AddHome AddHome
 func (d *MCDelegate) AddHome(a *Home) *ResponseID {
-	var arrtn ResponseID
+	var hrrtn ResponseID
 	aJSON, err := json.Marshal(a)
 	if err == nil {
 		aarq, err := d.buildRequest(http.MethodPost, "/rs/home/add", aJSON, adminKey)
 		if err == nil {
-			aasuc, stat := d.proxy.Do(aarq, &arrtn)
-			arrtn.Code = int64(stat)
+			aasuc, stat := d.proxy.Do(aarq, &hrrtn)
+			hrrtn.Code = int64(stat)
 			d.Log.Debug("suc: ", aasuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", arrtn)
-	return &arrtn
+	d.Log.Debug("rtn: ", hrrtn)
+	return &hrrtn
 }
 
 // UpdateHome UpdateHome
 func (d *MCDelegate) UpdateHome(r *Home) *Response {
-	var uartn Response
+	var uhrtn Response
 	aJSON, err := json.Marshal(r)
 	if err == nil {
 		rq, err := d.buildRequest(http.MethodPut, "/rs/home/update", aJSON, adminKey)
 		if err == nil {
-			usuc, stat := d.proxy.Do(rq, &uartn)
-			uartn.Code = int64(stat)
+			usuc, stat := d.proxy.Do(rq, &uhrtn)
+			uhrtn.Code = int64(stat)
 			d.Log.Debug("suc: ", usuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", uartn)
-	return &uartn
+	d.Log.Debug("rtn: ", uhrtn)
+	return &uhrtn
 }
 
 // GetHome GetHome

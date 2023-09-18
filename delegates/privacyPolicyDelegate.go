@@ -24,36 +24,36 @@ import (
 
 // AddPrivacyPolicy AddPrivacyPolicy
 func (d *MCDelegate) AddPrivacyPolicy(a *PrivacyPolicy) *ResponseID {
-	var arrtn ResponseID
+	var aprtn ResponseID
 	aJSON, err := json.Marshal(a)
 	if err == nil {
 		aarq, err := d.buildRequest(http.MethodPost, "/rs/privacyPolicy/add", aJSON, adminKey)
 		if err == nil {
-			aasuc, stat := d.proxy.Do(aarq, &arrtn)
-			arrtn.Code = int64(stat)
+			aasuc, stat := d.proxy.Do(aarq, &aprtn)
+			aprtn.Code = int64(stat)
 			d.Log.Debug("suc: ", aasuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", arrtn)
-	return &arrtn
+	d.Log.Debug("rtn: ", aprtn)
+	return &aprtn
 }
 
 // UpdatePrivacyPolicy UpdatePrivacyPolicy
 func (d *MCDelegate) UpdatePrivacyPolicy(r *PrivacyPolicy) *Response {
-	var uartn Response
+	var uprtn Response
 	aJSON, err := json.Marshal(r)
 	if err == nil {
 		rq, err := d.buildRequest(http.MethodPut, "/rs/privacyPolicy/update", aJSON, adminKey)
 		if err == nil {
-			usuc, stat := d.proxy.Do(rq, &uartn)
-			uartn.Code = int64(stat)
+			usuc, stat := d.proxy.Do(rq, &uprtn)
+			uprtn.Code = int64(stat)
 			d.Log.Debug("suc: ", usuc)
 			d.Log.Debug("stat: ", stat)
 		}
 	}
-	d.Log.Debug("rtn: ", uartn)
-	return &uartn
+	d.Log.Debug("rtn: ", uprtn)
+	return &uprtn
 }
 
 // GetPrivacyPolicy GetPrivacyPolicy
